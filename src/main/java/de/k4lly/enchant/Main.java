@@ -9,6 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Main extends JavaPlugin {
 
     private PluginController controller = new PluginController();
+    private String enable = "Loaded " + this.getDescription().getName() + " in Version " + this.getDescription().getVersion() + " succesfully!";
 
     @Override
     public void onEnable() {
@@ -16,12 +17,13 @@ public class Main extends JavaPlugin {
         PluginManager pluginManager = getServer().getPluginManager();
         registerEvent(pluginManager);
         controller.setConfig(new ConfigController(controller));
+        System.out.print(enable);
     }
 
     private void registerEvent(PluginManager pluginManager) {
         Command command = new Command(controller);
-        this.getCommand("k4enchant").setExecutor(command);
-        this.getCommand("ke").setExecutor(command);
+        this.getCommand("k4llyEnchant").setExecutor(command);
+        this.getCommand("kE").setExecutor(command);
     }
 
     @Override

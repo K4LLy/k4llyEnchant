@@ -2,3 +2,10 @@ name: k4llyEnchant
 version: 0.0.1-Alpha
 author: K4LLy
 main: de.k4lly.enchant.Main
+commands:
+  k4llyEnchant:
+    description: Used to Set the max level of an enchantment.
+    usage: /k4llyEnchant [set <enchantment> <max-level>]
+  kE:
+    description: Used to Set the max level of an enchantment.
+    usage: /k4llyEnchant [set <enchantment> <max-level>]
