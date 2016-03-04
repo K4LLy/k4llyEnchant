@@ -25,7 +25,7 @@ public class Command implements CommandExecutor {
         if (args[0].equalsIgnoreCase("set") || args[0].equalsIgnoreCase("s")) {
             ArrayList<String> enchantName = EnchantName();
             ArrayList<Integer> enchantID = EnchantID();
-            for (int i = 0; i <= enchantName.size(); i++) {
+            for (int i = 0; i < enchantName.size(); i++) {
                 if (args[1].equalsIgnoreCase(enchantName.get(i)) || args[1].equals(enchantID.get(i))) {
                     if (Integer.valueOf(args[2]) < 3 || Integer.valueOf(args[2]) > controller.getMain().getConfig().getInt("Max-Level")) {
                         commandSender.sendMessage(ChatColor.RED + "Please choose a valid number between 3 and " + controller.getMain().getConfig().getInt("Max-Level"));
@@ -33,6 +33,7 @@ public class Command implements CommandExecutor {
                         controller.getMain().getConfig().set(enchantName.get(i), args[2]);
                         controller.getMain().saveConfig();
                         commandSender.sendMessage(ChatColor.GREEN + "Sucessfully changed " + enchantName.get(i) + " to " + args[2]);
+                        return true;
                     }
                 }
             }
