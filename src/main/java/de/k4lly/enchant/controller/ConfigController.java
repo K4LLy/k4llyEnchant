@@ -11,7 +11,7 @@ public class ConfigController {
     }
 
     public void setDefaultConfig() {
-        controller.getMain().getConfig().addDefault("Max-Level", 100);
+        controller.getMain().getConfig().addDefault("Max-Level", 30);
 
         controller.getMain().getConfig().addDefault(Enchantment.PROTECTION_ENVIRONMENTAL.getName(), 20);
         controller.getMain().getConfig().addDefault(Enchantment.PROTECTION_FIRE.getName(), 20);
@@ -43,6 +43,7 @@ public class ConfigController {
         controller.getMain().getConfig().addDefault(Enchantment.LUCK.getName(), 20);
         controller.getMain().getConfig().addDefault(Enchantment.LURE.getName(), 20);
 
+        controller.getMain().getConfig().options().copyDefaults(true);
         controller.getMain().saveDefaultConfig();
     }
 }
