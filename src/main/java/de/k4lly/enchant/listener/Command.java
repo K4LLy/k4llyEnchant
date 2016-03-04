@@ -27,17 +27,27 @@ public class Command implements CommandExecutor {
         if (args[0].equalsIgnoreCase("set") || args[0].equalsIgnoreCase("s")) {
             HashMap<String, String> enchants = Enchants();
             if (enchants.containsKey(args[1])) {
-                controller.getMain().getConfig().set(enchants.get(args[1]), args[2]);
-                controller.getMain().saveConfig();
-                commandSender.sendMessage(ChatColor.GREEN + "Successfully changed " + enchants.get(args[1]) + " to " + args[2]);
-                System.out.print(sucCom);
-                return true;
+                if (args[1].equalsIgnoreCase(Enchantment.ARROW_FIRE.getName()) || args[1].equalsIgnoreCase(Enchantment.ARROW_INFINITE.getName())) {
+                    commandSender.sendMessage(ChatColor.RED + "This isn´t useful to do.");
+                    System.out.print(faiCom);
+                } else {
+                    controller.getMain().getConfig().set(enchants.get(args[1]), args[2]);
+                    controller.getMain().saveConfig();
+                    commandSender.sendMessage(ChatColor.GREEN + "Successfully changed " + enchants.get(args[1]) + " to " + args[2]);
+                    System.out.print(sucCom);
+                    return true;
+                }
             } else if (enchants.containsValue(args[1])) {
-                controller.getMain().getConfig().set(args[1], args[2]);
-                controller.getMain().saveConfig();
-                commandSender.sendMessage(ChatColor.GREEN + "Successfully changed " + args[1] + " to " + args[2]);
-                System.out.print(sucCom);
-                return true;
+                if (args[1].equals(Enchantment.ARROW_FIRE.getId()) || args[1].equals(Enchantment.ARROW_INFINITE.getId())) {
+                    commandSender.sendMessage(ChatColor.RED + "This isn´t useful to do.");
+                    System.out.print(faiCom);
+                } else {
+                    controller.getMain().getConfig().set(enchants.get(args[1]), args[2]);
+                    controller.getMain().saveConfig();
+                    commandSender.sendMessage(ChatColor.GREEN + "Successfully changed " + enchants.get(args[1]) + " to " + args[2]);
+                    System.out.print(sucCom);
+                    return true;
+                }
             }
             commandSender.sendMessage(ChatColor.RED + "Please enter a valid Enchantment.");
             System.out.print(faiCom);

@@ -37,8 +37,8 @@ public class ConfigController {
 
         controller.getMain().getConfig().addDefault(Enchantment.ARROW_DAMAGE.getName(), 20);
         controller.getMain().getConfig().addDefault(Enchantment.ARROW_KNOCKBACK.getName(), 20);
-        controller.getMain().getConfig().addDefault(Enchantment.ARROW_FIRE.getName(), 20);
-        controller.getMain().getConfig().addDefault(Enchantment.ARROW_INFINITE.getName(), 20);
+        //controller.getMain().getConfig().addDefault(Enchantment.ARROW_FIRE.getName(), 20);
+        //controller.getMain().getConfig().addDefault(Enchantment.ARROW_INFINITE.getName(), 20);
 
         controller.getMain().getConfig().addDefault(Enchantment.LUCK.getName(), 20);
         controller.getMain().getConfig().addDefault(Enchantment.LURE.getName(), 20);
