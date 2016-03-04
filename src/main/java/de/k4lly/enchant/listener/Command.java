@@ -23,14 +23,16 @@ public class Command implements CommandExecutor {
         }
 
         if (args[0].equalsIgnoreCase("set") || args[0].equalsIgnoreCase("s")) {
-            for (int i = 0; i <= EnchantName().length; i++) {
-                if (args[1].equalsIgnoreCase(EnchantName()[i]) || args[1].equals(EnchantID()[i])) {
+            ArrayList<String> enchantName = EnchantName();
+            ArrayList<Integer> enchantID = EnchantID();
+            for (int i = 0; i <= enchantName.size(); i++) {
+                if (args[1].equalsIgnoreCase(enchantName.get(i)) || args[1].equals(enchantID.get(i))) {
                     if (Integer.valueOf(args[2]) < 3 || Integer.valueOf(args[2]) > controller.getMain().getConfig().getInt("Max-Level")) {
                         commandSender.sendMessage(ChatColor.RED + "Please choose a valid number between 3 and " + controller.getMain().getConfig().getInt("Max-Level"));
                     } else {
-                        controller.getMain().getConfig().set(EnchantName()[i], args[2]);
+                        controller.getMain().getConfig().set(enchantName.get(i), args[2]);
                         controller.getMain().saveConfig();
-                        commandSender.sendMessage(ChatColor.GREEN + "Sucessfully changed " + EnchantName()[i] + " to " + args[2]);
+                        commandSender.sendMessage(ChatColor.GREEN + "Sucessfully changed " + enchantName.get(i) + " to " + args[2]);
                     }
                 }
             }
@@ -52,14 +54,13 @@ public class Command implements CommandExecutor {
         return str;
     }
 
-    private int[] EnchantID() {
-        int x = 0;
+    private ArrayList<Integer> EnchantID() {
+        ArrayList<Integer> integer = new ArrayList();
         for (int i = 0; i <= 80; i++) {
             if (Enchantment.getById(i) != null) {
-                EnchantID()[x] = Enchantment.getById(i).getId();
-                x++;
+                integer.add(Enchantment.getById(i).getId());
             }
         }
-        return EnchantID();
+        return integer;
     }
 }
