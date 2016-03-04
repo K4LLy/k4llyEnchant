@@ -24,11 +24,19 @@ public class Command implements CommandExecutor {
         }
 
         if (args[0].equalsIgnoreCase("set") || args[0].equalsIgnoreCase("s")) {
-            ArrayList<String> enchantName = EnchantName();
-            ArrayList<Integer> enchantID = EnchantID();
-            HashMap<String, Integer> enchants = Enchants();
-            if (enchants.containsKey(args[1]) || enchants.containsValue(args[1])) {
-
+           /* ArrayList<String> enchantName = EnchantName();
+            ArrayList<Integer> enchantID = EnchantID();*/
+            HashMap<String, String> enchants = Enchants();
+            if (enchants.containsKey(args[1])) {
+                controller.getMain().getConfig().set(enchants.get(args[1]), args[2]);
+                controller.getMain().saveConfig();
+                commandSender.sendMessage(ChatColor.GREEN + "Sucessfully changed " + enchants.get(args[1]) + " to " + args[2]);
+                return true;
+            } else if (enchants.containsValue(args[1])) {
+                controller.getMain().getConfig().set(args[1], args[2]);
+                controller.getMain().saveConfig();
+                commandSender.sendMessage(ChatColor.GREEN + "Sucessfully changed " + args[1] + " to " + args[2]);
+                return true;
             }
             /*for (int i = 0; i < enchantName.size(); i++) {
                 if (args[1].equalsIgnoreCase(enchantName.get(i)) || args[1].equals(Enchantments().get(enchantName.get(i)))) {
@@ -49,12 +57,12 @@ public class Command implements CommandExecutor {
         return false;
     }
 
-    private HashMap<String, Integer> Enchants() {
-        HashMap<String, Integer> map = new HashMap<>();
+    private HashMap<String, String> Enchants() {
+        HashMap<String, String> map = new HashMap<>();
 
         for (int i = 0; i <= 80; i++) {
             if (Enchantment.getById(i) != null) {
-                map.put(Enchantment.getById(i).getName(), Enchantment.getById(i).getId());
+                map.put(Enchantment.getById(i).getId() + "", Enchantment.getById(i).getName());
             }
         }
 
