@@ -6,7 +6,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 
-public class Command implements CommandExecutor{
+import java.util.ArrayList;
+
+public class Command implements CommandExecutor {
 
     private PluginController controller;
 
@@ -21,7 +23,7 @@ public class Command implements CommandExecutor{
         }
 
         if (args[0].equalsIgnoreCase("set") || args[0].equalsIgnoreCase("s")) {
-            for (int i=0; i <= EnchantName().length; i++) {
+            for (int i = 0; i <= EnchantName().length; i++) {
                 if (args[1].equalsIgnoreCase(EnchantName()[i]) || args[1].equals(EnchantID()[i])) {
                     if (Integer.valueOf(args[2]) < 3 || Integer.valueOf(args[2]) > controller.getMain().getConfig().getInt("Max-Level")) {
                         commandSender.sendMessage(ChatColor.RED + "Please choose a valid number between 3 and " + controller.getMain().getConfig().getInt("Max-Level"));
@@ -39,13 +41,12 @@ public class Command implements CommandExecutor{
         return false;
     }
 
-    private String[] EnchantName() {
-        String[] str = null;
-        int x = 0;
-        for (int i=0; i<=80; i++) {
+    private ArrayList<String> EnchantName() {
+        ArrayList<String> str = new ArrayList();
+
+        for (int i = 0; i <= 80; i++) {
             if (Enchantment.getById(i) != null) {
-                str[x] = Enchantment.getById(i).getName();
-                x++;
+                str.add(Enchantment.getById(i).getName());
             }
         }
         return str;
@@ -53,7 +54,7 @@ public class Command implements CommandExecutor{
 
     private int[] EnchantID() {
         int x = 0;
-        for (int i=0; i<=80; i++) {
+        for (int i = 0; i <= 80; i++) {
             if (Enchantment.getById(i) != null) {
                 EnchantID()[x] = Enchantment.getById(i).getId();
                 x++;
