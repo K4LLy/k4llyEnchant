@@ -9,7 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Main extends JavaPlugin {
 
     private PluginController controller = new PluginController();
-    private String enable = "Loaded " + this.getDescription().getName() + " in Version " + this.getDescription().getVersion() + " succesfully!";
+    private String enable = "[k4llyEnchant] Loaded " + this.getDescription().getName() + " in Version " + this.getDescription().getVersion() + " succesfully!";
 
     @Override
     public void onEnable() {

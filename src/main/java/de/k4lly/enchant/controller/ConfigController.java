@@ -42,9 +42,7 @@ public class ConfigController {
 
         controller.getMain().getConfig().addDefault(Enchantment.LUCK.getName(), 20);
         controller.getMain().getConfig().addDefault(Enchantment.LURE.getName(), 20);
-    }
 
-    public void setEnchant(String name, int value) {
-        controller.getMain().getConfig().set(name, value);
+        controller.getMain().saveDefaultConfig();
     }
 }

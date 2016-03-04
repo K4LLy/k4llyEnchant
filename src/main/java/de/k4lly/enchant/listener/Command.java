@@ -27,6 +27,7 @@ public class Command implements CommandExecutor{
                         commandSender.sendMessage(ChatColor.RED + "Please choose a valid number between 3 and " + controller.getMain().getConfig().getInt("Max-Level"));
                     } else {
                         controller.getMain().getConfig().set(EnchantName()[i], args[2]);
+                        controller.getMain().saveConfig();
                         commandSender.sendMessage(ChatColor.GREEN + "Sucessfully changed " + EnchantName()[i] + " to " + args[2]);
                     }
                 }
