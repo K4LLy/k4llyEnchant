@@ -40,14 +40,15 @@ public class Command implements CommandExecutor{
     }
 
     private String[] EnchantName() {
+        String[] str = null;
         int x = 0;
         for (int i=0; i<=80; i++) {
             if (Enchantment.getById(i) != null) {
-                EnchantName()[x] = Enchantment.getById(i).getName();
+                str[x] = Enchantment.getById(i).getName();
                 x++;
             }
         }
-        return EnchantName();
+        return str;
     }
 
     private int[] EnchantID() {
