@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Command implements CommandExecutor {
 
@@ -42,6 +43,18 @@ public class Command implements CommandExecutor {
         }
 
         return false;
+    }
+
+    private HashMap<String, Integer> Enchantments() {
+        HashMap<String, Integer> map = new HashMap<>();
+
+        for (int i = 0; i <= 80; i++) {
+            if (Enchantment.getById(i) != null) {
+                map.put(Enchantment.getById(i).getName(), Enchantment.getById(i).getId());
+            }
+        }
+
+        return map;
     }
 
     private ArrayList<String> EnchantName() {
