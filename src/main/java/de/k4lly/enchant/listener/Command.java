@@ -26,8 +26,12 @@ public class Command implements CommandExecutor {
         if (args[0].equalsIgnoreCase("set") || args[0].equalsIgnoreCase("s")) {
             ArrayList<String> enchantName = EnchantName();
             ArrayList<Integer> enchantID = EnchantID();
-            for (int i = 0; i < enchantName.size(); i++) {
-                if (args[1].equalsIgnoreCase(enchantName.get(i)) || args[1].equals(enchantID.get(i))) {
+            HashMap<String, Integer> enchants = Enchants();
+            if (enchants.containsKey(args[1]) || enchants.containsValue(args[1])) {
+
+            }
+            /*for (int i = 0; i < enchantName.size(); i++) {
+                if (args[1].equalsIgnoreCase(enchantName.get(i)) || args[1].equals(Enchantments().get(enchantName.get(i)))) {
                     if (Integer.valueOf(args[2]) < 3 || Integer.valueOf(args[2]) > controller.getMain().getConfig().getInt("Max-Level")) {
                         commandSender.sendMessage(ChatColor.RED + "Please choose a valid number between 3 and " + controller.getMain().getConfig().getInt("Max-Level"));
                     } else {
@@ -37,7 +41,7 @@ public class Command implements CommandExecutor {
                         return true;
                     }
                 }
-            }
+            }*/
             commandSender.sendMessage(ChatColor.RED + "Please enter a valid Enchantment.");
             return false;
         }
@@ -45,7 +49,7 @@ public class Command implements CommandExecutor {
         return false;
     }
 
-    private HashMap<String, Integer> Enchantments() {
+    private HashMap<String, Integer> Enchants() {
         HashMap<String, Integer> map = new HashMap<>();
 
         for (int i = 0; i <= 80; i++) {

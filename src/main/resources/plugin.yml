@@ -5,7 +5,7 @@ main: de.k4lly.enchant.Main
 commands:
   k4llyEnchant:
     description: Used to Set the max level of an enchantment.
-    usage: /k4llyEnchant [set <enchantment> <max-level>]
+    usage: /k4llyEnchant [set/s] <enchantment/ID> <max-level>
   kE:
     description: Used to Set the max level of an enchantment.
-    usage: /k4llyEnchant [set <enchantment> <max-level>]
+    usage: /k4llyEnchant [set/s] <enchantment/ID> <max-level>
