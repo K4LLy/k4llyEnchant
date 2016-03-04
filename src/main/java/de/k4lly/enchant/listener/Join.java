@@ -11,7 +11,9 @@ public class Join implements Listener {
 
     private PluginController controller;
 
-    public Join(PluginController controller) { this.controller=controller; }
+    public Join(PluginController controller) {
+        this.controller=controller;
+    }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent playerJoinEvent) {

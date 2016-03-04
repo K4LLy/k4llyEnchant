@@ -26,7 +26,7 @@ public class Main extends JavaPlugin{
         Command command = new Command(controller);
         this.getCommand("k4llyEnchant").setExecutor(command);
         this.getCommand("kE").setExecutor(command);
-        Join join = new Join(controller);
+        pluginManager.registerEvents(new Join(controller), this);
     }
 
     @Override
