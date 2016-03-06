@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
+
 import java.util.HashMap;
 
 public class Command implements CommandExecutor {
@@ -27,7 +28,9 @@ public class Command implements CommandExecutor {
         if (args[0].equalsIgnoreCase("set") || args[0].equalsIgnoreCase("s")) {
             HashMap<String, String> enchants = Enchants();
             if (enchants.containsKey(args[1])) {
-                if (args[1].equals(Enchantment.ARROW_FIRE.getId()) || args[1].equals(Enchantment.ARROW_INFINITE.getId())) {
+               return function(commandSender, enchants.get(args[1]), args[2]);
+
+                /*if (args[1].equals(Enchantment.ARROW_FIRE.getId()) || args[1].equals(Enchantment.ARROW_INFINITE.getId())) {
                     commandSender.sendMessage(ChatColor.RED + "This isn´t useful to do.");
                     System.out.print(faiCom);
                 } else {
@@ -36,9 +39,11 @@ public class Command implements CommandExecutor {
                     commandSender.sendMessage(ChatColor.GREEN + "Successfully changed " + enchants.get(args[1]) + " to " + args[2]);
                     System.out.print(sucCom);
                     return true;
-                }
-            } else if (enchants.containsValue(args[1])) {
-                if (args[1].equalsIgnoreCase(Enchantment.ARROW_FIRE.getName()) || args[1].equalsIgnoreCase(Enchantment.ARROW_INFINITE.getName())) {
+                }*/
+            } else if (enchants.containsValue(args[1].toUpperCase())) {
+                return  function(commandSender, args[1].toUpperCase(), args[2]);
+
+               /* if (args[1].equalsIgnoreCase(Enchantment.ARROW_FIRE.getName()) || args[1].equalsIgnoreCase(Enchantment.ARROW_INFINITE.getName())) {
                     commandSender.sendMessage(ChatColor.RED + "This isn´t useful to do.");
                     System.out.print(faiCom);
                 } else {
@@ -47,7 +52,7 @@ public class Command implements CommandExecutor {
                     commandSender.sendMessage(ChatColor.GREEN + "Successfully changed " + enchants.get(args[1]) + " to " + args[2]);
                     System.out.print(sucCom);
                     return true;
-                }
+                }*/
             }
             commandSender.sendMessage(ChatColor.RED + "Please enter a valid Enchantment.");
             System.out.print(faiCom);
@@ -55,6 +60,21 @@ public class Command implements CommandExecutor {
         }
         System.out.print(faiCom);
         return false;
+    }
+
+    private boolean function(CommandSender commandSender, String enchantment, String maxValue) {
+        if (enchantment.equals(Enchantment.ARROW_FIRE.getName()) || enchantment.equals(Enchantment.ARROW_INFINITE.getName())) {
+            commandSender.sendMessage(ChatColor.RED + "This isn´t useful to do.");
+            System.out.print(faiCom);
+
+            return false;
+        } else {
+            controller.getMain().getConfig().set(enchantment, maxValue);
+            controller.getMain().saveConfig();
+            commandSender.sendMessage(ChatColor.GREEN + "Successfully changed " + enchantment + " to " + maxValue);
+            System.out.print(sucCom);
+            return true;
+        }
     }
 
     private HashMap<String, String> Enchants() {
