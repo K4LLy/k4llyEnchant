@@ -10,8 +10,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Main extends JavaPlugin{
 
     private PluginController controller = new PluginController();
-    private String enable = "[k4llyEnchant] Loaded " + this.getDescription().getName() + " in Version " + this.getDescription().getVersion() + " succesfully!";
-    private String regEvent = "[k4llyEnchant] Successfully register Events!";
+    private final String enable = "[k4llyEnchant] Loaded " + this.getDescription().getName() + " in Version " + this.getDescription().getVersion() + " succesfully!";
+    private final String regEvent = "[k4llyEnchant] Successfully register Events!";
 
     @Override
     public void onEnable() {
