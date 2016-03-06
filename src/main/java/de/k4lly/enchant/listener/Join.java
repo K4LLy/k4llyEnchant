@@ -18,6 +18,6 @@ public class Join implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent playerJoinEvent) {
         Player player = playerJoinEvent.getPlayer();
-        player.sendMessage(ChatColor.AQUA + "Thanks for using K4LLyEnchant v." + controller.getMain().getDescription().getVersion() + ".");
+        player.sendMessage(ChatColor.AQUA + "Thanks for using K4LLyEnchant v" + controller.getMain().getDescription().getVersion() + ".");
     }
 }

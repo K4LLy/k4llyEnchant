@@ -27,7 +27,7 @@ public class Command implements CommandExecutor {
         if (args[0].equalsIgnoreCase("set") || args[0].equalsIgnoreCase("s")) {
             HashMap<String, String> enchants = Enchants();
             if (enchants.containsKey(args[1])) {
-                if (args[1].equalsIgnoreCase(Enchantment.ARROW_FIRE.getName()) || args[1].equalsIgnoreCase(Enchantment.ARROW_INFINITE.getName())) {
+                if (args[1].equals(Enchantment.ARROW_FIRE.getId()) || args[1].equals(Enchantment.ARROW_INFINITE.getId())) {
                     commandSender.sendMessage(ChatColor.RED + "This isn´t useful to do.");
                     System.out.print(faiCom);
                 } else {
@@ -38,7 +38,7 @@ public class Command implements CommandExecutor {
                     return true;
                 }
             } else if (enchants.containsValue(args[1])) {
-                if (args[1].equals(Enchantment.ARROW_FIRE.getId()) || args[1].equals(Enchantment.ARROW_INFINITE.getId())) {
+                if (args[1].equalsIgnoreCase(Enchantment.ARROW_FIRE.getName()) || args[1].equalsIgnoreCase(Enchantment.ARROW_INFINITE.getName())) {
                     commandSender.sendMessage(ChatColor.RED + "This isn´t useful to do.");
                     System.out.print(faiCom);
                 } else {
