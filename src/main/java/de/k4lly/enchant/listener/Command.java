@@ -27,9 +27,11 @@ public class Command implements CommandExecutor {
         if (args[0].equalsIgnoreCase("set") || args[0].equalsIgnoreCase("s")) {
             HashMap<String, String> enchants = Enchants();
             if (enchants.containsKey(args[1])) {
-               return function(commandSender, enchants.get(args[1]), args[2]);
+               return function(commandSender, enchants.get(args[1]), Integer.valueOf(args[2]));
             } else if (enchants.containsValue(args[1].toUpperCase())) {
-                return  function(commandSender, args[1].toUpperCase(), args[2]);
+                return  function(commandSender, args[1].toUpperCase(), Integer.valueOf(args[2]));
+            } else if (args[1].equalsIgnoreCase("max-level")) {
+                return function(commandSender, "Max-Level", Integer.valueOf(args[2]));
             }
             commandSender.sendMessage(ChatColor.RED + "Please enter a valid Enchantment.");
             System.out.print(faiCom);
@@ -39,17 +41,23 @@ public class Command implements CommandExecutor {
         return false;
     }
 
-    private boolean function(CommandSender commandSender, String enchantment, String maxValue) {
-        if (enchantment.equals(Enchantment.ARROW_FIRE.getName()) || enchantment.equals(Enchantment.ARROW_INFINITE.getName())) {
+    private boolean function(CommandSender commandSender, String enchantment, int maxValue) {
+        if (enchantment.equals(Enchantment.ARROW_FIRE.getName()) || enchantment.equals(Enchantment.ARROW_INFINITE.getName()) || enchantment.equals(Enchantment.SILK_TOUCH.getName())) {
             commandSender.sendMessage(ChatColor.RED + "This isn´t useful to do.");
             System.out.print(faiCom);
             return true;
         } else {
-            controller.getMain().getConfig().set(enchantment, maxValue);
-            controller.getMain().saveConfig();
-            commandSender.sendMessage(ChatColor.GREEN + "Successfully changed " + enchantment + " to " + maxValue);
-            System.out.print(sucCom);
-            return true;
+            if (maxValue <= controller.getMain().getConfig().getInt("Max-Level")) {
+                controller.getMain().getConfig().set(enchantment, maxValue);
+                controller.getMain().saveConfig();
+                commandSender.sendMessage(ChatColor.GREEN + "Successfully changed " + enchantment + " to " + maxValue);
+                System.out.print(sucCom);
+                return true;
+            } else {
+                commandSender.sendMessage(ChatColor.RED + "Please enter a valid number between 4 and " + controller.getMain().getConfig().getInt("Max-Level") + ".");
+                System.out.print(faiCom);
+                return true;
+            }
         }
     }
 

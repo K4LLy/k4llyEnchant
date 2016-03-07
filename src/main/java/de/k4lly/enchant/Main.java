@@ -2,6 +2,7 @@ package de.k4lly.enchant;
 
 import de.k4lly.enchant.controller.ConfigController;
 import de.k4lly.enchant.controller.PluginController;
+import de.k4lly.enchant.listener.Anvil;
 import de.k4lly.enchant.listener.Command;
 import de.k4lly.enchant.listener.Join;
 import org.bukkit.plugin.PluginManager;
@@ -27,6 +28,7 @@ public class Main extends JavaPlugin{
         this.getCommand("k4llyEnchant").setExecutor(command);
         this.getCommand("kE").setExecutor(command);
         pluginManager.registerEvents(new Join(controller), this);
+        pluginManager.registerEvents(new Anvil(controller), this);
         System.out.print(regEvent);
     }
 
