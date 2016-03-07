@@ -30,7 +30,6 @@ public class Anvil implements Listener {
         if (clickEvent.getInventory().getType() == InventoryType.ANVIL && clickEvent.getInventory().getType() != null) {
             System.out.print("[k4llyEnchant] ClickEvent started...");
             int slot = clickEvent.getSlot();
-            System.out.print(slot);
             ItemStack item0 = clickEvent.getInventory().getItem(0);
             ItemStack item1 = clickEvent.getInventory().getItem(1);
             if (slot0) {
@@ -93,7 +92,7 @@ public class Anvil implements Listener {
         }
         for (int i = 0; i <= 80 ; i++) {
             int x = 0;
-            if (item0Enchantment.get(i) != null && item0Enchantment.contains(item1Enchantment.get(i)) && item0ELevel.get(i) == item1ELevel.get(i) && item0ELevel.get(i) < controller.getMain().getConfig().getInt(item0Enchantment.get(i).getName())) {
+            if (item0Enchantment.get(i) != null && item0Enchantment.get(i).equals(item1Enchantment.get(i)) && item0ELevel.get(i).equals(item1ELevel.get(i)) && item0ELevel.get(i) < controller.getMain().getConfig().getInt(item0Enchantment.get(i).getName())) {
                 item2Enchantment.add(x, item0Enchantment.get(i));
                 item2ELevel.add(x, (item1ELevel.get(i) + 1));
                 x++;
