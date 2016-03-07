@@ -8,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 
@@ -27,7 +28,7 @@ public class Anvil implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent clickEvent) {
-        if (clickEvent.getInventory().getType() == InventoryType.ANVIL && clickEvent.getInventory().getType() != null) {
+        if (clickEvent.getInventory().getType() != null && clickEvent.getInventory().getType() == InventoryType.ANVIL) {
             System.out.print("[k4llyEnchant] ClickEvent started...");
             int slot = clickEvent.getSlot();
             ItemStack item0 = clickEvent.getInventory().getItem(0);
@@ -84,23 +85,28 @@ public class Anvil implements Listener {
             if (item0.getEnchantments().containsValue(Enchantment.getById(i))) {
                 item0Enchantment.add(i, Enchantment.getById(i));
                 item0ELevel.add(i, item0.getEnchantmentLevel(Enchantment.getById(i)));
+            } else {
+                item0Enchantment.add(i, null);
+                item0ELevel.add(i, null);
             }
             if (item1.getEnchantments().containsValue(Enchantment.getById(i))) {
                 item1Enchantment.add(i, Enchantment.getById(i));
                 item1ELevel.add(i, item0.getEnchantmentLevel(Enchantment.getById(i)));
+            } else {
+                item1Enchantment.add(i, null);
+                item1ELevel.add(i, null);
             }
         }
         for (int i = 0; i <= 80 ; i++) {
-            int x = 0;
             if (item0Enchantment.get(i) != null && item0Enchantment.get(i).equals(item1Enchantment.get(i)) && item0ELevel.get(i).equals(item1ELevel.get(i)) && item0ELevel.get(i) < controller.getMain().getConfig().getInt(item0Enchantment.get(i).getName())) {
-                item2Enchantment.add(x, item0Enchantment.get(i));
-                item2ELevel.add(x, (item1ELevel.get(i) + 1));
-                x++;
+                item2Enchantment.add(item0Enchantment.get(i));
+                item2ELevel.add(item1ELevel.get(i) + 1);
             }
         }
         ItemStack item = new ItemStack(Material.ENCHANTED_BOOK);
         for (int i = 0; i < item2Enchantment.size(); i++) {
             item.addUnsafeEnchantment(item2Enchantment.get(i), item2ELevel.get(i));
+            //item.setItemMeta(new ItemMeta().addEnchant(item2Enchantment.get(i), item2ELevel.get(i), false);
         }
         System.out.print("[k4llyEnchant] Finish creating item2.");
         return item;
