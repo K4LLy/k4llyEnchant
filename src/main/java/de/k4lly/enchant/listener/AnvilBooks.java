@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class AnvilBooks implements Listener {
 
     private PluginController controller;
-    private ArrayList<Player> players;
+    private ArrayList<Player> players = new ArrayList<>();
     //private boolean slot2 = false;
     private ItemStack item;
 
