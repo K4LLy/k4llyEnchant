@@ -3,6 +3,7 @@ package de.k4lly.enchant.listener;
 import de.k4lly.enchant.controller.PluginController;
 import de.k4lly.enchant.objects.AnvilItems;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,10 +12,13 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 
+import java.util.ArrayList;
+
 public class AnvilBooks implements Listener {
 
     private PluginController controller;
-    private boolean slot2 = false;
+    private ArrayList<Player> players;
+    //private boolean slot2 = false;
     private ItemStack item;
 
     public AnvilBooks(PluginController controller) {
@@ -30,16 +34,16 @@ public class AnvilBooks implements Listener {
 
             if ((item0 != null && item0.getTypeId() == Material.ENCHANTED_BOOK.getId()) && (item1 != null && item1.getTypeId() == Material.ENCHANTED_BOOK.getId())) {
                 clickEvent.setResult(Event.Result.DENY);
-                if (!slot2) {
+                if (!players.contains(clickEvent.getWhoClicked())) {
                     item = item2(item0, item1);
                     clickEvent.getInventory().setItem(2, item);
-                    slot2 = true;
+                    players.add((Player) clickEvent.getWhoClicked());
                 }
                 if (slot == 2 && clickEvent.getInventory().getItem(clickEvent.getSlot()).getTypeId() == Material.ENCHANTED_BOOK.getId()) {
                     clickEvent.getClickedInventory().remove(item0);
                     clickEvent.getClickedInventory().remove(item1);
                     clickEvent.getWhoClicked().setItemOnCursor(item);
-                    slot2 = false;
+                    players.remove(clickEvent.getWhoClicked());
                 }
             }
         }

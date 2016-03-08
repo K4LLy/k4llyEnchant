@@ -79,6 +79,30 @@ public class AnvilItems {
         itemResultELevel.clear();
     }
 
+    public int getItemLeftEnchantmentSize() {
+        return itemLeftEnchantment.size();
+    }
+
+    public Enchantment getItemLeftEnchantment(int index) {
+        return itemLeftEnchantment.get(index);
+    }
+
+    public int getItemLeftELevel(int index) {
+        return itemLeftELevel.get(index);
+    }
+
+    public int getItemRightEnchantmentSize() {
+        return itemRightEnchantment.size();
+    }
+
+    public Enchantment getItemRightEnchantment(int index) {
+        return itemRightEnchantment.get(index);
+    }
+
+    public int getItemRightELevel(int index) {
+        return itemRightELevel.get(index);
+    }
+
     public int getItemResultEnchantmentSize() {
         return itemResultEnchantment.size();
     }
