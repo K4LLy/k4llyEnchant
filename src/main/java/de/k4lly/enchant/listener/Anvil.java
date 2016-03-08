@@ -3,18 +3,21 @@ package de.k4lly.enchant.listener;
 import de.k4lly.enchant.controller.PluginController;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
+
 import java.util.ArrayList;
 
 public class Anvil implements Listener {
 
     private PluginController controller;
-    private boolean slot0 = false;
-    private boolean slot1 = false;
+    private boolean slot2 = false;
+    private ItemStack item;
     private ArrayList<Enchantment> item0Enchantment = new ArrayList<>();
     private ArrayList<Enchantment> item1Enchantment = new ArrayList<>();
     private ArrayList<Enchantment> item2Enchantment = new ArrayList<>();
@@ -31,26 +34,21 @@ public class Anvil implements Listener {
             int slot = clickEvent.getSlot();
             ItemStack item0 = clickEvent.getInventory().getItem(0);
             ItemStack item1 = clickEvent.getInventory().getItem(1);
-            if (slot0) {
-                checkSlot1(item1);
-            } else if (slot1) {
-                checkSlot0(item0);
-            } else {
-                checkSlot1(item1);
-                checkSlot0(item0);
-            }
 
-            if (slot0 && slot1) {
+            if ((item0 != null && item0.getTypeId() == Material.ENCHANTED_BOOK.getId()) && (item1 != null && item1.getTypeId() == Material.ENCHANTED_BOOK.getId())) {
                 System.out.print("[k4llyEnchant] Change Enchantments...");
+                clickEvent.setResult(Event.Result.DENY);
+                if (!slot2) {
+                    item = item2(item0, item1);
+                    clickEvent.getInventory().setItem(2, item);
+                    slot2 = true;
+                }
                 if (slot == 2 && clickEvent.getInventory().getItem(clickEvent.getSlot()).getTypeId() == Material.ENCHANTED_BOOK.getId()) {
-                    ItemStack item = item2(item0, item1);
-                    clickEvent.getClickedInventory().setItem(2, item);
                     clickEvent.getClickedInventory().remove(item0);
                     clickEvent.getClickedInventory().remove(item1);
-                    clickEvent.getWhoClicked().getInventory().addItem(item);
+                    clickEvent.getWhoClicked().setItemOnCursor(item);
+                    slot2 = false;
                     System.out.print("[k4llyEnchant] Setting new Item.");
-                    slot0 = false;
-                    slot1 = false;
                 }
                 System.out.print("[k4llyEnchant] Finish changing.");
             }
@@ -58,55 +56,49 @@ public class Anvil implements Listener {
         }
     }
 
-    public void checkSlot0(ItemStack item0) {
-        if (item0 != null && item0.getTypeId() == Material.ENCHANTED_BOOK.getId()) {
-            System.out.print("[k4llyEnchant] slot0 true.");
-            slot0 = true;
-        } else {
-            System.out.print("[k4llyEnchant] slot0 false.");
-            slot0 = false;
-        }
-    }
-
-    public void checkSlot1(ItemStack item1) {
-        if (item1 != null && item1.getTypeId() == Material.ENCHANTED_BOOK.getId()) {
-            System.out.print("[k4llyEnchant] slot1 true.");
-            slot1 = true;
-        } else {
-            System.out.print("[k4llyEnchant] slot1 false.");
-            slot1 = false;
-        }
-    }
-
     public ItemStack item2(ItemStack item0, ItemStack item1) {
         System.out.print("[k4llyEnchant] Start creating item2...");
+        EnchantmentStorageMeta meta0 = (EnchantmentStorageMeta) item0.getItemMeta();
+        EnchantmentStorageMeta meta1 = (EnchantmentStorageMeta) item1.getItemMeta();
         for (int i = 0; i <= 80; i++) {
-            if (item0.containsEnchantment(Enchantment.getById(i))) {
+            if (meta0.hasStoredEnchant(Enchantment.getById(i))) {
                 item0Enchantment.add(i, Enchantment.getById(i));
-                item0ELevel.add(i, item0.getEnchantmentLevel(Enchantment.getById(i)));
+                item0ELevel.add(i, meta0.getStoredEnchantLevel(Enchantment.getById(i)));
             } else {
                 item0Enchantment.add(i, null);
                 item0ELevel.add(i, null);
             }
-            if (item1.containsEnchantment(Enchantment.getById(i))) {
+            if (meta1.hasStoredEnchant(Enchantment.getById(i))) {
                 item1Enchantment.add(i, Enchantment.getById(i));
-                item1ELevel.add(i, item0.getEnchantmentLevel(Enchantment.getById(i)));
+                item1ELevel.add(i, meta1.getStoredEnchantLevel(Enchantment.getById(i)));
             } else {
                 item1Enchantment.add(i, null);
                 item1ELevel.add(i, null);
             }
         }
         for (int i = 0; i <= 80 ; i++) {
-            if (item0Enchantment.get(i) != null && item0Enchantment.get(i).equals(item1Enchantment.get(i)) && item0ELevel.get(i).equals(item1ELevel.get(i)) && item0ELevel.get(i) < controller.getMain().getConfig().getInt(item0Enchantment.get(i).getName())) {
-                System.out.print("[k4llyEnchant] For_2: " + i);
+            if (item0Enchantment.get(i) != null && item0Enchantment.get(i).equals(item1Enchantment.get(i))) {
                 item2Enchantment.add(item0Enchantment.get(i));
-                item2ELevel.add(item1ELevel.get(i) + 1);
+                if (item0ELevel.get(i).equals(item1ELevel.get(i)) && item0ELevel.get(i) < controller.getMain().getConfig().getInt(item0Enchantment.get(i).getName())) {
+                    item2ELevel.add(item0ELevel.get(i) + 1);
+                } else if (item0ELevel.get(i) > item1ELevel.get(i) && item0ELevel.get(i) <= controller.getMain().getConfig().getInt(item0Enchantment.get(i).getName())) {
+                    item2ELevel.add(item0ELevel.get(i));
+                } else if (item0ELevel.get(i) < item1ELevel.get(i) && item1ELevel.get(i) <= controller.getMain().getConfig().getInt(item0Enchantment.get(i).getName())) {
+                    item2ELevel.add(item1ELevel.get(i));
+                }
+            } else if (item0Enchantment.get(i) != null && item1Enchantment.get(i) == null) {
+                item2Enchantment.add(item0Enchantment.get(i));
+                item2ELevel.add(item0ELevel.get(i));
+            } else if (item0Enchantment.get(i) == null && item1Enchantment.get(i) != null) {
+                item2Enchantment.add(item1Enchantment.get(i));
+                item2ELevel.add(item1ELevel.get(i));
             }
         }
-        ItemStack item = new ItemStack(Material.ENCHANTED_BOOK);
+        ItemStack item2 = new ItemStack(Material.ENCHANTED_BOOK);
+        EnchantmentStorageMeta meta2 = (EnchantmentStorageMeta) item2.getItemMeta();
         for (int i = 0; i < item2Enchantment.size(); i++) {
-            System.out.print("[k4llyEnchant] For_3: " + i);
-            item.addUnsafeEnchantment(item2Enchantment.get(i), item2ELevel.get(i));
+            meta2.addStoredEnchant(item2Enchantment.get(i), item2ELevel.get(i), true);
+            item2.setItemMeta(meta2);
         }
         item0Enchantment.clear();
         item0ELevel.clear();
@@ -115,6 +107,6 @@ public class Anvil implements Listener {
         item2Enchantment.clear();
         item2ELevel.clear();
         System.out.print("[k4llyEnchant] Finish creating item2.");
-        return item;
+        return item2;
     }
 }
