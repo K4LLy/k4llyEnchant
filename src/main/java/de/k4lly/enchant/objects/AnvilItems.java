@@ -1,6 +1,7 @@
 package de.k4lly.enchant.objects;
 
 import de.k4lly.enchant.controller.PluginController;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
@@ -24,6 +25,12 @@ public class AnvilItems {
         this.controller = controller;
         this.itemLeft = itemLeft;
         this.itemRight = itemRight;
+        if (itemLeft.getType() == Material.ENCHANTED_BOOK) {
+            doCombineBooks(itemLeft, itemRight);
+        }
+    }
+
+    private void doCombineBooks(ItemStack itemLeft, ItemStack itemRight) {
         this.itemMetaLeft = (EnchantmentStorageMeta) itemLeft.getItemMeta();
         this.itemMetaRight = (EnchantmentStorageMeta) itemRight.getItemMeta();
 
