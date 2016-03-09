@@ -46,7 +46,7 @@ public class AnvilWeapons implements Listener{
                     clickEvent.getClickedInventory().remove(item1);
                     clickEvent.getWhoClicked().setItemOnCursor(item2(item0, item1));
                     Player player = (Player) clickEvent.getWhoClicked();
-                    player.playSound(clickEvent.getWhoClicked().getLocation(), Sound.ANVIL_USE, 3.0F, 0.533F);
+                    player.playSound(clickEvent.getWhoClicked().getLocation(), Sound.ANVIL_USE, 3.0F, 1.0F);
                     players.remove(clickEvent.getWhoClicked());
                 } else if (clickEvent.getInventory().getItem(clickEvent.getSlot()).getType() != null) {
                     ItemStack item = clickEvent.getCurrentItem();
