@@ -1,6 +1,5 @@
 package de.k4lly.enchant.listener;
 
-
 import de.k4lly.enchant.controller.PluginController;
 import de.k4lly.enchant.objects.AnvilItems;
 import de.k4lly.enchant.objects.MaterialN;
@@ -15,14 +14,14 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 
-public class AnvilArmor implements Listener{
+public class AnvilWeapons implements Listener{
     private PluginController controller;
     private ArrayList<Player> players = new ArrayList<>();
     private int SLOT_0 = 0;
     private int SLOT_1 = 1;
     private int SLOT_2 = 2;
 
-    public AnvilArmor(PluginController controller) {
+    public AnvilWeapons(PluginController controller) {
         this.controller = controller;
     }
 
@@ -34,14 +33,14 @@ public class AnvilArmor implements Listener{
             ItemStack item1 = clickEvent.getInventory().getItem(SLOT_1);
             MaterialN mat = new MaterialN();
 
-            if ((item0 != null && mat.isArmor(item0.getType())) && (item1 != null && mat.isEnchantedBook(item1.getType()))) {
+            if ((item0 != null && mat.isWeapon(item0.getType())) && (item1 != null && mat.isEnchantedBook(item1.getType()))) {
                 clickEvent.setResult(Event.Result.DENY);
                 if (!players.contains(clickEvent.getWhoClicked())) {
                     clickEvent.getClickedInventory().clear(SLOT_2);
                     clickEvent.getInventory().setItem(SLOT_2, item2(item0, item1));
                     players.add((Player) clickEvent.getWhoClicked());
                 }
-                if (slot == SLOT_2 && mat.isArmor(clickEvent.getInventory().getItem(clickEvent.getSlot()).getType())) {
+                if (slot == SLOT_2 && mat.isWeapon(clickEvent.getInventory().getItem(clickEvent.getSlot()).getType())) {
                     clickEvent.getClickedInventory().remove(item0);
                     clickEvent.getClickedInventory().remove(item1);
                     clickEvent.getWhoClicked().setItemOnCursor(item2(item0, item1));

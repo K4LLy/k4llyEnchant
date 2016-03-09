@@ -2,6 +2,7 @@ package de.k4lly.enchant.listener;
 
 import de.k4lly.enchant.controller.PluginController;
 import de.k4lly.enchant.objects.AnvilItems;
+import de.k4lly.enchant.objects.MaterialN;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -11,6 +12,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 
@@ -18,8 +20,9 @@ public class AnvilBooks implements Listener {
 
     private PluginController controller;
     private ArrayList<Player> players = new ArrayList<>();
-    //private boolean slot2 = false;
-    private ItemStack item;
+    private int SLOT_0 = 0;
+    private int SLOT_1 = 1;
+    private int SLOT_2 = 2;
 
     public AnvilBooks(PluginController controller) {
         this.controller = controller;
@@ -29,21 +32,26 @@ public class AnvilBooks implements Listener {
     public void onInventoryClick(InventoryClickEvent clickEvent) {
         if (clickEvent.getInventory().getType() != null && clickEvent.getInventory().getType() == InventoryType.ANVIL) {
             int slot = clickEvent.getSlot();
-            ItemStack item0 = clickEvent.getInventory().getItem(0);
-            ItemStack item1 = clickEvent.getInventory().getItem(1);
+            ItemStack item0 = clickEvent.getInventory().getItem(SLOT_0);
+            ItemStack item1 = clickEvent.getInventory().getItem(SLOT_1);
+            MaterialN mat = new MaterialN();
 
-            if ((item0 != null && item0.getTypeId() == Material.ENCHANTED_BOOK.getId()) && (item1 != null && item1.getTypeId() == Material.ENCHANTED_BOOK.getId())) {
+            if ((item0 != null && mat.isBook(item0.getType())) && (item1 != null && mat.isBook(item0.getType()))) {
                 clickEvent.setResult(Event.Result.DENY);
                 if (!players.contains(clickEvent.getWhoClicked())) {
-                    item = item2(item0, item1);
-                    clickEvent.getInventory().setItem(2, item);
+                    clickEvent.getClickedInventory().clear(SLOT_2);
+                    clickEvent.getInventory().setItem(SLOT_2, item2(item0, item1));
                     players.add((Player) clickEvent.getWhoClicked());
                 }
-                if (slot == 2 && clickEvent.getInventory().getItem(clickEvent.getSlot()).getTypeId() == Material.ENCHANTED_BOOK.getId()) {
+                if (slot == SLOT_2 && mat.isEnchantedBook(clickEvent.getInventory().getItem(clickEvent.getSlot()).getType())) {
                     clickEvent.getClickedInventory().remove(item0);
                     clickEvent.getClickedInventory().remove(item1);
-                    clickEvent.getWhoClicked().setItemOnCursor(item);
+                    clickEvent.getWhoClicked().setItemOnCursor(item2(item0, item1));
                     players.remove(clickEvent.getWhoClicked());
+                } else if (clickEvent.getInventory().getItem(clickEvent.getSlot()).getType() != null) {
+                    ItemStack item = clickEvent.getCurrentItem();
+                    clickEvent.getWhoClicked().setItemOnCursor(item);
+                    clickEvent.getClickedInventory().clear(clickEvent.getSlot());
                 }
             }
         }

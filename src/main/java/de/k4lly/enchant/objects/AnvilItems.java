@@ -5,6 +5,8 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
+import org.bukkit.inventory.meta.ItemMeta;
+
 import java.util.ArrayList;
 
 public class AnvilItems {
@@ -25,8 +27,52 @@ public class AnvilItems {
         this.controller = controller;
         this.itemLeft = itemLeft;
         this.itemRight = itemRight;
-        if (itemLeft.getType() == Material.ENCHANTED_BOOK) {
+        MaterialN mat = new MaterialN();
+
+        if (mat.isEnchantedBook(itemLeft.getType())) {
             doCombineBooks(itemLeft, itemRight);
+        } else if (mat.isArmor(itemLeft.getType()) || mat.isTool(itemLeft.getType()) || mat.isWeapon(itemLeft.getType())) {
+            doCombine(itemLeft, itemRight);
+        }
+    }
+
+    private void doCombine(ItemStack itemLeft, ItemStack itemRight) {
+        this.itemMetaRight = (EnchantmentStorageMeta) itemRight.getItemMeta();
+        ItemMeta itemMeta = itemLeft.getItemMeta();
+
+        for (int i = 0; i <= 80; i++) {
+            if (itemMeta.hasEnchant(Enchantment.getById(i))) {
+                itemLeftEnchantment.add(i, Enchantment.getById(i));
+                itemLeftELevel.add(i, itemMeta.getEnchantLevel(Enchantment.getById(i)));
+            } else {
+                itemLeftEnchantment.add(i, null);
+                itemLeftELevel.add(i, null);
+            }
+            if (itemMetaRight.hasStoredEnchant(Enchantment.getById(i))) {
+                itemRightEnchantment.add(i, Enchantment.getById(i));
+                itemRightELevel.add(i, itemMetaRight.getStoredEnchantLevel(Enchantment.getById(i)));
+            } else {
+                itemRightEnchantment.add(i, null);
+                itemRightELevel.add(i, null);
+            }
+        }
+        for (int i = 0; i <= 80; i++) {
+            if (itemLeftEnchantment.get(i) != null && itemLeftEnchantment.get(i).equals(itemRightEnchantment.get(i))) {
+                itemResultEnchantment.add(itemLeftEnchantment.get(i));
+                if (itemLeftELevel.get(i).equals(itemRightELevel.get(i)) && itemLeftELevel.get(i) < controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
+                    itemResultELevel.add(itemLeftELevel.get(i) + 1);
+                } else if (itemLeftELevel.get(i) > itemRightELevel.get(i) && itemLeftELevel.get(i) <= controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
+                    itemResultELevel.add(itemLeftELevel.get(i));
+                } else if (itemLeftELevel.get(i) < itemRightELevel.get(i) && itemRightELevel.get(i) <= controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
+                    itemResultELevel.add(itemRightELevel.get(i));
+                }
+            } else if (itemLeftEnchantment.get(i) != null && itemRightEnchantment.get(i) == null) {
+                itemResultEnchantment.add(itemLeftEnchantment.get(i));
+                itemResultELevel.add(itemLeftELevel.get(i));
+            } else if (itemLeftEnchantment.get(i) == null && itemRightEnchantment.get(i) != null) {
+                itemResultEnchantment.add(itemRightEnchantment.get(i));
+                itemResultELevel.add(itemRightELevel.get(i));
+            }
         }
     }
 
@@ -59,6 +105,8 @@ public class AnvilItems {
                     itemResultELevel.add(itemLeftELevel.get(i));
                 } else if (itemLeftELevel.get(i) < itemRightELevel.get(i) && itemRightELevel.get(i) <= controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
                     itemResultELevel.add(itemRightELevel.get(i));
+                } else if (itemLeftELevel.get(i).equals(itemRightELevel.get(i)) && itemLeftELevel.get(i) == controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
+                    itemResultELevel.add(itemLeftELevel.get(i));
                 }
             } else if (itemLeftEnchantment.get(i) != null && itemRightEnchantment.get(i) == null) {
                 itemResultEnchantment.add(itemLeftEnchantment.get(i));

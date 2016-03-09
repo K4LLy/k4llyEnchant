@@ -2,10 +2,7 @@ package de.k4lly.enchant;
 
 import de.k4lly.enchant.controller.ConfigController;
 import de.k4lly.enchant.controller.PluginController;
-import de.k4lly.enchant.listener.AnvilArmor;
-import de.k4lly.enchant.listener.AnvilBooks;
-import de.k4lly.enchant.listener.Command;
-import de.k4lly.enchant.listener.Join;
+import de.k4lly.enchant.listener.*;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -31,6 +28,8 @@ public class Main extends JavaPlugin{
         pluginManager.registerEvents(new Join(controller), this);
         pluginManager.registerEvents(new AnvilBooks(controller), this);
         pluginManager.registerEvents(new AnvilArmor(controller), this);
+        pluginManager.registerEvents(new AnvilTools(controller), this);
+        pluginManager.registerEvents(new AnvilWeapons(controller), this);
         System.out.print(regEvent);
     }
 
