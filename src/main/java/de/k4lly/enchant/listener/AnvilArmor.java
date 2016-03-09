@@ -4,6 +4,7 @@ package de.k4lly.enchant.listener;
 import de.k4lly.enchant.controller.PluginController;
 import de.k4lly.enchant.objects.AnvilItems;
 import de.k4lly.enchant.objects.Functions;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
@@ -34,7 +35,7 @@ public class AnvilArmor implements Listener{
             ItemStack item1 = clickEvent.getInventory().getItem(SLOT_1);
             Functions mat = new Functions();
 
-            if ((item0 != null && mat.isArmor(item0.getType())) && (item1 != null && mat.isEnchantedBook(item1.getType()))) {
+            if (((item0 != null && mat.isArmor(item0.getType())) && (item1 != null && mat.isEnchantedBook(item1.getType()))) || ((item0 != null && mat.isArmor(item0.getType())) && (item1 != null && mat.isArmor(item1.getType())))) {
                 clickEvent.setResult(Event.Result.DENY);
                 if (!players.contains(clickEvent.getWhoClicked())) {
                     clickEvent.getClickedInventory().clear(SLOT_2);
@@ -45,6 +46,8 @@ public class AnvilArmor implements Listener{
                     clickEvent.getClickedInventory().remove(item0);
                     clickEvent.getClickedInventory().remove(item1);
                     clickEvent.getWhoClicked().setItemOnCursor(item2(item0, item1));
+                    Player player = (Player) clickEvent.getWhoClicked();
+                    player.playSound(clickEvent.getWhoClicked().getLocation(), Sound.ANVIL_USE, 3.0F, 0.533F);
                     players.remove(clickEvent.getWhoClicked());
                 } else if (clickEvent.getInventory().getItem(clickEvent.getSlot()).getType() != null) {
                     ItemStack item = clickEvent.getCurrentItem();
