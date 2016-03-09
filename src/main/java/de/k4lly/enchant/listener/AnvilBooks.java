@@ -2,7 +2,7 @@ package de.k4lly.enchant.listener;
 
 import de.k4lly.enchant.controller.PluginController;
 import de.k4lly.enchant.objects.AnvilItems;
-import de.k4lly.enchant.objects.MaterialN;
+import de.k4lly.enchant.objects.Functions;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -12,7 +12,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 
@@ -34,7 +33,7 @@ public class AnvilBooks implements Listener {
             int slot = clickEvent.getSlot();
             ItemStack item0 = clickEvent.getInventory().getItem(SLOT_0);
             ItemStack item1 = clickEvent.getInventory().getItem(SLOT_1);
-            MaterialN mat = new MaterialN();
+            Functions mat = new Functions();
 
             if ((item0 != null && mat.isBook(item0.getType())) && (item1 != null && mat.isBook(item0.getType()))) {
                 clickEvent.setResult(Event.Result.DENY);

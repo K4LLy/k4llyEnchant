@@ -2,8 +2,8 @@ package de.k4lly.enchant.objects;
 
 import org.bukkit.Material;
 
-public class MaterialN {
-    public MaterialN () {}
+public class Functions {
+    public Functions() {}
 
     public boolean isBook(Material material) {
         switch (material) {
@@ -87,6 +87,51 @@ public class MaterialN {
             case IRON_SWORD:
             case GOLD_SWORD:
             case DIAMOND_SWORD:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public boolean isForArmor(int id) {
+        switch (id) {
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 34:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public boolean isForWeapon(int id) {
+        switch (id) {
+            case 16:
+            case 17:
+            case 18:
+            case 19:
+            case 20:
+            case 21:
+            case 34:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public boolean isForTool(int id) {
+        switch (id) {
+            case 32:
+            case 33:
+            case 34:
+            case 35:
                 return true;
             default:
                 return false;

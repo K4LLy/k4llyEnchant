@@ -1,7 +1,6 @@
 package de.k4lly.enchant.objects;
 
 import de.k4lly.enchant.controller.PluginController;
-import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
@@ -27,20 +26,60 @@ public class AnvilItems {
         this.controller = controller;
         this.itemLeft = itemLeft;
         this.itemRight = itemRight;
-        MaterialN mat = new MaterialN();
+        Functions func = new Functions();
 
-        if (mat.isEnchantedBook(itemLeft.getType())) {
-            doCombineBooks(itemLeft, itemRight);
-        } else if (mat.isArmor(itemLeft.getType())) {
-            doCombineArmor(itemLeft, itemRight);
-        } else if (mat.isTool(itemLeft.getType())) {
-            doCombineTools(itemLeft, itemRight);
-        } else if (mat.isWeapon(itemLeft.getType())) {
-            doCombineWeapons(itemLeft, itemRight);
+        if (func.isEnchantedBook(itemLeft.getType())) {
+            doCombineBooks(itemLeft, itemRight, func);
+        } else if (func.isArmor(itemLeft.getType())) {
+            doCombineArmor(itemLeft, itemRight, func);
+        } else if (func.isTool(itemLeft.getType())) {
+            doCombineTools(itemLeft, itemRight, func);
+        } else if (func.isWeapon(itemLeft.getType())) {
+            doCombineWeapons(itemLeft, itemRight, func);
         }
     }
 
-    private void doCombineArmor(ItemStack itemLeft, ItemStack itemRight) {
+    private void doCombineArmor(ItemStack itemLeft, ItemStack itemRight, Functions func) {
+        this.itemMetaRight = (EnchantmentStorageMeta) itemRight.getItemMeta();
+        ItemMeta itemMeta = itemLeft.getItemMeta();
+
+        for (int i = 0; i <= 80; i++) {
+            if (itemMeta.hasEnchant(Enchantment.getById(i))) {
+                itemLeftEnchantment.add(i, Enchantment.getById(i));
+                itemLeftELevel.add(i, itemMeta.getEnchantLevel(Enchantment.getById(i)));
+            } else {
+                itemLeftEnchantment.add(i, null);
+                itemLeftELevel.add(i, null);
+            }
+            if (itemMetaRight.hasStoredEnchant(Enchantment.getById(i))) {
+                itemRightEnchantment.add(i, Enchantment.getById(i));
+                itemRightELevel.add(i, itemMetaRight.getStoredEnchantLevel(Enchantment.getById(i)));
+            } else {
+                itemRightEnchantment.add(i, null);
+                itemRightELevel.add(i, null);
+            }
+        }
+        for (int i = 0; i <= 80; i++) {
+            if (itemLeftEnchantment.get(i) != null && itemLeftEnchantment.get(i).equals(itemRightEnchantment.get(i))) {
+                itemResultEnchantment.add(itemLeftEnchantment.get(i));
+                if (itemLeftELevel.get(i).equals(itemRightELevel.get(i)) && itemLeftELevel.get(i) < controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
+                    itemResultELevel.add(itemLeftELevel.get(i) + 1);
+                } else if (itemLeftELevel.get(i) > itemRightELevel.get(i) && itemLeftELevel.get(i) <= controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
+                    itemResultELevel.add(itemLeftELevel.get(i));
+                } else if (itemLeftELevel.get(i) < itemRightELevel.get(i) && itemRightELevel.get(i) <= controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
+                    itemResultELevel.add(itemRightELevel.get(i));
+                }
+            } else if (itemLeftEnchantment.get(i) != null && itemRightEnchantment.get(i) == null) {
+                itemResultEnchantment.add(itemLeftEnchantment.get(i));
+                itemResultELevel.add(itemLeftELevel.get(i));
+            } else if (itemLeftEnchantment.get(i) == null && itemRightEnchantment.get(i) != null && func.isForArmor(Enchantment.getById(i).getId())) {
+                itemResultEnchantment.add(itemRightEnchantment.get(i));
+                itemResultELevel.add(itemRightELevel.get(i));
+            }
+        }
+    }
+
+    private void doCombineTools(ItemStack itemLeft, ItemStack itemRight, Functions func) {
         this.itemMetaRight = (EnchantmentStorageMeta) itemRight.getItemMeta();
         ItemMeta itemMeta = itemLeft.getItemMeta();
 
@@ -80,7 +119,7 @@ public class AnvilItems {
         }
     }
 
-    private void doCombineTools(ItemStack itemLeft, ItemStack itemRight) {
+    private void doCombineWeapons(ItemStack itemLeft, ItemStack itemRight, Functions func) {
         this.itemMetaRight = (EnchantmentStorageMeta) itemRight.getItemMeta();
         ItemMeta itemMeta = itemLeft.getItemMeta();
 
@@ -120,47 +159,7 @@ public class AnvilItems {
         }
     }
 
-    private void doCombineWeapons(ItemStack itemLeft, ItemStack itemRight) {
-        this.itemMetaRight = (EnchantmentStorageMeta) itemRight.getItemMeta();
-        ItemMeta itemMeta = itemLeft.getItemMeta();
-
-        for (int i = 0; i <= 80; i++) {
-            if (itemMeta.hasEnchant(Enchantment.getById(i))) {
-                itemLeftEnchantment.add(i, Enchantment.getById(i));
-                itemLeftELevel.add(i, itemMeta.getEnchantLevel(Enchantment.getById(i)));
-            } else {
-                itemLeftEnchantment.add(i, null);
-                itemLeftELevel.add(i, null);
-            }
-            if (itemMetaRight.hasStoredEnchant(Enchantment.getById(i))) {
-                itemRightEnchantment.add(i, Enchantment.getById(i));
-                itemRightELevel.add(i, itemMetaRight.getStoredEnchantLevel(Enchantment.getById(i)));
-            } else {
-                itemRightEnchantment.add(i, null);
-                itemRightELevel.add(i, null);
-            }
-        }
-        for (int i = 0; i <= 80; i++) {
-            if (itemLeftEnchantment.get(i) != null && itemLeftEnchantment.get(i).equals(itemRightEnchantment.get(i))) {
-                itemResultEnchantment.add(itemLeftEnchantment.get(i));
-                if (itemLeftELevel.get(i).equals(itemRightELevel.get(i)) && itemLeftELevel.get(i) < controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
-                    itemResultELevel.add(itemLeftELevel.get(i) + 1);
-                } else if (itemLeftELevel.get(i) > itemRightELevel.get(i) && itemLeftELevel.get(i) <= controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
-                    itemResultELevel.add(itemLeftELevel.get(i));
-                } else if (itemLeftELevel.get(i) < itemRightELevel.get(i) && itemRightELevel.get(i) <= controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
-                    itemResultELevel.add(itemRightELevel.get(i));
-                }
-            } else if (itemLeftEnchantment.get(i) != null && itemRightEnchantment.get(i) == null) {
-                itemResultEnchantment.add(itemLeftEnchantment.get(i));
-                itemResultELevel.add(itemLeftELevel.get(i));
-            } else if (itemLeftEnchantment.get(i) == null && itemRightEnchantment.get(i) != null) {
-                itemResultEnchantment.add(itemRightEnchantment.get(i));
-                itemResultELevel.add(itemRightELevel.get(i));
-            }
-        }
-    }
-
-    private void doCombineBooks(ItemStack itemLeft, ItemStack itemRight) {
+    private void doCombineBooks(ItemStack itemLeft, ItemStack itemRight, Functions func) {
         this.itemMetaLeft = (EnchantmentStorageMeta) itemLeft.getItemMeta();
         this.itemMetaRight = (EnchantmentStorageMeta) itemRight.getItemMeta();
 
