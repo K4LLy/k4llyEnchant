@@ -18,6 +18,7 @@ public class AnvilItems {
     private ArrayList<Enchantment> itemLeftEnchantment = new ArrayList<>();
     private ArrayList<Enchantment> itemRightEnchantment = new ArrayList<>();
     private ArrayList<Enchantment> itemResultEnchantment = new ArrayList<>();
+    private ArrayList<Enchantment> uselessEnchantment = new ArrayList<>();
     private ArrayList<Integer> itemLeftELevel = new ArrayList<>();
     private ArrayList<Integer> itemRightELevel = new ArrayList<>();
     private ArrayList<Integer> itemResultELevel = new ArrayList<>();
@@ -27,6 +28,10 @@ public class AnvilItems {
         this.controller = controller;
         this.itemLeft = itemLeft;
         this.itemRight = itemRight;
+        uselessEnchantment.add(Enchantment.SILK_TOUCH);
+        uselessEnchantment.add(Enchantment.ARROW_FIRE);
+        uselessEnchantment.add(Enchantment.ARROW_INFINITE);
+        uselessEnchantment.add(Enchantment.WATER_WORKER);
 
         if (func.isEnchantedBook(itemLeft.getType())) {
             doCombineBooks(itemLeft, itemRight);
@@ -66,7 +71,7 @@ public class AnvilItems {
             }
         }
         for (int i = 0; i <= 80; i++) {
-            if (itemLeftEnchantment.get(i) != null && itemLeftEnchantment.get(i).equals(itemRightEnchantment.get(i))) {
+            if (itemLeftEnchantment.get(i) != null && itemLeftEnchantment.get(i).equals(itemRightEnchantment.get(i)) && !uselessEnchantment.contains(itemLeftEnchantment.get(i))) {
                 itemResultEnchantment.add(itemLeftEnchantment.get(i));
                 if (itemLeftELevel.get(i).equals(itemRightELevel.get(i)) && itemLeftELevel.get(i) < controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
                     itemResultELevel.add(itemLeftELevel.get(i) + 1);
@@ -75,7 +80,7 @@ public class AnvilItems {
                 } else if (itemLeftELevel.get(i) < itemRightELevel.get(i) && itemRightELevel.get(i) <= controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
                     itemResultELevel.add(itemRightELevel.get(i));
                 }
-            } else if (itemLeftEnchantment.get(i) != null && itemRightEnchantment.get(i) == null) {
+            } else if ((itemLeftEnchantment.get(i) != null && itemRightEnchantment.get(i) == null) || (itemLeftEnchantment.get(i) != null && uselessEnchantment.contains(itemLeftEnchantment.get(i)))) {
                 itemResultEnchantment.add(itemLeftEnchantment.get(i));
                 itemResultELevel.add(itemLeftELevel.get(i));
             } else if (itemLeftEnchantment.get(i) == null && itemRightEnchantment.get(i) != null) {
@@ -107,7 +112,7 @@ public class AnvilItems {
             }
         }
         for (int i = 0; i <= 80; i++) {
-            if (itemLeftEnchantment.get(i) != null && itemLeftEnchantment.get(i).equals(itemRightEnchantment.get(i))) {
+            if (itemLeftEnchantment.get(i) != null && itemLeftEnchantment.get(i).equals(itemRightEnchantment.get(i)) && !uselessEnchantment.contains(itemLeftEnchantment.get(i))) {
                 itemResultEnchantment.add(itemLeftEnchantment.get(i));
                 if (itemLeftELevel.get(i).equals(itemRightELevel.get(i)) && itemLeftELevel.get(i) < controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
                     itemResultELevel.add(itemLeftELevel.get(i) + 1);
@@ -116,7 +121,7 @@ public class AnvilItems {
                 } else if (itemLeftELevel.get(i) < itemRightELevel.get(i) && itemRightELevel.get(i) <= controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
                     itemResultELevel.add(itemRightELevel.get(i));
                 }
-            } else if (itemLeftEnchantment.get(i) != null && itemRightEnchantment.get(i) == null) {
+            } else if ((itemLeftEnchantment.get(i) != null && itemRightEnchantment.get(i) == null) || (itemLeftEnchantment.get(i) != null && uselessEnchantment.contains(itemLeftEnchantment.get(i)))) {
                 itemResultEnchantment.add(itemLeftEnchantment.get(i));
                 itemResultELevel.add(itemLeftELevel.get(i));
             } else if (itemLeftEnchantment.get(i) == null && itemRightEnchantment.get(i) != null) {
@@ -148,7 +153,7 @@ public class AnvilItems {
             }
         }
         for (int i = 0; i <= 80; i++) {
-            if (itemLeftEnchantment.get(i) != null && itemLeftEnchantment.get(i).equals(itemRightEnchantment.get(i))) {
+            if (itemLeftEnchantment.get(i) != null && itemLeftEnchantment.get(i).equals(itemRightEnchantment.get(i)) && !uselessEnchantment.contains(itemLeftEnchantment.get(i))) {
                 itemResultEnchantment.add(itemLeftEnchantment.get(i));
                 if (itemLeftELevel.get(i).equals(itemRightELevel.get(i)) && itemLeftELevel.get(i) < controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
                     itemResultELevel.add(itemLeftELevel.get(i) + 1);
@@ -157,7 +162,7 @@ public class AnvilItems {
                 } else if (itemLeftELevel.get(i) < itemRightELevel.get(i) && itemRightELevel.get(i) <= controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
                     itemResultELevel.add(itemRightELevel.get(i));
                 }
-            } else if (itemLeftEnchantment.get(i) != null && itemRightEnchantment.get(i) == null) {
+            } else if ((itemLeftEnchantment.get(i) != null && itemRightEnchantment.get(i) == null) || (itemLeftEnchantment.get(i) != null && uselessEnchantment.contains(itemLeftEnchantment.get(i)))) {
                 itemResultEnchantment.add(itemLeftEnchantment.get(i));
                 itemResultELevel.add(itemLeftELevel.get(i));
             } else if (itemLeftEnchantment.get(i) == null && itemRightEnchantment.get(i) != null) {
@@ -189,7 +194,7 @@ public class AnvilItems {
             }
         }
         for (int i = 0; i <= 80; i++) {
-            if (itemLeftEnchantment.get(i) != null && itemLeftEnchantment.get(i).equals(itemRightEnchantment.get(i))) {
+            if (itemLeftEnchantment.get(i) != null && itemLeftEnchantment.get(i).equals(itemRightEnchantment.get(i)) && !uselessEnchantment.contains(itemLeftEnchantment.get(i))) {
                 itemResultEnchantment.add(itemLeftEnchantment.get(i));
                 if (itemLeftELevel.get(i).equals(itemRightELevel.get(i)) && itemLeftELevel.get(i) < controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
                     itemResultELevel.add(itemLeftELevel.get(i) + 1);
@@ -198,7 +203,7 @@ public class AnvilItems {
                 } else if (itemLeftELevel.get(i) < itemRightELevel.get(i) && itemRightELevel.get(i) <= controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
                     itemResultELevel.add(itemRightELevel.get(i));
                 }
-            } else if (itemLeftEnchantment.get(i) != null && itemRightEnchantment.get(i) == null) {
+            } else if ((itemLeftEnchantment.get(i) != null && itemRightEnchantment.get(i) == null) || (itemLeftEnchantment.get(i) != null && uselessEnchantment.contains(itemLeftEnchantment.get(i)))) {
                 itemResultEnchantment.add(itemLeftEnchantment.get(i));
                 itemResultELevel.add(itemLeftELevel.get(i));
             } else if (itemLeftEnchantment.get(i) == null && itemRightEnchantment.get(i) != null) {
@@ -230,7 +235,7 @@ public class AnvilItems {
             }
         }
         for (int i = 0; i <= 80; i++) {
-            if (itemLeftEnchantment.get(i) != null && itemLeftEnchantment.get(i).equals(itemRightEnchantment.get(i))) {
+            if (itemLeftEnchantment.get(i) != null && itemLeftEnchantment.get(i).equals(itemRightEnchantment.get(i)) && !uselessEnchantment.contains(itemLeftEnchantment.get(i))) {
                 itemResultEnchantment.add(itemLeftEnchantment.get(i));
                 if (itemLeftELevel.get(i).equals(itemRightELevel.get(i)) && itemLeftELevel.get(i) < controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
                     itemResultELevel.add(itemLeftELevel.get(i) + 1);
@@ -239,7 +244,7 @@ public class AnvilItems {
                 } else if (itemLeftELevel.get(i) < itemRightELevel.get(i) && itemRightELevel.get(i) <= controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
                     itemResultELevel.add(itemRightELevel.get(i));
                 }
-            } else if (itemLeftEnchantment.get(i) != null && itemRightEnchantment.get(i) == null) {
+            } else if ((itemLeftEnchantment.get(i) != null && itemRightEnchantment.get(i) == null) || (itemLeftEnchantment.get(i) != null && uselessEnchantment.contains(itemLeftEnchantment.get(i)))) {
                 itemResultEnchantment.add(itemLeftEnchantment.get(i));
                 itemResultELevel.add(itemLeftELevel.get(i));
             } else if (itemLeftEnchantment.get(i) == null && itemRightEnchantment.get(i) != null) {
@@ -271,7 +276,7 @@ public class AnvilItems {
             }
         }
         for (int i = 0; i <= 80; i++) {
-            if (itemLeftEnchantment.get(i) != null && itemLeftEnchantment.get(i).equals(itemRightEnchantment.get(i))) {
+            if (itemLeftEnchantment.get(i) != null && itemLeftEnchantment.get(i).equals(itemRightEnchantment.get(i)) && !uselessEnchantment.contains(itemLeftEnchantment.get(i))) {
                 itemResultEnchantment.add(itemLeftEnchantment.get(i));
                 if (itemLeftELevel.get(i).equals(itemRightELevel.get(i)) && itemLeftELevel.get(i) < controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
                     itemResultELevel.add(itemLeftELevel.get(i) + 1);
@@ -280,7 +285,7 @@ public class AnvilItems {
                 } else if (itemLeftELevel.get(i) < itemRightELevel.get(i) && itemRightELevel.get(i) <= controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
                     itemResultELevel.add(itemRightELevel.get(i));
                 }
-            } else if (itemLeftEnchantment.get(i) != null && itemRightEnchantment.get(i) == null) {
+            } else if ((itemLeftEnchantment.get(i) != null && itemRightEnchantment.get(i) == null) || (itemLeftEnchantment.get(i) != null && uselessEnchantment.contains(itemLeftEnchantment.get(i)))) {
                 itemResultEnchantment.add(itemLeftEnchantment.get(i));
                 itemResultELevel.add(itemLeftELevel.get(i));
             } else if (itemLeftEnchantment.get(i) == null && itemRightEnchantment.get(i) != null) {
@@ -312,7 +317,7 @@ public class AnvilItems {
             }
         }
         for (int i = 0; i <= 80; i++) {
-            if (itemLeftEnchantment.get(i) != null && itemLeftEnchantment.get(i).equals(itemRightEnchantment.get(i))) {
+            if (itemLeftEnchantment.get(i) != null && itemLeftEnchantment.get(i).equals(itemRightEnchantment.get(i)) && !uselessEnchantment.contains(itemLeftEnchantment.get(i))) {
                 itemResultEnchantment.add(itemLeftEnchantment.get(i));
                 if (itemLeftELevel.get(i).equals(itemRightELevel.get(i)) && itemLeftELevel.get(i) < controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
                     itemResultELevel.add(itemLeftELevel.get(i) + 1);
@@ -323,7 +328,7 @@ public class AnvilItems {
                 } else if (itemLeftELevel.get(i).equals(itemRightELevel.get(i)) && itemLeftELevel.get(i) == controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
                     itemResultELevel.add(itemLeftELevel.get(i));
                 }
-            } else if (itemLeftEnchantment.get(i) != null && itemRightEnchantment.get(i) == null) {
+            } else if ((itemLeftEnchantment.get(i) != null && itemRightEnchantment.get(i) == null) || (itemLeftEnchantment.get(i) != null && uselessEnchantment.contains(itemLeftEnchantment.get(i)))) {
                 itemResultEnchantment.add(itemLeftEnchantment.get(i));
                 itemResultELevel.add(itemLeftELevel.get(i));
             } else if (itemLeftEnchantment.get(i) == null && itemRightEnchantment.get(i) != null) {

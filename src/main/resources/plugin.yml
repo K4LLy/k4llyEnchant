@@ -1,5 +1,5 @@
 name: k4llyEnchant
-version: 0.1.0-Beta
+version: 0.1.1-Beta
 author: K4LLy
 main: de.k4lly.enchant.Main
 commands:
