@@ -17,8 +17,6 @@ public class Join implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent playerJoinEvent) {
-        Player player = playerJoinEvent.getPlayer();
-        player.sendMessage(ChatColor.AQUA + "This Server uses K4LLyEnchant v" + controller.getMain().getDescription().getVersion() + ".");
-        System.out.print("[k4llyEnchant] Update checker will bei implemented soon.");
+        //System.out.print("[k4llyEnchant] Update checker will bei implemented soon.");
     }
 }

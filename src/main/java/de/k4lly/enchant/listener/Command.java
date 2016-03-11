@@ -20,7 +20,11 @@ public class Command implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] args) {
-        if (args.length != 3) {
+        if (args.length == 1 && args[0].equalsIgnoreCase("default")) {
+            function2();
+            commandSender.sendMessage(ChatColor.GREEN + "Successfully changed to Default value");
+            return true;
+        } else if (args.length != 3) {
             System.out.print(faiCom);
             return false;
         }
@@ -59,6 +63,40 @@ public class Command implements CommandExecutor {
                 return true;
             }
         }
+    }
+
+    private void function2() {
+        controller.getMain().getConfig().set("Max-Level", 30);
+
+        controller.getMain().getConfig().set(Enchantment.PROTECTION_ENVIRONMENTAL.getName(), 20);
+        controller.getMain().getConfig().set(Enchantment.PROTECTION_FIRE.getName(), 20);
+        controller.getMain().getConfig().set(Enchantment.PROTECTION_FALL.getName(), 20);
+        controller.getMain().getConfig().set(Enchantment.PROTECTION_EXPLOSIONS.getName(), 20);
+        controller.getMain().getConfig().set(Enchantment.PROTECTION_PROJECTILE.getName(), 20);
+        controller.getMain().getConfig().set(Enchantment.OXYGEN.getName(), 20);
+        controller.getMain().getConfig().set(Enchantment.WATER_WORKER.getName(), 20);
+        controller.getMain().getConfig().set(Enchantment.THORNS.getName(), 20);
+        controller.getMain().getConfig().set(Enchantment.DEPTH_STRIDER.getName(), 20);
+
+        controller.getMain().getConfig().set(Enchantment.DAMAGE_ALL.getName(), 20);
+        controller.getMain().getConfig().set(Enchantment.DAMAGE_UNDEAD.getName(), 20);
+        controller.getMain().getConfig().set(Enchantment.DAMAGE_ARTHROPODS.getName(), 20);
+        controller.getMain().getConfig().set(Enchantment.KNOCKBACK.getName(), 20);
+        controller.getMain().getConfig().set(Enchantment.FIRE_ASPECT.getName(), 20);
+        controller.getMain().getConfig().set(Enchantment.LOOT_BONUS_MOBS.getName(), 20);
+
+        controller.getMain().getConfig().set(Enchantment.DIG_SPEED.getName(), 20);
+        //controller.getMain().getConfig().set(Enchantment.SILK_TOUCH.getName(), 20);
+        controller.getMain().getConfig().set(Enchantment.DURABILITY.getName(), 20);
+        controller.getMain().getConfig().set(Enchantment.LOOT_BONUS_BLOCKS.getName(), 20);
+
+        controller.getMain().getConfig().set(Enchantment.ARROW_DAMAGE.getName(), 20);
+        controller.getMain().getConfig().set(Enchantment.ARROW_KNOCKBACK.getName(), 20);
+        //controller.getMain().getConfig().set(Enchantment.ARROW_FIRE.getName(), 20);
+        //controller.getMain().getConfig().set(Enchantment.ARROW_INFINITE.getName(), 20);
+
+        controller.getMain().getConfig().set(Enchantment.LUCK.getName(), 20);
+        controller.getMain().getConfig().set(Enchantment.LURE.getName(), 20);
     }
 
     private HashMap<String, String> Enchants() {

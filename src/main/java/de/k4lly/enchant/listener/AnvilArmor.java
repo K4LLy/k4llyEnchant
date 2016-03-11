@@ -19,9 +19,9 @@ import java.util.ArrayList;
 public class AnvilArmor implements Listener{
     private PluginController controller;
     private ArrayList<Player> players = new ArrayList<>();
-    private int SLOT_0 = 0;
-    private int SLOT_1 = 1;
-    private int SLOT_2 = 2;
+    private static int SLOT_0 = 0;
+    private static int SLOT_1 = 1;
+    private static int SLOT_2 = 2;
 
     public AnvilArmor(PluginController controller) {
         this.controller = controller;

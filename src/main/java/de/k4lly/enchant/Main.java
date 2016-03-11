@@ -23,8 +23,10 @@ public class Main extends JavaPlugin{
 
     private void registerEvent(PluginManager pluginManager) {
         Command command = new Command(controller);
+        CommandVersion commandVersion = new CommandVersion(controller);
         this.getCommand("k4llyEnchant").setExecutor(command);
         this.getCommand("kE").setExecutor(command);
+        this.getCommand("kEVersion").setExecutor(commandVersion);
         pluginManager.registerEvents(new Join(controller), this);
         pluginManager.registerEvents(new AnvilBooks(controller), this);
         pluginManager.registerEvents(new AnvilArmor(controller), this);
