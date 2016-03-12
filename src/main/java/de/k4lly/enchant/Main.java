@@ -28,10 +28,7 @@ public class Main extends JavaPlugin {
         this.getCommand("kE").setExecutor(command);
         this.getCommand("kEVersion").setExecutor(commandVersion);
         pluginManager.registerEvents(new Join(controller), this);
-        pluginManager.registerEvents(new AnvilBooks(controller), this);
-        pluginManager.registerEvents(new AnvilArmor(controller), this);
-        pluginManager.registerEvents(new AnvilTools(controller), this);
-        pluginManager.registerEvents(new AnvilWeapons(controller), this);
+        pluginManager.registerEvents(new Anvil(controller), this);
         System.out.print(regEvent);
     }
 
