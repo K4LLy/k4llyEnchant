@@ -24,7 +24,6 @@ public class Anvil implements Listener {
     public void onPrepareAnvil(PrepareAnvilEvent prepareAnvilEvent) {
         ItemStack item0 = prepareAnvilEvent.getInventory().getItem(SLOT_0);
         ItemStack item1 = prepareAnvilEvent.getInventory().getItem(SLOT_1);
-        //if
         if (item0 != null && item1 != null) {
             prepareAnvilEvent.setResult(item2(item0, item1));
         }
