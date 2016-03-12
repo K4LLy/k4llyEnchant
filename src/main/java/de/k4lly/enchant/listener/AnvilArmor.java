@@ -1,4 +1,4 @@
-package de.k4lly.enchant.listener;
+/*package de.k4lly.enchant.listener;
 
 
 import de.k4lly.enchant.controller.PluginController;
@@ -70,3 +70,4 @@ public class AnvilArmor implements Listener{
         return item2;
     }
 }
+*/

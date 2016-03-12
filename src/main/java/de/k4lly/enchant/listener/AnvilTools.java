@@ -1,4 +1,4 @@
-package de.k4lly.enchant.listener;
+/*package de.k4lly.enchant.listener;
 
 import de.k4lly.enchant.controller.PluginController;
 import de.k4lly.enchant.objects.AnvilItems;
@@ -68,4 +68,4 @@ public class AnvilTools implements Listener{
         anvilItems.clearAllArray();
         return item2;
     }
-}
+}*/
