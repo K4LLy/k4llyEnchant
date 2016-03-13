@@ -35,18 +35,18 @@ public class AnvilItems {
 
         if (func.isEnchantedBook(itemLeft.getType())) {
             doCombineBooks(itemLeft, itemRight);
-        } else if (func.isArmor(itemLeft.getType()) && func.isEnchantedBook(itemRight.getType())) {
+        } else if (!func.isEnchantedBook(itemLeft.getType()) && func.isEnchantedBook(itemRight.getType())) {
             doCombineArmor(itemLeft, itemRight);
-        } else if (func.isArmor(itemLeft.getType()) && func.isArmor(itemRight.getType())) {
+        } else if (!func.isEnchantedBook(itemLeft.getType()) && !func.isEnchantedBook(itemRight.getType())) {
             doCombineArmor2(itemLeft, itemRight);
-        } else if (func.isTool(itemLeft.getType()) && func.isEnchantedBook(itemRight.getType())) {
+        /*} else if (func.isTool(itemLeft.getType()) && func.isEnchantedBook(itemRight.getType())) {
             doCombineTools(itemLeft, itemRight);
         } else if (func.isTool(itemLeft.getType()) && func.isTool(itemRight.getType())) {
             doCombineTools2(itemLeft, itemRight);
         } else if (func.isWeapon(itemLeft.getType()) && func.isEnchantedBook(itemRight.getType())) {
             doCombineWeapons(itemLeft, itemRight);
         } else if (func.isWeapon(itemLeft.getType()) && func.isWeapon(itemRight.getType())) {
-            doCombineWeapons2(itemLeft, itemRight);
+            doCombineWeapons2(itemLeft, itemRight);*/
         }
     }
 
