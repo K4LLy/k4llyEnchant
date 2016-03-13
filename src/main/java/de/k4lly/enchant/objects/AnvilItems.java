@@ -354,6 +354,16 @@ public class AnvilItems {
     }
 
     private void checkArmor() {
+        if (itemResultEnchantment.contains(Enchantment.FROST_WALKER) && itemResultEnchantment.contains(Enchantment.DEPTH_STRIDER)) {
+            if (itemLeftEnchantment.contains(Enchantment.FROST_WALKER)) {
+                itemResultEnchantment.remove(Enchantment.DEPTH_STRIDER);
+                itemResultELevel.remove(itemRightELevel.get(Enchantment.DEPTH_STRIDER.getId()));
+            } else {
+                itemResultEnchantment.remove(Enchantment.FROST_WALKER);
+                itemResultELevel.remove(itemRightELevel.get(Enchantment.FROST_WALKER.getId()));
+            }
+        }
+        
         if ((itemResultEnchantment.contains(Enchantment.PROTECTION_ENVIRONMENTAL) && itemResultEnchantment.contains(Enchantment.PROTECTION_EXPLOSIONS)) ||
                 (itemResultEnchantment.contains(Enchantment.PROTECTION_ENVIRONMENTAL) && itemResultEnchantment.contains(Enchantment.PROTECTION_FIRE)) ||
                 (itemResultEnchantment.contains(Enchantment.PROTECTION_ENVIRONMENTAL) && itemResultEnchantment.contains(Enchantment.PROTECTION_PROJECTILE)) ||

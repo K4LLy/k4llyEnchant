@@ -77,6 +77,7 @@ public class Command implements CommandExecutor {
         controller.getMain().getConfig().set(Enchantment.WATER_WORKER.getName(), 20);
         controller.getMain().getConfig().set(Enchantment.THORNS.getName(), 20);
         controller.getMain().getConfig().set(Enchantment.DEPTH_STRIDER.getName(), 20);
+        controller.getMain().getConfig().addDefault(Enchantment.FROST_WALKER.getName(), 20);
 
         controller.getMain().getConfig().set(Enchantment.DAMAGE_ALL.getName(), 20);
         controller.getMain().getConfig().set(Enchantment.DAMAGE_UNDEAD.getName(), 20);
@@ -89,6 +90,7 @@ public class Command implements CommandExecutor {
         //controller.getMain().getConfig().set(Enchantment.SILK_TOUCH.getName(), 20);
         controller.getMain().getConfig().set(Enchantment.DURABILITY.getName(), 20);
         controller.getMain().getConfig().set(Enchantment.LOOT_BONUS_BLOCKS.getName(), 20);
+        //controller.getMain().getConfig().addDefault(Enchantment.MENDING.getName(), 20);
 
         controller.getMain().getConfig().set(Enchantment.ARROW_DAMAGE.getName(), 20);
         controller.getMain().getConfig().set(Enchantment.ARROW_KNOCKBACK.getName(), 20);
