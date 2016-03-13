@@ -37,21 +37,13 @@ public class AnvilItems {
         if (func.isEnchantedBook(itemLeft.getType())) {
             doCombineBooks(itemLeft, itemRight);
         } else if (!func.isEnchantedBook(itemLeft.getType()) && func.isEnchantedBook(itemRight.getType())) {
-            doCombineArmor(itemLeft, itemRight);
-        } else if (!func.isEnchantedBook(itemLeft.getType()) && !func.isEnchantedBook(itemRight.getType())) {
-            doCombineArmor2(itemLeft, itemRight);
-        /*} else if (func.isTool(itemLeft.getType()) && func.isEnchantedBook(itemRight.getType())) {
-            doCombineTools(itemLeft, itemRight);
-        } else if (func.isTool(itemLeft.getType()) && func.isTool(itemRight.getType())) {
-            doCombineTools2(itemLeft, itemRight);
-        } else if (func.isWeapon(itemLeft.getType()) && func.isEnchantedBook(itemRight.getType())) {
-            doCombineWeapons(itemLeft, itemRight);
-        } else if (func.isWeapon(itemLeft.getType()) && func.isWeapon(itemRight.getType())) {
-            doCombineWeapons2(itemLeft, itemRight);*/
+            doCombine(itemLeft, itemRight);
+        } else if (func.isEnchantable(itemLeft.getType()) && func.isEnchantable(itemRight.getType())) {
+            doCombine2(itemLeft, itemRight);
         }
     }
 
-    private void doCombineArmor(ItemStack itemLeft, ItemStack itemRight) {
+    private void doCombine(ItemStack itemLeft, ItemStack itemRight) {
         this.itemMetaRight = (EnchantmentStorageMeta) itemRight.getItemMeta();
         ItemMeta itemMeta = itemLeft.getItemMeta();
 
@@ -92,171 +84,7 @@ public class AnvilItems {
         checkConfliction();
     }
 
-    private void doCombineArmor2(ItemStack itemLeft, ItemStack itemRight) {
-        ItemMeta itemMeta2 = itemRight.getItemMeta();
-        ItemMeta itemMeta = itemLeft.getItemMeta();
-
-        for (int i = 0; i <= 80; i++) {
-            if (itemMeta.hasEnchant(Enchantment.getById(i))) {
-                itemLeftEnchantment.add(i, Enchantment.getById(i));
-                itemLeftELevel.add(i, itemMeta.getEnchantLevel(Enchantment.getById(i)));
-            } else {
-                itemLeftEnchantment.add(i, null);
-                itemLeftELevel.add(i, null);
-            }
-            if (itemMeta2.hasEnchant(Enchantment.getById(i))) {
-                itemRightEnchantment.add(i, Enchantment.getById(i));
-                itemRightELevel.add(i, itemMeta2.getEnchantLevel(Enchantment.getById(i)));
-            } else {
-                itemRightEnchantment.add(i, null);
-                itemRightELevel.add(i, null);
-            }
-        }
-        for (int i = 0; i <= 80; i++) {
-            if (itemLeftEnchantment.get(i) != null && itemLeftEnchantment.get(i).equals(itemRightEnchantment.get(i)) && !uselessEnchantment.contains(itemLeftEnchantment.get(i))) {
-                itemResultEnchantment.add(itemLeftEnchantment.get(i));
-                if (itemLeftELevel.get(i).equals(itemRightELevel.get(i)) && itemLeftELevel.get(i) < controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
-                    itemResultELevel.add(itemLeftELevel.get(i) + 1);
-                } else if (itemLeftELevel.get(i) > itemRightELevel.get(i) && itemLeftELevel.get(i) <= controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
-                    itemResultELevel.add(itemLeftELevel.get(i));
-                } else if (itemLeftELevel.get(i) < itemRightELevel.get(i) && itemRightELevel.get(i) <= controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
-                    itemResultELevel.add(itemRightELevel.get(i));
-                }
-            } else if ((itemLeftEnchantment.get(i) != null && itemRightEnchantment.get(i) == null) || (itemLeftEnchantment.get(i) != null && uselessEnchantment.contains(itemLeftEnchantment.get(i)))) {
-                itemResultEnchantment.add(itemLeftEnchantment.get(i));
-                itemResultELevel.add(itemLeftELevel.get(i));
-            } else if (itemLeftEnchantment.get(i) == null && itemRightEnchantment.get(i) != null) {
-                itemResultEnchantment.add(itemRightEnchantment.get(i));
-                itemResultELevel.add(itemRightELevel.get(i));
-            }
-        }
-        checkConfliction();
-    }
-
-    private void doCombineTools(ItemStack itemLeft, ItemStack itemRight) {
-        this.itemMetaRight = (EnchantmentStorageMeta) itemRight.getItemMeta();
-        ItemMeta itemMeta = itemLeft.getItemMeta();
-
-        for (int i = 0; i <= 80; i++) {
-            if (itemMeta.hasEnchant(Enchantment.getById(i))) {
-                itemLeftEnchantment.add(i, Enchantment.getById(i));
-                itemLeftELevel.add(i, itemMeta.getEnchantLevel(Enchantment.getById(i)));
-            } else {
-                itemLeftEnchantment.add(i, null);
-                itemLeftELevel.add(i, null);
-            }
-            if (itemMetaRight.hasStoredEnchant(Enchantment.getById(i))) {
-                itemRightEnchantment.add(i, Enchantment.getById(i));
-                itemRightELevel.add(i, itemMetaRight.getStoredEnchantLevel(Enchantment.getById(i)));
-            } else {
-                itemRightEnchantment.add(i, null);
-                itemRightELevel.add(i, null);
-            }
-        }
-        for (int i = 0; i <= 80; i++) {
-            if (itemLeftEnchantment.get(i) != null && itemLeftEnchantment.get(i).equals(itemRightEnchantment.get(i)) && !uselessEnchantment.contains(itemLeftEnchantment.get(i))) {
-                itemResultEnchantment.add(itemLeftEnchantment.get(i));
-                if (itemLeftELevel.get(i).equals(itemRightELevel.get(i)) && itemLeftELevel.get(i) < controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
-                    itemResultELevel.add(itemLeftELevel.get(i) + 1);
-                } else if (itemLeftELevel.get(i) > itemRightELevel.get(i) && itemLeftELevel.get(i) <= controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
-                    itemResultELevel.add(itemLeftELevel.get(i));
-                } else if (itemLeftELevel.get(i) < itemRightELevel.get(i) && itemRightELevel.get(i) <= controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
-                    itemResultELevel.add(itemRightELevel.get(i));
-                }
-            } else if ((itemLeftEnchantment.get(i) != null && itemRightEnchantment.get(i) == null) || (itemLeftEnchantment.get(i) != null && uselessEnchantment.contains(itemLeftEnchantment.get(i)))) {
-                itemResultEnchantment.add(itemLeftEnchantment.get(i));
-                itemResultELevel.add(itemLeftELevel.get(i));
-            } else if (itemLeftEnchantment.get(i) == null && itemRightEnchantment.get(i) != null) {
-                itemResultEnchantment.add(itemRightEnchantment.get(i));
-                itemResultELevel.add(itemRightELevel.get(i));
-            }
-        }
-        checkConfliction();
-    }
-
-    private void doCombineTools2(ItemStack itemLeft, ItemStack itemRight) {
-        ItemMeta itemMeta2 = itemRight.getItemMeta();
-        ItemMeta itemMeta = itemLeft.getItemMeta();
-
-        for (int i = 0; i <= 80; i++) {
-            if (itemMeta.hasEnchant(Enchantment.getById(i))) {
-                itemLeftEnchantment.add(i, Enchantment.getById(i));
-                itemLeftELevel.add(i, itemMeta.getEnchantLevel(Enchantment.getById(i)));
-            } else {
-                itemLeftEnchantment.add(i, null);
-                itemLeftELevel.add(i, null);
-            }
-            if (itemMeta2.hasEnchant(Enchantment.getById(i))) {
-                itemRightEnchantment.add(i, Enchantment.getById(i));
-                itemRightELevel.add(i, itemMeta2.getEnchantLevel(Enchantment.getById(i)));
-            } else {
-                itemRightEnchantment.add(i, null);
-                itemRightELevel.add(i, null);
-            }
-        }
-        for (int i = 0; i <= 80; i++) {
-            if (itemLeftEnchantment.get(i) != null && itemLeftEnchantment.get(i).equals(itemRightEnchantment.get(i)) && !uselessEnchantment.contains(itemLeftEnchantment.get(i))) {
-                itemResultEnchantment.add(itemLeftEnchantment.get(i));
-                if (itemLeftELevel.get(i).equals(itemRightELevel.get(i)) && itemLeftELevel.get(i) < controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
-                    itemResultELevel.add(itemLeftELevel.get(i) + 1);
-                } else if (itemLeftELevel.get(i) > itemRightELevel.get(i) && itemLeftELevel.get(i) <= controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
-                    itemResultELevel.add(itemLeftELevel.get(i));
-                } else if (itemLeftELevel.get(i) < itemRightELevel.get(i) && itemRightELevel.get(i) <= controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
-                    itemResultELevel.add(itemRightELevel.get(i));
-                }
-            } else if ((itemLeftEnchantment.get(i) != null && itemRightEnchantment.get(i) == null) || (itemLeftEnchantment.get(i) != null && uselessEnchantment.contains(itemLeftEnchantment.get(i)))) {
-                itemResultEnchantment.add(itemLeftEnchantment.get(i));
-                itemResultELevel.add(itemLeftELevel.get(i));
-            } else if (itemLeftEnchantment.get(i) == null && itemRightEnchantment.get(i) != null) {
-                itemResultEnchantment.add(itemRightEnchantment.get(i));
-                itemResultELevel.add(itemRightELevel.get(i));
-            }
-        }
-        checkConfliction();
-    }
-
-    private void doCombineWeapons(ItemStack itemLeft, ItemStack itemRight) {
-        this.itemMetaRight = (EnchantmentStorageMeta) itemRight.getItemMeta();
-        ItemMeta itemMeta = itemLeft.getItemMeta();
-
-        for (int i = 0; i <= 80; i++) {
-            if (itemMeta.hasEnchant(Enchantment.getById(i))) {
-                itemLeftEnchantment.add(i, Enchantment.getById(i));
-                itemLeftELevel.add(i, itemMeta.getEnchantLevel(Enchantment.getById(i)));
-            } else {
-                itemLeftEnchantment.add(i, null);
-                itemLeftELevel.add(i, null);
-            }
-            if (itemMetaRight.hasStoredEnchant(Enchantment.getById(i))) {
-                itemRightEnchantment.add(i, Enchantment.getById(i));
-                itemRightELevel.add(i, itemMetaRight.getStoredEnchantLevel(Enchantment.getById(i)));
-            } else {
-                itemRightEnchantment.add(i, null);
-                itemRightELevel.add(i, null);
-            }
-        }
-        for (int i = 0; i <= 80; i++) {
-            if (itemLeftEnchantment.get(i) != null && itemLeftEnchantment.get(i).equals(itemRightEnchantment.get(i)) && !uselessEnchantment.contains(itemLeftEnchantment.get(i))) {
-                itemResultEnchantment.add(itemLeftEnchantment.get(i));
-                if (itemLeftELevel.get(i).equals(itemRightELevel.get(i)) && itemLeftELevel.get(i) < controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
-                    itemResultELevel.add(itemLeftELevel.get(i) + 1);
-                } else if (itemLeftELevel.get(i) > itemRightELevel.get(i) && itemLeftELevel.get(i) <= controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
-                    itemResultELevel.add(itemLeftELevel.get(i));
-                } else if (itemLeftELevel.get(i) < itemRightELevel.get(i) && itemRightELevel.get(i) <= controller.getMain().getConfig().getInt(itemLeftEnchantment.get(i).getName())) {
-                    itemResultELevel.add(itemRightELevel.get(i));
-                }
-            } else if ((itemLeftEnchantment.get(i) != null && itemRightEnchantment.get(i) == null) || (itemLeftEnchantment.get(i) != null && uselessEnchantment.contains(itemLeftEnchantment.get(i)))) {
-                itemResultEnchantment.add(itemLeftEnchantment.get(i));
-                itemResultELevel.add(itemLeftELevel.get(i));
-            } else if (itemLeftEnchantment.get(i) == null && itemRightEnchantment.get(i) != null) {
-                itemResultEnchantment.add(itemRightEnchantment.get(i));
-                itemResultELevel.add(itemRightELevel.get(i));
-            }
-        }
-        checkConfliction();
-    }
-
-    private void doCombineWeapons2(ItemStack itemLeft, ItemStack itemRight) {
+    private void doCombine2(ItemStack itemLeft, ItemStack itemRight) {
         ItemMeta itemMeta2 = itemRight.getItemMeta();
         ItemMeta itemMeta = itemLeft.getItemMeta();
 
