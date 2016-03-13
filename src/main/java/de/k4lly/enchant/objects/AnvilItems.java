@@ -32,6 +32,7 @@ public class AnvilItems {
         uselessEnchantment.add(Enchantment.ARROW_FIRE);
         uselessEnchantment.add(Enchantment.ARROW_INFINITE);
         uselessEnchantment.add(Enchantment.WATER_WORKER);
+        uselessEnchantment.add(Enchantment.MENDING);
 
         if (func.isEnchantedBook(itemLeft.getType())) {
             doCombineBooks(itemLeft, itemRight);
