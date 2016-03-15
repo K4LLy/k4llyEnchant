@@ -27,7 +27,6 @@ public class Main extends JavaPlugin {
         this.getCommand("k4llyEnchant").setExecutor(command);
         this.getCommand("kE").setExecutor(command);
         this.getCommand("kEVersion").setExecutor(commandVersion);
-        pluginManager.registerEvents(new Join(controller), this);
         pluginManager.registerEvents(new Anvil(controller), this);
         System.out.print(regEvent);
     }
