@@ -38,7 +38,7 @@ public class AnvilItems {
             doCombineBooks(itemLeft, itemRight);
         } else if (func.isEnchantable(itemLeft.getType()) && func.isEnchantedBook(itemRight.getType())) {
             doCombine(itemLeft, itemRight);
-        } else if (func.isEnchantable(itemLeft.getType()) && func.isEnchantable(itemRight.getType())) {
+        } else if ((func.isEnchantable(itemLeft.getType()) && func.isEnchantable(itemRight.getType()))) {
             doCombine2(itemLeft, itemRight);
         }
     }

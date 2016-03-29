@@ -152,5 +152,19 @@ public class Functions {
         }
     }
 
+    public boolean isRepairMaterial(Material material) {
+        switch (material) {
+            case LEATHER:
+            case WOOD:
+            case COBBLESTONE:
+            case IRON_INGOT:
+            case GOLD_INGOT:
+            case DIAMOND:
+                return true;
+            default:
+                return false;
+        }
+    }
+
 
 }

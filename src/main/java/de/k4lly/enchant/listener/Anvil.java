@@ -2,6 +2,7 @@ package de.k4lly.enchant.listener;
 
 import de.k4lly.enchant.controller.PluginController;
 import de.k4lly.enchant.objects.AnvilItems;
+import de.k4lly.enchant.objects.Functions;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,6 +14,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class Anvil implements Listener {
 
     private PluginController controller;
+    private Functions func = new Functions();
     private static int SLOT_0 = 0;
     private static int SLOT_1 = 1;
 
@@ -24,28 +26,32 @@ public class Anvil implements Listener {
     public void onPrepareAnvil(PrepareAnvilEvent prepareAnvilEvent) {
         ItemStack item0 = prepareAnvilEvent.getInventory().getItem(SLOT_0);
         ItemStack item1 = prepareAnvilEvent.getInventory().getItem(SLOT_1);
-        if (item0 != null && item1 != null) {
-            prepareAnvilEvent.setResult(item2(item0, item1));
+        if (item0 != null && item1 != null && !func.isRepairMaterial(item1.getType())) {
+            if ((func.isEnchantable(item0.getType()) && func.isEnchantedBook(item1.getType())) || item0.getType().equals(item1.getType())) {
+                prepareAnvilEvent.setResult(item2(item0, item1));
+            }
         }
     }
 
     public ItemStack item2(ItemStack item0, ItemStack item1) {
         AnvilItems anvilItems = new AnvilItems(controller, item0, item1);
-        ItemStack item2 = item0.clone();
+        ItemStack item2 = new ItemStack(item0.getType());
+        //item2.getItemMeta().setDisplayName(item0.getItemMeta().getDisplayName());
         if (item0.getType().equals(Material.ENCHANTED_BOOK)) {
             EnchantmentStorageMeta meta2 = (EnchantmentStorageMeta) item2.getItemMeta();
+            meta2.setDisplayName(item0.getItemMeta().getDisplayName());
             for (int i = 0; i < anvilItems.getItemResultEnchantmentSize(); i++) {
                 meta2.addStoredEnchant(anvilItems.getItemResultEnchantment(i), anvilItems.getItemResultELevel(i), true);
                 item2.setItemMeta(meta2);
             }
         } else {
             ItemMeta meta2 = item2.getItemMeta();
+            meta2.setDisplayName(item0.getItemMeta().getDisplayName());
             for (int i = 0; i < anvilItems.getItemResultEnchantmentSize(); i++) {
                 meta2.addEnchant(anvilItems.getItemResultEnchantment(i), anvilItems.getItemResultELevel(i), true);
                 item2.setItemMeta(meta2);
             }
         }
-
         anvilItems.clearAllArray();
         return item2;
     }
