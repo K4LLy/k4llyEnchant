@@ -20,28 +20,31 @@ public class Command implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] args) {
-        if (args.length == 1 && args[0].equalsIgnoreCase("default")) {
-            function2();
-            commandSender.sendMessage(ChatColor.GREEN + "Successfully changed to Default value");
-            return true;
-        } else if (args.length != 3) {
-            System.out.print(faiCom);
-            return false;
-        }
-        if (args[0].equalsIgnoreCase("set") || args[0].equalsIgnoreCase("s")) {
-            HashMap<String, String> enchants = Enchants();
-            if (enchants.containsKey(args[1])) {
-               return function(commandSender, enchants.get(args[1]), Integer.valueOf(args[2]));
-            } else if (enchants.containsValue(args[1].toUpperCase())) {
-                return  function(commandSender, args[1].toUpperCase(), Integer.valueOf(args[2]));
-            } else if (args[1].equalsIgnoreCase("max-level")) {
-                return function(commandSender, "Max-Level", Integer.valueOf(args[2]));
+        if (commandSender.isOp()) {
+            if (args.length == 1 && args[0].equalsIgnoreCase("default")) {
+                function2();
+                commandSender.sendMessage(ChatColor.GREEN + "Successfully changed to Default value");
+                return true;
+            } else if (args.length != 3) {
+                System.out.print(faiCom);
+                return false;
             }
-            commandSender.sendMessage(ChatColor.RED + "Please enter a valid Enchantment.");
+            if (args[0].equalsIgnoreCase("set") || args[0].equalsIgnoreCase("s")) {
+                HashMap<String, String> enchants = Enchants();
+                if (enchants.containsKey(args[1])) {
+                    return function(commandSender, enchants.get(args[1]), Integer.valueOf(args[2]));
+                } else if (enchants.containsValue(args[1].toUpperCase())) {
+                    return function(commandSender, args[1].toUpperCase(), Integer.valueOf(args[2]));
+                } else if (args[1].equalsIgnoreCase("max-level")) {
+                    return function(commandSender, "Max-Level", Integer.valueOf(args[2]));
+                }
+                commandSender.sendMessage(ChatColor.RED + "Please enter a valid Enchantment.");
+                System.out.print(faiCom);
+                return false;
+            }
             System.out.print(faiCom);
             return false;
         }
-        System.out.print(faiCom);
         return false;
     }
 
