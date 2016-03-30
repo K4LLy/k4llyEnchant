@@ -40,6 +40,8 @@ public class AnvilItems {
             doCombine(itemLeft, itemRight);
         } else if ((func.isEnchantable(itemLeft.getType()) && func.isEnchantable(itemRight.getType()))) {
             doCombine2(itemLeft, itemRight);
+        } else if (func.isEnchantable(itemLeft.getType()) && func.isBook(itemRight.getType())) {
+            doTake();
         }
     }
 
@@ -166,6 +168,17 @@ public class AnvilItems {
             }
         }
         checkConfliction();
+    }
+
+    private void doTake() {
+        ItemMeta itemMetaLeft = itemLeft.getItemMeta();
+
+        for (int i = 0; i <= 80; i++) {
+            if (itemMetaLeft.hasEnchant(Enchantment.getById(i))) {
+                itemResultEnchantment.add(Enchantment.getById(i));
+                itemResultELevel.add(itemMetaLeft.getEnchantLevel(Enchantment.getById(i)));
+            }
+        }
     }
 
     private void checkConfliction() {

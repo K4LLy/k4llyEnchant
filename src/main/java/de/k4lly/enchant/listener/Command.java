@@ -44,6 +44,8 @@ public class Command implements CommandExecutor {
             }
             System.out.print(faiCom);
             return false;
+        } else {
+            commandSender.sendMessage(ChatColor.RED + "You don´t have Permission to do that!");
         }
         return false;
     }
