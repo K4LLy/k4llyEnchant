@@ -1,9 +1,23 @@
 package de.k4lly.enchant.objects;
 
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
 
 public class Functions {
-    public Functions() {}
+
+    public ArrayList<Material> enchantableMaterial = new ArrayList<Material>();
+
+    public Functions() {
+        for (int i = 0; i <= 450; i++) {
+            if (Material.getMaterial(i) != null && isEnchantable(Material.getMaterial(i))) {
+                enchantableMaterial.add(i, Material.getMaterial(i));
+            } else {
+                enchantableMaterial.add(i, null);
+            }
+        }
+    }
 
     public boolean isBook(Material material) {
         switch (material) {
@@ -163,6 +177,14 @@ public class Functions {
                 return true;
             default:
                 return false;
+        }
+    }
+
+    public ItemStack getEnchantableItem(int index) {
+        if (enchantableMaterial.get(index) != null) {
+            return new ItemStack(enchantableMaterial.get(index));
+        } else {
+            return null;
         }
     }
 

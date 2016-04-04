@@ -24,3 +24,5 @@ ARROW_DAMAGE: 20
 ARROW_KNOCKBACK: 20
 LUCK: 20
 LURE: 20
+
+enableTakeEnchantment: true
