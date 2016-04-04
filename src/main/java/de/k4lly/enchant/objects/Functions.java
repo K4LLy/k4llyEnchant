@@ -7,14 +7,12 @@ import java.util.ArrayList;
 
 public class Functions {
 
-    public ArrayList<Material> enchantableMaterial = new ArrayList<Material>();
+    private ArrayList<Material> enchantableMaterial = new ArrayList<>();
 
     public Functions() {
         for (int i = 0; i <= 450; i++) {
             if (Material.getMaterial(i) != null && isEnchantable(Material.getMaterial(i))) {
-                enchantableMaterial.add(i, Material.getMaterial(i));
-            } else {
-                enchantableMaterial.add(i, null);
+                enchantableMaterial.add( Material.getMaterial(i));
             }
         }
     }
@@ -39,7 +37,7 @@ public class Functions {
     }
 
     public boolean isEnchantable(Material material) {
-        switch(material) {
+        switch (material) {
             case CHAINMAIL_BOOTS:
             case CHAINMAIL_CHESTPLATE:
             case CHAINMAIL_HELMET:
@@ -98,7 +96,7 @@ public class Functions {
     }
 
     public boolean isArmor(Material material) {
-        switch(material) {
+        switch (material) {
             case CHAINMAIL_BOOTS:
             case CHAINMAIL_CHESTPLATE:
             case CHAINMAIL_HELMET:
@@ -188,5 +186,11 @@ public class Functions {
         }
     }
 
+    public ArrayList<Material> getEnchantableMaterial() {
+        return enchantableMaterial;
+    }
 
+    public void setEnchantableMaterial(ArrayList<Material> enchantableMaterial) {
+        this.enchantableMaterial = enchantableMaterial;
+    }
 }

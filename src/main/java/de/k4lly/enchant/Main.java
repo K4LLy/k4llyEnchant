@@ -43,19 +43,28 @@ public class Main extends JavaPlugin {
     }
 
     private void registerRecipe() {
-        for (int i = 0; i <= 450; i++) {
-            int x = 0;
-            if (func.getEnchantableItem(i) != null) {
-                shapelessRecipes.add(x, new ShapelessRecipe(new ItemStack(Material.ENCHANTED_BOOK ,1)));
-                shapelessRecipes.get(x).addIngredient(Material.BOOK);
-                shapelessRecipes.get(x).addIngredient(Material.EXP_BOTTLE);
-                shapelessRecipes.get(x).addIngredient(func.getEnchantableItem(i).getType());
-                x++;
-            }
+
+        for (Material enchItem : func.getEnchantableMaterial()) {
+            ShapelessRecipe sr = new ShapelessRecipe(new ItemStack(Material.ENCHANTED_BOOK, 1));
+            sr.addIngredient(Material.BOOK);
+            sr.addIngredient(Material.EXP_BOTTLE);
+            sr.addIngredient(enchItem);
+            this.getServer().addRecipe(sr);
         }
-        for (int i = 0; i < shapelessRecipes.size(); i++) {
-            this.getServer().addRecipe(shapelessRecipes.get(i));
-        }
+
+//        for (int i = 0; i <= 450; i++) {
+//            int x = 0;
+//            if (func.getEnchantableItem(i) != null) {
+//                shapelessRecipes.add(x, new ShapelessRecipe(new ItemStack(Material.ENCHANTED_BOOK ,1)));
+//                shapelessRecipes.get(x).addIngredient(Material.BOOK);
+//                shapelessRecipes.get(x).addIngredient(Material.EXP_BOTTLE);
+//                shapelessRecipes.get(x).addIngredient(func.getEnchantableItem(i).getType());
+//                x++;
+//            }
+//        }
+//        for (int i = 0; i < shapelessRecipes.size(); i++) {
+//            this.getServer().addRecipe(shapelessRecipes.get(i));
+//        }
     }
 
     @Override
