@@ -10,9 +10,9 @@ public class Functions {
     private ArrayList<Material> enchantableMaterial = new ArrayList<>();
 
     public Functions() {
-        for (int i = 0; i <= 450; i++) {
-            if (Material.getMaterial(i) != null && isEnchantable(Material.getMaterial(i))) {
-                enchantableMaterial.add( Material.getMaterial(i));
+        for (Material m : Material.values()) {
+            if (m != null && isEnchantable(m)) {
+                enchantableMaterial.add(m);
             }
         }
     }
