@@ -1,5 +1,5 @@
 name: k4llyEnchant-MC1.9
-version: 0.2.1-Beta
+version: 0.2.5-Beta
 author: K4LLy
 main: de.k4lly.enchant.Main
 commands:
@@ -7,8 +7,8 @@ commands:
     description: Used to get the actual Version of this Plugin.
     usage: /kEVersion
   k4llyEnchant:
-    description: Used to Set the max level of an enchantment.
-    usage: /k4llyEnchant [set/s] <enchantment/ID> <max-level>
+    description: Used to change config.
+    usage: /k4llyEnchant [set/s] <config> <value>
   kE:
-    description: Used to Set the max level of an enchantment.
-    usage: /k4llyEnchant [set/s] <enchantment/ID> <max-level>
+    description: Used to change config.
+    usage: /k4llyEnchant [set/s] <config> <value>

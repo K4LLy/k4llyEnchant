@@ -10,15 +10,12 @@ import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-
 public class Main extends JavaPlugin {
 
     private PluginController controller = new PluginController();
     private Functions func = new Functions();
     private final String enable = "[k4llyEnchant] Loaded " + this.getDescription().getName() + " in Version " + this.getDescription().getVersion() + " succesfully!";
     private final String regEvent = "[k4llyEnchant] Successfully register Events!";
-    private ArrayList<ShapelessRecipe> shapelessRecipes = new ArrayList<ShapelessRecipe>();
 
     @Override
     public void onEnable() {
@@ -26,9 +23,8 @@ public class Main extends JavaPlugin {
         PluginManager pluginManager = getServer().getPluginManager();
         registerEvent(pluginManager);
         controller.setConfig(new ConfigController(controller));
-        System.out.print(enable);
-
         registerRecipe();
+        System.out.print(enable);
     }
 
     private void registerEvent(PluginManager pluginManager) {
@@ -43,28 +39,15 @@ public class Main extends JavaPlugin {
     }
 
     private void registerRecipe() {
-
-        for (Material enchItem : func.getEnchantableMaterial()) {
-            ShapelessRecipe sr = new ShapelessRecipe(new ItemStack(Material.ENCHANTED_BOOK, 1));
-            sr.addIngredient(Material.BOOK);
-            sr.addIngredient(Material.EXP_BOTTLE);
-            sr.addIngredient(enchItem);
-            this.getServer().addRecipe(sr);
+        if (this.getConfig().getBoolean("enableTakeEnchantment")) {
+            for (Material enchItem : func.getEnchantableMaterial()) {
+                ShapelessRecipe sr = new ShapelessRecipe(new ItemStack(Material.ENCHANTED_BOOK, 1));
+                sr.addIngredient(Material.BOOK);
+                sr.addIngredient(Material.EXP_BOTTLE);
+                sr.addIngredient(enchItem);
+                this.getServer().addRecipe(sr);
+            }
         }
-
-//        for (int i = 0; i <= 450; i++) {
-//            int x = 0;
-//            if (func.getEnchantableItem(i) != null) {
-//                shapelessRecipes.add(x, new ShapelessRecipe(new ItemStack(Material.ENCHANTED_BOOK ,1)));
-//                shapelessRecipes.get(x).addIngredient(Material.BOOK);
-//                shapelessRecipes.get(x).addIngredient(Material.EXP_BOTTLE);
-//                shapelessRecipes.get(x).addIngredient(func.getEnchantableItem(i).getType());
-//                x++;
-//            }
-//        }
-//        for (int i = 0; i < shapelessRecipes.size(); i++) {
-//            this.getServer().addRecipe(shapelessRecipes.get(i));
-//        }
     }
 
     @Override

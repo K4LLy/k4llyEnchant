@@ -22,7 +22,7 @@ public class Command implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] args) {
         if (commandSender.isOp()) {
             if (args.length == 1 && args[0].equalsIgnoreCase("default")) {
-                function2();
+                setDefault();
                 commandSender.sendMessage(ChatColor.GREEN + "Successfully changed to Default value");
                 return true;
             } else if (args.length != 3) {
@@ -32,13 +32,15 @@ public class Command implements CommandExecutor {
             if (args[0].equalsIgnoreCase("set") || args[0].equalsIgnoreCase("s")) {
                 HashMap<String, String> enchants = Enchants();
                 if (enchants.containsKey(args[1])) {
-                    return function(commandSender, enchants.get(args[1]), Integer.valueOf(args[2]));
+                    return funcEnchantment(commandSender, enchants.get(args[1]), Integer.valueOf(args[2]));
                 } else if (enchants.containsValue(args[1].toUpperCase())) {
-                    return function(commandSender, args[1].toUpperCase(), Integer.valueOf(args[2]));
+                    return funcEnchantment(commandSender, args[1].toUpperCase(), Integer.valueOf(args[2]));
                 } else if (args[1].equalsIgnoreCase("max-level")) {
-                    return function(commandSender, "Max-Level", Integer.valueOf(args[2]));
+                    return funcEnchantment(commandSender, "Max-Level", Integer.valueOf(args[2]));
+                } else if (args[1].equalsIgnoreCase("enableTakeEnchantment")) {
+                    return funcTakeEnch(commandSender, "enableTakeEnchantment", args[2]);
                 }
-                commandSender.sendMessage(ChatColor.RED + "Please enter a valid Enchantment.");
+                commandSender.sendMessage(ChatColor.RED + "Please enter a valid Config.");
                 System.out.print(faiCom);
                 return false;
             }
@@ -50,7 +52,7 @@ public class Command implements CommandExecutor {
         return false;
     }
 
-    private boolean function(CommandSender commandSender, String enchantment, int maxValue) {
+    private boolean funcEnchantment(CommandSender commandSender, String enchantment, int maxValue) {
         if (enchantment.equals(Enchantment.ARROW_FIRE.getName()) || enchantment.equals(Enchantment.ARROW_INFINITE.getName()) || enchantment.equals(Enchantment.SILK_TOUCH.getName())) {
             commandSender.sendMessage(ChatColor.RED + "This isn´t useful to do.");
             System.out.print(faiCom);
@@ -59,6 +61,7 @@ public class Command implements CommandExecutor {
             if (maxValue <= controller.getMain().getConfig().getInt("Max-Level")) {
                 controller.getMain().getConfig().set(enchantment, maxValue);
                 controller.getMain().saveConfig();
+                controller.getMain().reloadConfig();
                 commandSender.sendMessage(ChatColor.GREEN + "Successfully changed " + enchantment + " to " + maxValue);
                 System.out.print(sucCom);
                 return true;
@@ -70,7 +73,26 @@ public class Command implements CommandExecutor {
         }
     }
 
-    private void function2() {
+    private boolean funcTakeEnch(CommandSender commandSender, String enTakeEnch, String value) {
+        if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
+            boolean bvalue;
+            if (value.equalsIgnoreCase("true")) {
+                bvalue = true;
+            } else {
+                bvalue = false;
+            }
+            controller.getMain().getConfig().set(enTakeEnch, bvalue);
+            controller.getMain().saveConfig();
+            controller.getMain().reloadConfig();
+            commandSender.sendMessage(ChatColor.GREEN + "Successfully changed " + enTakeEnch + " to " + value);
+            System.out.print(sucCom);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void setDefault() {
         controller.getMain().getConfig().set("Max-Level", 30);
 
         controller.getMain().getConfig().set(Enchantment.PROTECTION_ENVIRONMENTAL.getName(), 20);
@@ -104,6 +126,10 @@ public class Command implements CommandExecutor {
 
         controller.getMain().getConfig().set(Enchantment.LUCK.getName(), 20);
         controller.getMain().getConfig().set(Enchantment.LURE.getName(), 20);
+
+        controller.getMain().getConfig().addDefault("enableTakeEnchantment", true);
+        controller.getMain().saveConfig();
+        controller.getMain().reloadConfig();
     }
 
     private HashMap<String, String> Enchants() {
