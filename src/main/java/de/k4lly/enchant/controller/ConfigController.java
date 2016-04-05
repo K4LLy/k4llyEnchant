@@ -49,6 +49,7 @@ public class ConfigController {
 
         controller.getMain().getConfig().options().copyDefaults(true);
         controller.getMain().saveDefaultConfig();
+        controller.getMain().reloadConfig();
 
         System.out.print("[k4llyEnchant] Saved Cofiguration.");
     }

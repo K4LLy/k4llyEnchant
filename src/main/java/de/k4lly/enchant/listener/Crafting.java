@@ -45,9 +45,9 @@ public class Crafting implements Listener {
             EnchantmentStorageMeta resultMeta = (EnchantmentStorageMeta) result.getItemMeta();
 
             if (item.getItemMeta().hasEnchants()) {
-                for (int i = 0; i <= 80; i++) {
-                    if (item.getItemMeta().hasEnchant(Enchantment.getById(i))) {
-                        resultMeta.addStoredEnchant(Enchantment.getById(i), item.getEnchantmentLevel(Enchantment.getById(i)), true);
+                for (Enchantment enchantment : Enchantment.values()) {
+                    if (item.getItemMeta().hasEnchant(enchantment)) {
+                        resultMeta.addStoredEnchant(enchantment, item.getEnchantmentLevel(enchantment), true);
                     }
                 }
                 result.setItemMeta(resultMeta);
