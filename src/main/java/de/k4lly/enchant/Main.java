@@ -35,11 +35,12 @@ public class Main extends JavaPlugin {
         this.getCommand("kEVersion").setExecutor(commandVersion);
         pluginManager.registerEvents(new Anvil(controller), this);
         pluginManager.registerEvents(new Crafting(controller), this);
+        pluginManager.registerEvents(new Enchantment(controller), this);
         System.out.print(regEvent);
     }
 
     private void registerRecipe() {
-        if (this.getConfig().getBoolean("enableTakeEnchantment")) {
+        if (!this.getConfig().getBoolean("enableTakeEnchantment")) {
             for (Material enchItem : func.getEnchantableMaterial()) {
                 ShapelessRecipe sr = new ShapelessRecipe(new ItemStack(Material.ENCHANTED_BOOK, 1));
                 sr.addIngredient(Material.BOOK);
