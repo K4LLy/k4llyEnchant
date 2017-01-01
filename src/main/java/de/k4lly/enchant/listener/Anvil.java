@@ -51,11 +51,6 @@ public class Anvil implements Listener {
             }
         } else {
             item2 = new ItemStack(item0.getType());
-            if (item1.getType().equals(Material.ENCHANTED_BOOK)) {
-                item2.setDurability(item0.getDurability());
-            } else {
-                item2.setDurability((short)(item0.getDurability() + item1.getDurability() + (item2.getDurability() / 20)));
-            }
             ItemMeta meta2 = item2.getItemMeta();
             meta2.setDisplayName(item0.getItemMeta().getDisplayName());
             for (int i = 0; i < anvilItems.getItemResultEnchantmentSize(); i++) {
@@ -64,6 +59,12 @@ public class Anvil implements Listener {
             }
             for (int i = 0; i < anvilItems.getItemResultCustomEnchantmentSize(); i++) {
                 func.enchantItem(anvilItems.getItemResultCustomEnchantment(i), anvilItems.getItemResultCELevel(i), item2);
+            }
+            if (item1.getType().equals(Material.ENCHANTED_BOOK)) {
+                item2.setDurability(item0.getDurability());
+            } else {
+                item2.setDurability((short)Math.min(item0.getDurability()+item1.getDurability()+Math.floor(item2.getType().getMaxDurability()/20),item2.getType().getMaxDurability()));
+                //item2.setDurability((short)(item2.getType().getMaxDurability()+(item0.getDurability()-item1.getDurability()-(item2.getType().getMaxDurability()/20))));
             }
         }
         anvilItems.clearAllArray();
