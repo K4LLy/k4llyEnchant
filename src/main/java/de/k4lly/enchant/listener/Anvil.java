@@ -51,6 +51,11 @@ public class Anvil implements Listener {
             }
         } else {
             item2 = new ItemStack(item0.getType());
+            if (item1.getType().equals(Material.ENCHANTED_BOOK)) {
+                item2.setDurability(item0.getDurability());
+            } else {
+                item2.setDurability((short)(item0.getDurability() + item1.getDurability() + (item2.getDurability() / 20)));
+            }
             ItemMeta meta2 = item2.getItemMeta();
             meta2.setDisplayName(item0.getItemMeta().getDisplayName());
             for (int i = 0; i < anvilItems.getItemResultEnchantmentSize(); i++) {
