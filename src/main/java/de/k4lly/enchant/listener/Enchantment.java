@@ -2,6 +2,7 @@ package de.k4lly.enchant.listener;
 
 import de.k4lly.enchant.controller.PluginController;
 import de.k4lly.enchant.objects.Functions;
+import org.bukkit.Achievement;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -13,11 +14,10 @@ import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerItemHeldEvent;
+import org.bukkit.event.inventory.*;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -223,6 +223,18 @@ public class Enchantment implements Listener {
         Player p = (Player) event.getPlayer();
         if (!storedItem.containsKey(p)) return;
         returnItem(p);
+    }
+
+    @EventHandler
+    public void onInventoryClick (InventoryClickEvent event) {
+        if (!(event.getClickedInventory() instanceof PlayerInventory)) return;
+        Player p = (Player) event.getWhoClicked();
+        ItemStack item9 = event.getClickedInventory().getItem(9);
+        if (item9.equals(null)) {
+            event.setCursor(null);
+            if (!storedItem.containsKey(p)) return;
+            returnItem(p);
+        }
     }
 
     @EventHandler
