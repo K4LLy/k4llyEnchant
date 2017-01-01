@@ -65,7 +65,7 @@ public class InfiniteArrow implements Listener {
         Player p = playerInteractEvent.getPlayer();
         if (!(playerInteractEvent.getAction().equals(Action.RIGHT_CLICK_AIR) || playerInteractEvent.getAction().equals(Action.RIGHT_CLICK_BLOCK))) return;
         if(storedItem.containsKey(p)) return;
-        if(!(p.getItemInHand().getType().equals(Material.BOW)) && p.getItemInHand().containsEnchantment(org.bukkit.enchantments.Enchantment.ARROW_INFINITE)) return;
+        if(p.getItemInHand() == null || !(p.getItemInHand().getType().equals(Material.BOW) && p.getItemInHand().getItemMeta().hasEnchant(Enchantment.ARROW_INFINITE))) return;
         ItemStack item = p.getInventory().getItem(9);
         storedItem.put(p, item);
         p.getInventory().setItem(9, new ItemStack(Material.ARROW, 64));

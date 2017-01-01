@@ -15,7 +15,8 @@ public class Main extends JavaPlugin {
     private PluginController controller = new PluginController();
     private Functions func = new Functions();
     private final String enable = "[k4llyEnchant] Loaded " + this.getDescription().getName() + " in Version " + this.getDescription().getVersion() + " succesfully!";
-    private final String regEvent = "[k4llyEnchant] Successfully register Events!";
+    private final String regCrafting = "[k4llyEnchant] Successfuly registrered Crafting Recipes!";
+    private final String regEvent = "[k4llyEnchant] Successfully registered Events!";
 
     @Override
     public void onEnable() {
@@ -41,7 +42,7 @@ public class Main extends JavaPlugin {
     }
 
     private void registerRecipe() {
-        if (!this.getConfig().getBoolean("enableTakeEnchantment")) {
+        if (this.getConfig().getBoolean("enableTakeEnchantment")) {
             for (Material enchItem : func.getEnchantableMaterial()) {
                 ShapelessRecipe sr = new ShapelessRecipe(new ItemStack(Material.ENCHANTED_BOOK, 1));
                 sr.addIngredient(Material.BOOK);
