@@ -30,6 +30,7 @@ public class ConfigController {
         controller.getMain().getConfig().addDefault(Enchantment.KNOCKBACK.getName(), 20);
         controller.getMain().getConfig().addDefault(Enchantment.FIRE_ASPECT.getName(), 20);
         controller.getMain().getConfig().addDefault(Enchantment.LOOT_BONUS_MOBS.getName(), 20);
+        controller.getMain().getConfig().addDefault(Enchantment.SWEEPING_EDGE.getName(), 20);
 
         controller.getMain().getConfig().addDefault(Enchantment.DIG_SPEED.getName(), 20);
         //controller.getMain().getConfig().addDefault(Enchantment.SILK_TOUCH.getName(), 20);

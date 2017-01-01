@@ -32,6 +32,8 @@ public class AnvilItems {
         uselessEnchantment.add(Enchantment.WATER_WORKER);
         uselessEnchantment.add(Enchantment.MENDING);
         uselessEnchantment.add(Enchantment.ARROW_INFINITE);
+        uselessEnchantment.add(Enchantment.VANISHING_CURSE);
+        uselessEnchantment.add(Enchantment.BINDING_CURSE);
         uselessCustomEnchantment.add(de.k4lly.enchant.listener.Enchantment.FIRE_TOUCH);
         uselessCustomEnchantment.add(de.k4lly.enchant.listener.Enchantment.NIGHT_VISION);
         uselessCustomEnchantment.add(de.k4lly.enchant.listener.Enchantment.WITHER);
@@ -369,6 +371,14 @@ public class AnvilItems {
                     itemResultELevel.remove(metaRight.getEnchantLevel(Enchantment.DAMAGE_ARTHROPODS));
                 }
             }
+
+            if (metaLeft.hasEnchant(Enchantment.ARROW_INFINITE) && metaRight.hasEnchant(Enchantment.MENDING)) {
+                itemResultEnchantment.remove(Enchantment.MENDING);
+                itemResultELevel.remove(metaRight.getEnchantLevel(Enchantment.MENDING));
+            } else if (metaLeft.hasEnchant(Enchantment.MENDING) && metaRight.hasEnchant(Enchantment.ARROW_INFINITE)) {
+                itemResultEnchantment.remove(Enchantment.ARROW_INFINITE);
+                itemResultELevel.remove(metaRight.getEnchantLevel(Enchantment.ARROW_INFINITE));
+            }
         } else if (metaLeft != null && eMetaRight != null) {
             if ((itemResultEnchantment.contains(Enchantment.DAMAGE_ALL) && itemResultEnchantment.contains(Enchantment.DAMAGE_ARTHROPODS)) ||
                     (itemResultEnchantment.contains(Enchantment.DAMAGE_ALL) && itemResultEnchantment.contains(Enchantment.DAMAGE_UNDEAD)) ||
@@ -398,6 +408,14 @@ public class AnvilItems {
                     itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.DAMAGE_ARTHROPODS));
                 }
             }
+
+            if (metaLeft.hasEnchant(Enchantment.ARROW_INFINITE) && eMetaRight.hasEnchant(Enchantment.MENDING)) {
+                itemResultEnchantment.remove(Enchantment.MENDING);
+                itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.MENDING));
+            } else if (metaLeft.hasEnchant(Enchantment.MENDING) && eMetaRight.hasEnchant(Enchantment.ARROW_INFINITE)) {
+                itemResultEnchantment.remove(Enchantment.ARROW_INFINITE);
+                itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.ARROW_INFINITE));
+            }
         } else if (eMetaLeft != null && eMetaRight != null) {
             if ((itemResultEnchantment.contains(Enchantment.DAMAGE_ALL) && itemResultEnchantment.contains(Enchantment.DAMAGE_ARTHROPODS)) ||
                     (itemResultEnchantment.contains(Enchantment.DAMAGE_ALL) && itemResultEnchantment.contains(Enchantment.DAMAGE_UNDEAD)) ||
@@ -426,6 +444,14 @@ public class AnvilItems {
                     itemResultEnchantment.remove(Enchantment.DAMAGE_ARTHROPODS);
                     itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.DAMAGE_ARTHROPODS));
                 }
+            }
+
+            if (eMetaLeft.hasEnchant(Enchantment.ARROW_INFINITE) && eMetaRight.hasEnchant(Enchantment.MENDING)) {
+                itemResultEnchantment.remove(Enchantment.MENDING);
+                itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.MENDING));
+            } else if (eMetaLeft.hasEnchant(Enchantment.MENDING) && eMetaRight.hasEnchant(Enchantment.ARROW_INFINITE)) {
+                itemResultEnchantment.remove(Enchantment.ARROW_INFINITE);
+                itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.ARROW_INFINITE));
             }
         }
     }
