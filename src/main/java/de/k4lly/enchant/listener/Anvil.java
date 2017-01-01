@@ -25,7 +25,7 @@ public class Anvil implements Listener {
     }
 
     @EventHandler
-    public void onPrepareAnvil(PrepareAnvilEvent prepareAnvilEvent) {
+    public void onPrepareAnvil(PrepareAnvilEvent prepareAnvilEvent) throws Exception {
         ItemStack item0 = prepareAnvilEvent.getInventory().getItem(SLOT_0);
         ItemStack item1 = prepareAnvilEvent.getInventory().getItem(SLOT_1);
         if (item0 != null && item1 != null && !func.isRepairMaterial(item1.getType())) {
@@ -35,7 +35,7 @@ public class Anvil implements Listener {
         }
     }
 
-    public ItemStack item2(ItemStack item0, ItemStack item1) {
+    public ItemStack item2(ItemStack item0, ItemStack item1) throws Exception {
         AnvilItems anvilItems = new AnvilItems(controller, item0, item1);
         ItemStack item2;
         if (item0.getType().equals(Material.ENCHANTED_BOOK)) {
@@ -46,6 +46,9 @@ public class Anvil implements Listener {
                 meta2.addStoredEnchant(anvilItems.getItemResultEnchantment(i), anvilItems.getItemResultELevel(i), true);
                 item2.setItemMeta(meta2);
             }
+            for (int i = 0; i < anvilItems.getItemResultCustomEnchantmentSize(); i++) {
+                func.enchantItem(anvilItems.getItemResultCustomEnchantment(i), anvilItems.getItemResultCELevel(i), item2);
+            }
         } else {
             item2 = new ItemStack(item0.getType());
             ItemMeta meta2 = item2.getItemMeta();
@@ -53,6 +56,9 @@ public class Anvil implements Listener {
             for (int i = 0; i < anvilItems.getItemResultEnchantmentSize(); i++) {
                 meta2.addEnchant(anvilItems.getItemResultEnchantment(i), anvilItems.getItemResultELevel(i), true);
                 item2.setItemMeta(meta2);
+            }
+            for (int i = 0; i < anvilItems.getItemResultCustomEnchantmentSize(); i++) {
+                func.enchantItem(anvilItems.getItemResultCustomEnchantment(i), anvilItems.getItemResultCELevel(i), item2);
             }
         }
         anvilItems.clearAllArray();

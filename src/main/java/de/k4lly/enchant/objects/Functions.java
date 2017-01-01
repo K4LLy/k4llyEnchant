@@ -1,9 +1,12 @@
 package de.k4lly.enchant.objects;
 
+import de.k4lly.enchant.listener.Enchantment;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-
+import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Functions {
 
@@ -178,6 +181,22 @@ public class Functions {
         }
     }
 
+    public ItemStack getEnchantableItem(int index) {
+        if (enchantableMaterial.get(index) != null) {
+            return new ItemStack(enchantableMaterial.get(index));
+        } else {
+            return null;
+        }
+    }
+
+    public ArrayList<Material> getEnchantableMaterial() {
+        return enchantableMaterial;
+    }
+
+    public void setEnchantableMaterial(ArrayList<Material> enchantableMaterial) {
+        this.enchantableMaterial = enchantableMaterial;
+    }
+
     public String getRomanNumber(int level) {
         if (level < 1 || level > 3999)
             return "Invalid Roman Number Value";
@@ -252,19 +271,81 @@ public class Functions {
         throw new Exception("Something bad happened.");
     }
 
-    public ItemStack getEnchantableItem(int index) {
-        if (enchantableMaterial.get(index) != null) {
-            return new ItemStack(enchantableMaterial.get(index));
+    public boolean hasCustomEnchant(List<String> lore) {
+        for (String str : lore) {
+            if (isCustomEnchant(str)) return true;
+        }
+        return false;
+    }
+
+    public boolean isCustomEnchant(String str) {
+        return str.startsWith(ChatColor.GRAY + "Wither ") || str.startsWith(ChatColor.GRAY + "Fire Touch ") || str.startsWith(ChatColor.GRAY + "Poison Touch ") || str.startsWith(ChatColor.GRAY + "XP-Boost ") || str.startsWith(ChatColor.GRAY + "Night Vision ") || str.startsWith(ChatColor.GRAY + "Infinity ");
+    }
+
+    public boolean containsEnchant(String name, ItemStack item) {
+        for (String str : item.getItemMeta().getLore()) {
+            if (str.startsWith(ChatColor.GRAY + name)) return true;
+        }
+        return false;
+    }
+
+    public void enchantItem(String name, int level, ItemStack item) {
+        if (level == 0) return;
+        ItemMeta itemMeta = item.getItemMeta();
+        List<String> lore = itemMeta.getLore();
+        if (lore == null || isEmpty(lore)) {
+            List<String> newLore = new ArrayList<>();
+            if (name.startsWith(ChatColor.GRAY + "")) {
+                newLore.add(name + " " + getRomanNumber(level));
+                itemMeta.setLore(newLore);
+            } else {
+                newLore.add(ChatColor.GRAY + name + " " + getRomanNumber(level));
+                itemMeta.setLore(newLore);
+            }
         } else {
+            if (name.startsWith(ChatColor.GRAY + "")) {
+                if (!containsEnchant(name, item)) lore.add(name + " " + getRomanNumber(level));
+                itemMeta.setLore(lore);
+            } else {
+                if (!containsEnchant(name, item)) lore.add(ChatColor.GRAY + name + " " + getRomanNumber(level));
+                itemMeta.setLore(lore);
+            }
+        }
+        item.setItemMeta(itemMeta);
+    }
+
+    private boolean isEmpty(List<String> lore) {
+        for (String str : lore) {
+            if (!str.equals("") && str != null) return false;
+        }
+        return true;
+    }
+
+    public int getCELevel(String str) throws Exception {
+        String[] words = str.trim().split("\\s+");
+        return words.length == 3 ? parseRomanNumber(words[2]) : parseRomanNumber(words[1]);
+    }
+
+    public String getCEName(String str) {
+        String[] words = str.trim().split("\\s+");
+        return words.length == 3 ? words[0] + " " + words[1] : words [0];
+    }
+
+    public String getInternName(String str) {
+        if (str.startsWith(ChatColor.GRAY + "XP-Boost")) {
+            return Enchantment.XP_BOOST;
+        } else if (str.startsWith(ChatColor.GRAY + "Fire Touch")) {
+            return Enchantment.FIRE_TOUCH;
+        } else if (str.startsWith(ChatColor.GRAY + "Wither ")) {
+            return Enchantment.WITHER;
+        } else if (str.startsWith(ChatColor.GRAY + "Poison Touch")) {
+            return Enchantment.POISON_TOUCH;
+        } else if (str.startsWith(ChatColor.GRAY + "Night Vision")) {
+            return Enchantment.NIGHT_VISION;
+        }/* else if (str.startsWith(ChatColor.GRAY + "Infinity")) {
+            return Enchantment.INFINITY;
+        } */else {
             return null;
         }
-    }
-
-    public ArrayList<Material> getEnchantableMaterial() {
-        return enchantableMaterial;
-    }
-
-    public void setEnchantableMaterial(ArrayList<Material> enchantableMaterial) {
-        this.enchantableMaterial = enchantableMaterial;
     }
 }

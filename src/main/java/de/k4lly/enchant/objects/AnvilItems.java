@@ -1,12 +1,14 @@
 package de.k4lly.enchant.objects;
 
 import de.k4lly.enchant.controller.PluginController;
+import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AnvilItems {
 
@@ -15,18 +17,23 @@ public class AnvilItems {
     private ItemStack itemRight;
     private ArrayList<Enchantment> itemResultEnchantment = new ArrayList<>();
     private ArrayList<Enchantment> uselessEnchantment = new ArrayList<>();
+    private ArrayList<String> uselessCustomEnchantment = new ArrayList<>();
     private ArrayList<Integer> itemResultELevel = new ArrayList<>();
+    private ArrayList<String> itemResultCustomEnchantment = new ArrayList<>();
+    private ArrayList<Integer> itemResultCELevel = new ArrayList<>();
     private Functions func = new Functions();
 
-    public AnvilItems(PluginController controller, ItemStack itemLeft, ItemStack itemRight) {
+    public AnvilItems(PluginController controller, ItemStack itemLeft, ItemStack itemRight) throws Exception {
         this.controller = controller;
         this.itemLeft = itemLeft;
         this.itemRight = itemRight;
         uselessEnchantment.add(Enchantment.SILK_TOUCH);
         uselessEnchantment.add(Enchantment.ARROW_FIRE);
-        uselessEnchantment.add(Enchantment.ARROW_INFINITE);
         uselessEnchantment.add(Enchantment.WATER_WORKER);
         uselessEnchantment.add(Enchantment.MENDING);
+        uselessCustomEnchantment.add(de.k4lly.enchant.listener.Enchantment.FIRE_TOUCH);
+        uselessCustomEnchantment.add(de.k4lly.enchant.listener.Enchantment.NIGHT_VISION);
+        uselessCustomEnchantment.add(de.k4lly.enchant.listener.Enchantment.WITHER);
 
         if (func.isEnchantedBook(itemLeft.getType())) {
             doCombineBooks(itemLeft, itemRight);
@@ -37,7 +44,7 @@ public class AnvilItems {
         }
     }
 
-    private void doCombine(ItemStack itemLeft, ItemStack itemRight) {
+    private void doCombine(ItemStack itemLeft, ItemStack itemRight) throws Exception {
         ItemMeta itemMeta = itemLeft.getItemMeta();
         EnchantmentStorageMeta itemMetaRight = (EnchantmentStorageMeta) itemRight.getItemMeta();
 
@@ -59,10 +66,12 @@ public class AnvilItems {
                 itemResultELevel.add(itemMetaRight.getStoredEnchantLevel(enchantment));
             }
         }
+        addCustomEnchantment(itemLeft, itemRight);
+        checkCEConfliction(itemLeft, itemRight);
         checkConfliction(itemMeta, null, null, itemMetaRight);
     }
 
-    private void doCombine2(ItemStack itemLeft, ItemStack itemRight) {
+    private void doCombine2(ItemStack itemLeft, ItemStack itemRight) throws Exception {
         ItemMeta itemMeta = itemLeft.getItemMeta();
         ItemMeta itemMeta2 = itemRight.getItemMeta();
 
@@ -84,10 +93,12 @@ public class AnvilItems {
                 itemResultELevel.add(itemMeta2.getEnchantLevel(enchantment));
             }
         }
+        addCustomEnchantment(itemLeft, itemRight);
+        checkCEConfliction(itemLeft, itemRight);
         checkConfliction(itemMeta, null, itemMeta2, null);
     }
 
-    private void doCombineBooks(ItemStack itemLeft, ItemStack itemRight) {
+    private void doCombineBooks(ItemStack itemLeft, ItemStack itemRight) throws Exception {
         EnchantmentStorageMeta itemMetaLeft = (EnchantmentStorageMeta) itemLeft.getItemMeta();
         EnchantmentStorageMeta itemMetaRight = (EnchantmentStorageMeta) itemRight.getItemMeta();
 
@@ -109,6 +120,8 @@ public class AnvilItems {
                 itemResultELevel.add(itemMetaRight.getStoredEnchantLevel(enchantment));
             }
         }
+        addCustomEnchantment(itemLeft, itemRight);
+        checkCEConfliction(itemLeft, itemRight);
         checkConfliction(null, itemMetaLeft, null, itemMetaRight);
     }
 
@@ -450,9 +463,142 @@ public class AnvilItems {
         }
     }
 
+    private void checkCEConfliction(ItemStack itemLeft, ItemStack itemRight) {
+        if ((itemLeft.getItemMeta().getLore() == null || itemLeft.getItemMeta().getLore().isEmpty()) && (itemRight.getItemMeta().getLore() == null || itemRight.getItemMeta().getLore().isEmpty())) return;
+        if (!func.hasCustomEnchant(itemLeft.getItemMeta().getLore()) && !func.hasCustomEnchant(itemRight.getItemMeta().getLore())) return;
+        if (func.isArmor(itemLeft.getType())) {
+            checkCEArmor(itemLeft, itemRight);
+        } else if (func.isWeapon(itemLeft.getType())) {
+            checkCEWeapon(itemLeft, itemRight);
+        } else if (func.isTool(itemLeft.getType())) {
+            checkCETool(itemLeft, itemRight);
+        } else if (func.isEnchantedBook(itemLeft.getType())) {
+            checkCEArmor(itemLeft, itemRight);
+            checkCEWeapon(itemLeft, itemRight);
+            checkCETool(itemLeft, itemRight);
+        }
+    }
+
+    private void checkCEArmor(ItemStack itemLeft, ItemStack itemRight) {
+
+    }
+
+    private void checkCEWeapon(ItemStack itemLeft, ItemStack itemRight) {
+
+    }
+
+    private void checkCETool(ItemStack itemLeft, ItemStack itemRight) {
+        if (func.isTool(itemLeft.getType())) {
+            if (itemResultEnchantment.contains(Enchantment.SILK_TOUCH) && itemResultCustomEnchantment.contains(ChatColor.GRAY + "Fire Touch")) {
+                if (itemLeft.getItemMeta().hasEnchant(Enchantment.SILK_TOUCH)) {
+                    for (String str : itemRight.getItemMeta().getLore()) {
+                        if (!func.isCustomEnchant(str)) continue;
+                        if (str.startsWith(ChatColor.GRAY + "Fire Touch ")) {
+                            itemResultCustomEnchantment.remove(str);
+                            itemResultCELevel.remove(str);
+                        }
+                    }
+                } else {
+                    itemResultEnchantment.remove(Enchantment.SILK_TOUCH);
+                    itemResultELevel.remove(itemRight.getItemMeta().getEnchantLevel(Enchantment.SILK_TOUCH));
+                }
+            }
+
+            if (itemResultEnchantment.contains(Enchantment.LOOT_BONUS_BLOCKS) && itemResultCustomEnchantment.contains(ChatColor.GRAY + "Fire Touch")) {
+                if (itemLeft.getItemMeta().hasEnchant(Enchantment.LOOT_BONUS_BLOCKS)) {
+                    for (String str : itemRight.getItemMeta().getLore()) {
+                        if (!func.isCustomEnchant(str)) continue;
+                        if (str.startsWith(ChatColor.GRAY + "Fire Touch ")) {
+                            itemResultCustomEnchantment.remove(str);
+                            itemResultCELevel.remove(str);
+                        }
+                    }
+                } else {
+                    itemResultEnchantment.remove(Enchantment.LOOT_BONUS_BLOCKS);
+                    itemResultELevel.remove(itemRight.getItemMeta().getEnchantLevel(Enchantment.LOOT_BONUS_BLOCKS));
+                }
+            }
+        } else if (func.isEnchantedBook(itemLeft.getType())) {
+            EnchantmentStorageMeta meta = (EnchantmentStorageMeta) itemLeft.getItemMeta();
+            if (itemResultEnchantment.contains(Enchantment.SILK_TOUCH) && itemResultCustomEnchantment.contains(ChatColor.GRAY + "Fire Touch")) {
+                if (meta.hasStoredEnchant(Enchantment.SILK_TOUCH)) {
+                    for (String str : itemRight.getItemMeta().getLore()) {
+                        if (!func.isCustomEnchant(str)) continue;
+                        if (str.startsWith(ChatColor.GRAY + "Fire Touch ")) {
+                            itemResultCustomEnchantment.remove(str);
+                            itemResultCELevel.remove(str);
+                        }
+                    }
+                } else {
+                    itemResultEnchantment.remove(Enchantment.SILK_TOUCH);
+                    itemResultELevel.remove(itemRight.getItemMeta().getEnchantLevel(Enchantment.SILK_TOUCH));
+                }
+            }
+
+            if (itemResultEnchantment.contains(Enchantment.LOOT_BONUS_BLOCKS) && itemResultCustomEnchantment.contains(ChatColor.GRAY + "Fire Touch")) {
+                if (meta.hasStoredEnchant(Enchantment.LOOT_BONUS_BLOCKS)) {
+                    for (String str : itemRight.getItemMeta().getLore()) {
+                        if (!func.isCustomEnchant(str)) continue;
+                        if (str.startsWith(ChatColor.GRAY + "Fire Touch ")) {
+                            itemResultCustomEnchantment.remove(str);
+                            itemResultCELevel.remove(str);
+                        }
+                    }
+                } else {
+                    itemResultEnchantment.remove(Enchantment.LOOT_BONUS_BLOCKS);
+                    itemResultELevel.remove(itemRight.getItemMeta().getEnchantLevel(Enchantment.LOOT_BONUS_BLOCKS));
+                }
+            }
+        }
+    }
+
     public void clearAllArray() {
         itemResultEnchantment.clear();
         itemResultELevel.clear();
+        itemResultCustomEnchantment.clear();
+        itemResultCELevel.clear();
+    }
+
+    private void addCustomEnchantment(ItemStack itemLeft, ItemStack itemRight) throws Exception {
+        if (itemLeft.getItemMeta().hasLore() && itemRight.getItemMeta().hasLore()) {
+            if (func.hasCustomEnchant(itemLeft.getItemMeta().getLore()) && func.hasCustomEnchant(itemRight.getItemMeta().getLore())) {
+                for (String str : itemLeft.getItemMeta().getLore()) {
+                    for (String str2 : itemRight.getItemMeta().getLore()) {
+                        if (func.isCustomEnchant(str) && func.isCustomEnchant(str2)) {
+                            if (func.getCEName(str).equalsIgnoreCase(func.getCEName(str2)) && !uselessCustomEnchantment.contains(func.getCEName(str))) {
+                                itemResultCustomEnchantment.add(func.getCEName(str));
+                                int levelLeft = func.getCELevel(str);
+                                int levelRight = func.getCELevel(str2);
+                                if (levelLeft == levelRight && levelLeft <= controller.getMain().getConfig().getInt(func.getInternName(str))) {
+                                    itemResultCELevel.add(levelLeft + 1);
+                                } else if (levelLeft > levelRight && levelLeft <= controller.getMain().getConfig().getInt(func.getInternName(str))) {
+                                    itemResultCELevel.add(levelLeft);
+                                } else if (levelLeft < levelRight && levelRight <= controller.getMain().getConfig().getInt(func.getInternName(str))) {
+                                    itemResultCELevel.add(levelRight);
+                                }
+                            }
+                        }
+                    }
+                }
+            } else if (func.hasCustomEnchant(itemLeft.getItemMeta().getLore()) && !func.hasCustomEnchant(itemRight.getItemMeta().getLore())) {
+                for (String str : itemLeft.getItemMeta().getLore()) {
+                    itemResultCustomEnchantment.add(func.getCEName(str));
+                    itemResultCELevel.add(func.getCELevel(str));
+                }
+            } else if (!func.hasCustomEnchant(itemLeft.getItemMeta().getLore()) && func.hasCustomEnchant(itemRight.getItemMeta().getLore())) {
+                for (String str : itemRight.getItemMeta().getLore()) {
+                    itemResultCustomEnchantment.add(func.getCEName(str));
+                    itemResultCELevel.add(func.getCELevel(str));
+                }
+            }
+        } else if (!itemLeft.getItemMeta().hasLore() && itemRight.getItemMeta().hasLore()) {
+            if (func.hasCustomEnchant(itemRight.getItemMeta().getLore())) {
+                for (String str : itemRight.getItemMeta().getLore()) {
+                    itemResultCustomEnchantment.add(func.getCEName(str));
+                    itemResultCELevel.add(func.getCELevel(str));
+                }
+            }
+        }
     }
 
     public int getItemResultEnchantmentSize() {
@@ -465,6 +611,18 @@ public class AnvilItems {
 
     public int getItemResultELevel(int index) {
         return itemResultELevel.get(index);
+    }
+
+    public int getItemResultCustomEnchantmentSize() {
+        return itemResultCustomEnchantment.size();
+    }
+
+    public String getItemResultCustomEnchantment(int index) {
+        return itemResultCustomEnchantment.get(index);
+    }
+
+    public int getItemResultCELevel(int index) {
+        return itemResultCELevel.get(index);
     }
 
 }

@@ -25,3 +25,7 @@ ARROW_KNOCKBACK: 20
 LUCK: 20
 LURE: 20
 enableTakeEnchantment: true
+enableCustomEnchantment: true
+XP-Boost: 20
+Poison Touch: 20
+Absorbing: 20
