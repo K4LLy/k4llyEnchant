@@ -2,7 +2,6 @@ package de.k4lly.enchant.listener;
 
 import de.k4lly.enchant.controller.PluginController;
 import de.k4lly.enchant.objects.Functions;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -14,7 +13,10 @@ import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -58,7 +60,7 @@ public class Enchantment implements Listener {
         this.controller = controller;
     }
 
-    @EventHandler
+    /*@EventHandler
     public void onEnchant(EnchantItemEvent enchantEvent) {
         if (func.isWeapon(enchantEvent.getItem().getType()) || func.isBook(enchantEvent.getItem().getType())) {
             int randWither = (int) (Math.random() * 1000);
@@ -118,7 +120,7 @@ public class Enchantment implements Listener {
             } else if (randAbsobtion >= 80 && randAbsobtion <= 159) { //8%
                 func.enchantItem("Absorbing", 1, enchantEvent.getItem());
             }
-        }*/
+        }
     }
 
     @EventHandler
@@ -175,41 +177,6 @@ public class Enchantment implements Listener {
         }
     }
 
-    @EventHandler
-    /*public void onInventoryClose(InventoryCloseEvent closeEvent) throws Exception {
-        if (!(closeEvent.getPlayer() instanceof Player)) return;
-        Player player = (Player) closeEvent.getPlayer();
-        int i = 0;
-        for (ItemStack armor : player.getEquipment().getArmorContents()) {
-            if (armor == null && oldHelmet != null && i == 0) {
-                giveMaxHealth(oldHelmet, player, false);
-                oldHelmet = null;
-            } else if (armor != null && oldHelmet == null && i == 0) {
-                giveMaxHealth(armor, player, true);
-                oldHelmet = armor;
-            } else if (armor == null && oldChestplate != null && i == 1) {
-                giveMaxHealth(oldChestplate, player, false);
-                oldChestplate = null;
-            } else if (armor != null && oldChestplate == null && i == 1) {
-                giveMaxHealth(armor, player, true);
-                oldChestplate = armor;
-            } else if (armor == null && oldLeggins != null && i == 2) {
-                giveMaxHealth(oldLeggins, player, false);
-                oldLeggins = null;
-            } else if (armor != null && oldLeggins == null && i == 2) {
-                giveMaxHealth(armor, player, true);
-                oldLeggins = armor;
-            } else if (armor == null && oldBoots != null && i == 3) {
-                giveMaxHealth(oldBoots, player, false);
-                oldBoots = null;
-            } else if (armor != null && oldBoots == null && i == 3) {
-                giveMaxHealth(armor, player, true);
-                oldBoots = armor;
-            }
-            i++;
-        }
-    }*/
-
     private ItemStack smeltedItem(Material material) {
         switch (material) {
             case IRON_ORE:
@@ -233,23 +200,40 @@ public class Enchantment implements Listener {
             default:
                 return new ItemStack(material);
         }
-    }
+    }*/
 
     @EventHandler
-    public void onEntityShootBowEvent (EntityShootBowEvent entityShootBowEvent) {
+    public void onEntityShootBow (EntityShootBowEvent entityShootBowEvent) {
         if (!(entityShootBowEvent.getEntity() instanceof Player)) return;
         returnItem((Player) entityShootBowEvent.getEntity());
     }
 
     @EventHandler
-    public void onPlayerInteractEvent(PlayerInteractEvent playerInteractEvent) {
+    public void onPlayerItemHeld (PlayerItemHeldEvent playerItemHeldEvent) {
+        Player p = playerItemHeldEvent.getPlayer();
+        ItemStack prevItem = p.getInventory().getItem(playerItemHeldEvent.getPreviousSlot());
+        if(!storedItem.containsKey(p) || prevItem.isSimilar(null)) return;
+        if (prevItem.getItemMeta().hasEnchant(org.bukkit.enchantments.Enchantment.ARROW_INFINITE)) {
+            returnItem(p);
+        }
+    }
+
+    @EventHandler
+    public void onInventoryOpen (InventoryOpenEvent event) {
+        Player p = (Player) event.getPlayer();
+        if (!storedItem.containsKey(p)) return;
+        returnItem(p);
+    }
+
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent playerInteractEvent) {
         Player p = playerInteractEvent.getPlayer();
         if (!(playerInteractEvent.getAction().equals(Action.RIGHT_CLICK_AIR) || playerInteractEvent.getAction().equals(Action.RIGHT_CLICK_BLOCK))) return;
         if(storedItem.containsKey(p)) return;
         if(!(p.getItemInHand().getType().equals(Material.BOW)) && p.getItemInHand().containsEnchantment(org.bukkit.enchantments.Enchantment.ARROW_INFINITE)) return;
         ItemStack item = p.getInventory().getItem(9);
         storedItem.put(p, item);
-        p.getInventory().setItem(9, new ItemStack(Material.ARROW, 1));
+        p.getInventory().setItem(9, new ItemStack(Material.ARROW, 64));
     }
 
     private void returnItem(Player player) {
@@ -257,112 +241,6 @@ public class Enchantment implements Listener {
             player.getInventory().setItem(9, storedItem.get(player));
             player.updateInventory();
             storedItem.remove(player);
-        }
-    }
-
-    private void giveMaxHealth(ItemStack armor, Player player, boolean hasArmor) throws Exception {
-        if (armor.getType().name().endsWith("HELMET")) {
-            if (!hasArmor) {
-                if (!hasHelmet) return;
-                for (String str : helmet.getItemMeta().getLore()) {
-                    if (!func.isCustomEnchant(str)) continue;
-                    String[] words = str.trim().split("\\s+");
-                    int level = words.length == 3 ? func.parseRomanNumber(words[2]) : func.parseRomanNumber(words[1]);
-                    double health = player.getMaxHealth()-(0.833299994468689*level);
-                    if (str.startsWith(ChatColor.GRAY + "Night Vision ")) player.removePotionEffect(PotionEffectType.NIGHT_VISION);
-                    if (str.startsWith(ChatColor.GRAY + "Absorbing ")) player.setMaxHealth(health);
-                    hasHelmet = false;
-                }
-            } else {
-                helmet = armor;
-                if (!helmet.getItemMeta().hasLore()) return;
-                if (!func.hasCustomEnchant(helmet.getItemMeta().getLore())) return;
-                for (String str : helmet.getItemMeta().getLore()) {
-                    if (!func.isCustomEnchant(str)) continue;
-                    String[] words = str.trim().split("\\s+");
-                    int level = words.length == 3 ? func.parseRomanNumber(words[2]) : func.parseRomanNumber(words[1]);
-                    if (str.startsWith(ChatColor.GRAY + "Night Vision ")) player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 999999999, 1, false, true));
-                    if (hasHelmet) return;
-                    double health = player.getMaxHealth()+(0.833299994468689*level);
-                    if (str.startsWith(ChatColor.GRAY + "Absorbing ")) player.setMaxHealth(health);
-                    hasHelmet = true;
-                }
-            }
-        } else if (armor.getType().name().endsWith("CHESTPLATE")) {
-            if (!hasArmor) {
-                if (!hasChestplate) return;
-                for (String str : chestplate.getItemMeta().getLore()) {
-                    if (!func.isCustomEnchant(str)) continue;
-                    String[] words = str.trim().split("\\s+");
-                    int level = words.length == 3 ? func.parseRomanNumber(words[2]) : func.parseRomanNumber(words[1]);
-                    double health = player.getMaxHealth()-(0.833299994468689*level);
-                    if (str.startsWith(ChatColor.GRAY + "Absorbing ")) player.setMaxHealth(health);
-                    hasChestplate = false;
-                }
-            } else {
-                chestplate = armor;
-                if (!chestplate.getItemMeta().hasLore()) return;
-                if (!func.hasCustomEnchant(chestplate.getItemMeta().getLore())) return;
-                for (String str : chestplate.getItemMeta().getLore()) {
-                    if (!func.isCustomEnchant(str)) continue;
-                    String[] words = str.trim().split("\\s+");
-                    int level = words.length == 3 ? func.parseRomanNumber(words[2]) : func.parseRomanNumber(words[1]);
-                    if (hasChestplate) return;
-                    double health = player.getMaxHealth()+(0.833299994468689*level);
-                    if (str.startsWith(ChatColor.GRAY + "Absorbing ")) player.setMaxHealth(health);
-                    hasChestplate = true;
-                }
-            }
-        } else if (armor.getType().name().endsWith("LEGGINGS")) {
-            if (!hasArmor) {
-                if (!hasLeggins) return;
-                for (String str : leggins.getItemMeta().getLore()) {
-                    if (!func.isCustomEnchant(str)) continue;
-                    String[] words = str.trim().split("\\s+");
-                    int level = words.length == 3 ? func.parseRomanNumber(words[2]) : func.parseRomanNumber(words[1]);
-                    double health = player.getMaxHealth()-(0.833299994468689*level);
-                    if (str.startsWith(ChatColor.GRAY + "Absorbing ")) player.setMaxHealth(health);
-                    hasLeggins = false;
-                }
-            } else {
-                leggins = armor;
-                if (!leggins.getItemMeta().hasLore()) return;
-                if (!func.hasCustomEnchant(leggins.getItemMeta().getLore())) return;
-                for (String str : leggins.getItemMeta().getLore()) {
-                    if (!func.isCustomEnchant(str)) continue;
-                    String[] words = str.trim().split("\\s+");
-                    int level = words.length == 3 ? func.parseRomanNumber(words[2]) : func.parseRomanNumber(words[1]);
-                    if (hasLeggins) return;
-                    double health = player.getMaxHealth()+(0.833299994468689*level);
-                    if (str.startsWith(ChatColor.GRAY + "Absorbing ")) player.setMaxHealth(health);
-                    hasLeggins = true;
-                }
-            }
-        } else if (armor.getType().name().endsWith("BOOTS")) {
-            if (!hasArmor) {
-                if (!hasBoots) return;
-                for (String str : boots.getItemMeta().getLore()) {
-                    if (!func.isCustomEnchant(str)) continue;
-                    String[] words = str.trim().split("\\s+");
-                    int level = words.length == 3 ? func.parseRomanNumber(words[2]) : func.parseRomanNumber(words[1]);
-                    double health = player.getMaxHealth()-(0.833299994468689*level);
-                    if (str.startsWith(ChatColor.GRAY + "Absorbing ")) player.setMaxHealth(health);
-                    hasBoots = false;
-                }
-            } else {
-                boots = armor;
-                if (!boots.getItemMeta().hasLore()) return;
-                if (!func.hasCustomEnchant(boots.getItemMeta().getLore())) return;
-                for (String str : boots.getItemMeta().getLore()) {
-                    if (!func.isCustomEnchant(str)) continue;
-                    String[] words = str.trim().split("\\s+");
-                    int level = words.length == 3 ? func.parseRomanNumber(words[2]) : func.parseRomanNumber(words[1]);
-                    if (hasBoots) return;
-                    double health = player.getMaxHealth()+(0.833299994468689*level);
-                    if (str.startsWith(ChatColor.GRAY + "Absorbing ")) player.setMaxHealth(health);
-                    hasBoots = true;
-                }
-            }
         }
     }
 }

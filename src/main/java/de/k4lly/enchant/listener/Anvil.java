@@ -63,8 +63,8 @@ public class Anvil implements Listener {
             if (item1.getType().equals(Material.ENCHANTED_BOOK)) {
                 item2.setDurability(item0.getDurability());
             } else {
-                item2.setDurability((short)Math.min(item0.getDurability()+item1.getDurability()+Math.floor(item2.getType().getMaxDurability()/20),item2.getType().getMaxDurability()));
-                //item2.setDurability((short)(item2.getType().getMaxDurability()+(item0.getDurability()-item1.getDurability()-(item2.getType().getMaxDurability()/20))));
+                short max = item0.getType().getMaxDurability();
+                item2.setDurability((short) (max - ((max - item0.getDurability()) + (max - item1.getDurability()) + max/20)));
             }
         }
         anvilItems.clearAllArray();

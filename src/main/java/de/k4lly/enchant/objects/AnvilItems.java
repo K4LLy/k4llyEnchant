@@ -31,6 +31,7 @@ public class AnvilItems {
         uselessEnchantment.add(Enchantment.ARROW_FIRE);
         uselessEnchantment.add(Enchantment.WATER_WORKER);
         uselessEnchantment.add(Enchantment.MENDING);
+        uselessEnchantment.add(Enchantment.ARROW_INFINITE);
         uselessCustomEnchantment.add(de.k4lly.enchant.listener.Enchantment.FIRE_TOUCH);
         uselessCustomEnchantment.add(de.k4lly.enchant.listener.Enchantment.NIGHT_VISION);
         uselessCustomEnchantment.add(de.k4lly.enchant.listener.Enchantment.WITHER);

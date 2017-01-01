@@ -1,5 +1,5 @@
 name: k4llyEnchant-MC1.11
-version: 0.3.2-Beta
+version: 0.4-Beta
 author: K4LLy
 main: de.k4lly.enchant.Main
 commands:
