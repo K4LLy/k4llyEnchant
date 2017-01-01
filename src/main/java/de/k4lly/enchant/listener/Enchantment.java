@@ -230,11 +230,9 @@ public class Enchantment implements Listener {
         if (!(event.getClickedInventory() instanceof PlayerInventory)) return;
         Player p = (Player) event.getWhoClicked();
         ItemStack item9 = event.getClickedInventory().getItem(9);
-        if (item9.equals(null)) {
-            event.setCursor(null);
-            if (!storedItem.containsKey(p)) return;
-            returnItem(p);
-        }
+        if (!item9.isSimilar(new ItemStack(Material.ARROW))) return;
+        if (!storedItem.containsKey(p)) return;
+        returnItem(p);
     }
 
     @EventHandler
