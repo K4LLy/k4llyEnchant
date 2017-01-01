@@ -161,6 +161,7 @@ public class Functions {
             case IRON_SWORD:
             case GOLD_SWORD:
             case DIAMOND_SWORD:
+            case BOW:
                 return true;
             default:
                 return false;

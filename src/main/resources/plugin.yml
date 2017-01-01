@@ -1,14 +1,14 @@
 name: k4llyEnchant-MC1.11
-version: 0.4.2-Beta
+version: 0.4.4-Beta
 author: K4LLy
 main: de.k4lly.enchant.Main
 commands:
   kEVersion:
-    description: Used to get the actual Version of this Plugin.
+    description: Shows the actual Version of this Plugin.
     usage: /kEVersion
   k4llyEnchant:
-    description: Used to change config.
+    description: Used to change the config.
     usage: /k4llyEnchant [set/s] <config> <value>
   kE:
-    description: Used to change config.
+    description: Used to change the config.
     usage: /k4llyEnchant [set/s] <config> <value>

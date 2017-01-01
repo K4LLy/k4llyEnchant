@@ -27,13 +27,13 @@ public class AnvilItems {
         this.controller = controller;
         this.itemLeft = itemLeft;
         this.itemRight = itemRight;
-        uselessEnchantment.add(Enchantment.SILK_TOUCH);
+        /*uselessEnchantment.add(Enchantment.SILK_TOUCH);
         uselessEnchantment.add(Enchantment.ARROW_FIRE);
         uselessEnchantment.add(Enchantment.WATER_WORKER);
         uselessEnchantment.add(Enchantment.MENDING);
         uselessEnchantment.add(Enchantment.ARROW_INFINITE);
         uselessEnchantment.add(Enchantment.VANISHING_CURSE);
-        uselessEnchantment.add(Enchantment.BINDING_CURSE);
+        uselessEnchantment.add(Enchantment.BINDING_CURSE);*/
         uselessCustomEnchantment.add(de.k4lly.enchant.listener.Enchantment.FIRE_TOUCH);
         uselessCustomEnchantment.add(de.k4lly.enchant.listener.Enchantment.NIGHT_VISION);
         uselessCustomEnchantment.add(de.k4lly.enchant.listener.Enchantment.WITHER);
@@ -54,11 +54,11 @@ public class AnvilItems {
         for (Enchantment enchantment : Enchantment.values()) {
             if (itemMeta.hasEnchant(enchantment) && itemMetaRight.hasStoredEnchant(enchantment) && !uselessEnchantment.contains(enchantment)) {
                 itemResultEnchantment.add(enchantment);
-                if (itemMeta.getEnchantLevel(enchantment) == itemMetaRight.getStoredEnchantLevel(enchantment) && itemMeta.getEnchantLevel(enchantment) <= controller.getMain().getConfig().getInt(enchantment.getName())) {
+                if (itemMeta.getEnchantLevel(enchantment) == itemMetaRight.getStoredEnchantLevel(enchantment) && itemMeta.getEnchantLevel(enchantment) < controller.getMain().getConfig().getInt(enchantment.getName())) {
                     itemResultELevel.add(itemMeta.getEnchantLevel(enchantment) + 1);
-                } else if (itemMeta.getEnchantLevel(enchantment) > itemMetaRight.getStoredEnchantLevel(enchantment) && itemMeta.getEnchantLevel(enchantment) <= controller.getMain().getConfig().getInt(enchantment.getName())) {
+                } else if (itemMeta.getEnchantLevel(enchantment) >= itemMetaRight.getStoredEnchantLevel(enchantment)) {
                     itemResultELevel.add(itemMeta.getEnchantLevel(enchantment));
-                } else if (itemMeta.getEnchantLevel(enchantment) < itemMetaRight.getStoredEnchantLevel(enchantment) && itemMeta.getEnchantLevel(enchantment) <= controller.getMain().getConfig().getInt(enchantment.getName())) {
+                } else if (itemMeta.getEnchantLevel(enchantment) < itemMetaRight.getStoredEnchantLevel(enchantment)) {
                     itemResultELevel.add(itemMetaRight.getStoredEnchantLevel(enchantment));
                 }
             } else if (itemMeta.hasEnchant(enchantment) && !itemMetaRight.hasStoredEnchant(enchantment)) {
@@ -81,11 +81,11 @@ public class AnvilItems {
         for (Enchantment enchantment : Enchantment.values()) {
             if (itemMeta.hasEnchant(enchantment) && itemMeta2.hasEnchant(enchantment) && !uselessEnchantment.contains(enchantment)) {
                 itemResultEnchantment.add(enchantment);
-                if (itemMeta.getEnchantLevel(enchantment) == itemMeta2.getEnchantLevel(enchantment) && itemMeta.getEnchantLevel(enchantment) <= controller.getMain().getConfig().getInt(enchantment.getName())) {
+                if (itemMeta.getEnchantLevel(enchantment) == itemMeta2.getEnchantLevel(enchantment) && itemMeta.getEnchantLevel(enchantment) < controller.getMain().getConfig().getInt(enchantment.getName())) {
                     itemResultELevel.add(itemMeta.getEnchantLevel(enchantment) + 1);
-                } else if (itemMeta.getEnchantLevel(enchantment) > itemMeta2.getEnchantLevel(enchantment) && itemMeta.getEnchantLevel(enchantment) <= controller.getMain().getConfig().getInt(enchantment.getName())) {
+                } else if (itemMeta.getEnchantLevel(enchantment) >= itemMeta2.getEnchantLevel(enchantment)) {
                     itemResultELevel.add(itemMeta.getEnchantLevel(enchantment));
-                } else if (itemMeta.getEnchantLevel(enchantment) < itemMeta2.getEnchantLevel(enchantment) && itemMeta.getEnchantLevel(enchantment) <= controller.getMain().getConfig().getInt(enchantment.getName())) {
+                } else if (itemMeta.getEnchantLevel(enchantment) < itemMeta2.getEnchantLevel(enchantment)) {
                     itemResultELevel.add(itemMeta2.getEnchantLevel(enchantment));
                 }
             } else if (itemMeta.hasEnchant(enchantment) && !itemMeta2.hasEnchant(enchantment)) {
@@ -108,11 +108,11 @@ public class AnvilItems {
         for (Enchantment enchantment : Enchantment.values()) {
             if (itemMetaLeft.hasStoredEnchant(enchantment) && itemMetaRight.hasStoredEnchant(enchantment) && !uselessEnchantment.contains(enchantment)) {
                 itemResultEnchantment.add(enchantment);
-                if (itemMetaLeft.getStoredEnchantLevel(enchantment) == itemMetaRight.getStoredEnchantLevel(enchantment) && itemMetaLeft.getStoredEnchantLevel(enchantment) <= controller.getMain().getConfig().getInt(enchantment.getName())) {
+                if (itemMetaLeft.getStoredEnchantLevel(enchantment) == itemMetaRight.getStoredEnchantLevel(enchantment) && itemMetaLeft.getStoredEnchantLevel(enchantment) < controller.getMain().getConfig().getInt(enchantment.getName())) {
                     itemResultELevel.add(itemMetaLeft.getStoredEnchantLevel(enchantment) + 1);
-                } else if (itemMetaLeft.getStoredEnchantLevel(enchantment) > itemMetaRight.getStoredEnchantLevel(enchantment) && itemMetaLeft.getStoredEnchantLevel(enchantment) <= controller.getMain().getConfig().getInt(enchantment.getName())) {
+                } else if (itemMetaLeft.getStoredEnchantLevel(enchantment) >= itemMetaRight.getStoredEnchantLevel(enchantment)) {
                     itemResultELevel.add(itemMetaLeft.getStoredEnchantLevel(enchantment));
-                } else if (itemMetaLeft.getStoredEnchantLevel(enchantment) < itemMetaRight.getStoredEnchantLevel(enchantment) && itemMetaLeft.getStoredEnchantLevel(enchantment) <= controller.getMain().getConfig().getInt(enchantment.getName())) {
+                } else if (itemMetaLeft.getStoredEnchantLevel(enchantment) < itemMetaRight.getStoredEnchantLevel(enchantment)) {
                     itemResultELevel.add(itemMetaRight.getStoredEnchantLevel(enchantment));
                 }
             } else if (itemMetaLeft.hasStoredEnchant(enchantment) && !itemMetaRight.hasStoredEnchant(enchantment)) {

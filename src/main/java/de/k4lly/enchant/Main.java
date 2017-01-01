@@ -36,6 +36,7 @@ public class Main extends JavaPlugin {
         pluginManager.registerEvents(new Anvil(controller), this);
         pluginManager.registerEvents(new Crafting(controller), this);
         pluginManager.registerEvents(new Enchantment(controller), this);
+        pluginManager.registerEvents(new InfiniteArrow(controller), this);
         System.out.print(regEvent);
     }
 

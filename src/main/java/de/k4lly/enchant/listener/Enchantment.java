@@ -2,26 +2,8 @@ package de.k4lly.enchant.listener;
 
 import de.k4lly.enchant.controller.PluginController;
 import de.k4lly.enchant.objects.Functions;
-import org.bukkit.Achievement;
-import org.bukkit.Material;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.enchantment.EnchantItemEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntityShootBowEvent;
-import org.bukkit.event.inventory.*;
-import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-
-import java.util.HashMap;
 
 public class Enchantment implements Listener {
 
@@ -39,8 +21,6 @@ public class Enchantment implements Listener {
     private ItemStack oldChestplate;
     private ItemStack oldLeggins;
     private ItemStack oldBoots;
-
-    HashMap<Player, ItemStack> storedItem = new HashMap<Player, ItemStack>();
 
     public static String XP_BOOST = "XP-Boost";
     public static String FIRE_TOUCH = "Fire Touch";
@@ -201,56 +181,4 @@ public class Enchantment implements Listener {
                 return new ItemStack(material);
         }
     }*/
-
-    @EventHandler
-    public void onEntityShootBow (EntityShootBowEvent entityShootBowEvent) {
-        if (!(entityShootBowEvent.getEntity() instanceof Player)) return;
-        returnItem((Player) entityShootBowEvent.getEntity());
-    }
-
-    @EventHandler
-    public void onPlayerItemHeld (PlayerItemHeldEvent playerItemHeldEvent) {
-        Player p = playerItemHeldEvent.getPlayer();
-        ItemStack prevItem = p.getInventory().getItem(playerItemHeldEvent.getPreviousSlot());
-        if(!storedItem.containsKey(p) || prevItem.isSimilar(null)) return;
-        if (prevItem.getItemMeta().hasEnchant(org.bukkit.enchantments.Enchantment.ARROW_INFINITE)) {
-            returnItem(p);
-        }
-    }
-
-    @EventHandler
-    public void onInventoryOpen (InventoryOpenEvent event) {
-        Player p = (Player) event.getPlayer();
-        if (!storedItem.containsKey(p)) return;
-        returnItem(p);
-    }
-
-    @EventHandler
-    public void onInventoryClick (InventoryClickEvent event) {
-        if (!(event.getClickedInventory() instanceof PlayerInventory)) return;
-        Player p = (Player) event.getWhoClicked();
-        ItemStack item9 = event.getClickedInventory().getItem(9);
-        if (item9 == null || !item9.isSimilar(new ItemStack(Material.ARROW))) return;
-        if (!storedItem.containsKey(p)) return;
-        returnItem(p);
-    }
-
-    @EventHandler
-    public void onPlayerInteract(PlayerInteractEvent playerInteractEvent) {
-        Player p = playerInteractEvent.getPlayer();
-        if (!(playerInteractEvent.getAction().equals(Action.RIGHT_CLICK_AIR) || playerInteractEvent.getAction().equals(Action.RIGHT_CLICK_BLOCK))) return;
-        if(storedItem.containsKey(p)) return;
-        if(!(p.getItemInHand().getType().equals(Material.BOW)) && p.getItemInHand().containsEnchantment(org.bukkit.enchantments.Enchantment.ARROW_INFINITE)) return;
-        ItemStack item = p.getInventory().getItem(9);
-        storedItem.put(p, item);
-        p.getInventory().setItem(9, new ItemStack(Material.ARROW, 64));
-    }
-
-    private void returnItem(Player player) {
-        if (storedItem.containsKey(player.getPlayer())) {
-            player.getInventory().setItem(9, storedItem.get(player));
-            player.updateInventory();
-            storedItem.remove(player);
-        }
-    }
 }
