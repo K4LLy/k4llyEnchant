@@ -120,6 +120,7 @@ public class Functions {
             case DIAMOND_CHESTPLATE:
             case DIAMOND_HELMET:
             case DIAMOND_LEGGINGS:
+            case ELYTRA:
                 return true;
             default:
                 return false;
@@ -148,6 +149,10 @@ public class Functions {
             case DIAMOND_HOE:
             case DIAMOND_PICKAXE:
             case DIAMOND_SPADE:
+            case SHEARS:
+            case FISHING_ROD:
+            case FLINT_AND_STEEL:
+            case CARROT_STICK:
                 return true;
             default:
                 return false;
@@ -162,6 +167,107 @@ public class Functions {
             case GOLD_SWORD:
             case DIAMOND_SWORD:
             case BOW:
+            case SHIELD:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public boolean isAxe (Material material) {
+        switch (material) {
+            case WOOD_AXE:
+            case STONE_AXE:
+            case IRON_AXE:
+            case GOLD_AXE:
+            case DIAMOND_AXE:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public boolean isElytra (Material material) {
+        switch (material) {
+            case ELYTRA:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public boolean isShield (Material material) {
+        switch (material) {
+            case SHIELD:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public boolean isBow (Material material) {
+        switch (material) {
+            case BOW:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public boolean isHelmet (Material material) {
+        switch (material) {
+            case LEATHER_HELMET:
+            case IRON_HELMET:
+            case GOLD_HELMET:
+            case DIAMOND_HELMET:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public boolean isBoots (Material material) {
+        switch (material) {
+            case LEATHER_BOOTS:
+            case IRON_BOOTS:
+            case GOLD_BOOTS:
+            case DIAMOND_BOOTS:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public boolean isShears (Material material) {
+        switch (material) {
+            case SHEARS:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public boolean isFishingRod (Material material) {
+        switch (material) {
+            case FISHING_ROD:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public boolean isFlintSteel (Material material) {
+        switch (material) {
+            case FLINT_AND_STEEL:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public boolean isCarrotStick (Material material) {
+        switch (material) {
+            case CARROT_STICK:
                 return true;
             default:
                 return false;

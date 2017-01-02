@@ -27,13 +27,6 @@ public class AnvilItems {
         this.controller = controller;
         this.itemLeft = itemLeft;
         this.itemRight = itemRight;
-        /*uselessEnchantment.add(Enchantment.SILK_TOUCH);
-        uselessEnchantment.add(Enchantment.ARROW_FIRE);
-        uselessEnchantment.add(Enchantment.WATER_WORKER);
-        uselessEnchantment.add(Enchantment.MENDING);
-        uselessEnchantment.add(Enchantment.ARROW_INFINITE);
-        uselessEnchantment.add(Enchantment.VANISHING_CURSE);
-        uselessEnchantment.add(Enchantment.BINDING_CURSE);*/
         uselessCustomEnchantment.add(de.k4lly.enchant.listener.Enchantment.FIRE_TOUCH);
         uselessCustomEnchantment.add(de.k4lly.enchant.listener.Enchantment.NIGHT_VISION);
         uselessCustomEnchantment.add(de.k4lly.enchant.listener.Enchantment.WITHER);
@@ -72,6 +65,7 @@ public class AnvilItems {
         addCustomEnchantment(itemLeft, itemRight);
         checkCEConfliction(itemLeft, itemRight);
         checkConfliction(itemMeta, null, null, itemMetaRight);
+        checkPosibility();
     }
 
     private void doCombine2(ItemStack itemLeft, ItemStack itemRight) throws Exception {
@@ -99,6 +93,7 @@ public class AnvilItems {
         addCustomEnchantment(itemLeft, itemRight);
         checkCEConfliction(itemLeft, itemRight);
         checkConfliction(itemMeta, null, itemMeta2, null);
+        checkPosibility();
     }
 
     private void doCombineBooks(ItemStack itemLeft, ItemStack itemRight) throws Exception {
@@ -126,6 +121,38 @@ public class AnvilItems {
         addCustomEnchantment(itemLeft, itemRight);
         checkCEConfliction(itemLeft, itemRight);
         checkConfliction(null, itemMetaLeft, null, itemMetaRight);
+    }
+
+    private void checkPosibility() {
+        if (func.isArmor(itemLeft.getType())) {
+            for (int i = 0; i < itemResultEnchantment.size(); i++) {
+                Enchantment enchant = itemResultEnchantment.get(i);
+                if (enchant != Enchantment.PROTECTION_ENVIRONMENTAL || enchant != Enchantment.PROTECTION_EXPLOSIONS || enchant != Enchantment.PROTECTION_FIRE ||
+                    enchant != Enchantment.PROTECTION_PROJECTILE || enchant != Enchantment.THORNS || enchant != Enchantment.BINDING_CURSE || enchant != Enchantment.DURABILITY ||
+                    enchant != Enchantment.MENDING || enchant != Enchantment.VANISHING_CURSE) {
+                    itemResultEnchantment.remove(i);
+                    itemResultELevel.remove(i);
+                }
+            }
+            if (func.isHelmet(itemLeft.getType())) {
+                for (int i = 0; i <= itemResultEnchantment.size(); i++) {
+                    Enchantment enchant = itemResultEnchantment.get(i);
+                    if (!enchant.equals(Enchantment.OXYGEN) || !enchant.equals(Enchantment.WATER_WORKER)) {
+                        itemResultEnchantment.remove(i);
+                        itemResultELevel.remove(i);
+                    }
+                }
+            }
+            if (func.isBoots(itemLeft.getType())) {
+                for (int i = 0; i <= itemResultEnchantment.size(); i++) {
+                    Enchantment enchant = itemResultEnchantment.get(i);
+                    if (!enchant.equals(Enchantment.DEPTH_STRIDER) || !enchant.equals(Enchantment.FROST_WALKER)) {
+                        itemResultEnchantment.remove(i);
+                        itemResultELevel.remove(i);
+                    }
+                }
+            }
+        }
     }
 
     private void checkConfliction(ItemMeta metaLeft, EnchantmentStorageMeta eMetaLeft, ItemMeta metaRight, EnchantmentStorageMeta eMetaRight) {

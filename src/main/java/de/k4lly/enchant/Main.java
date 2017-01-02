@@ -15,7 +15,6 @@ public class Main extends JavaPlugin {
     private PluginController controller = new PluginController();
     private Functions func = new Functions();
     private final String enable = "[k4llyEnchant] Loaded " + this.getDescription().getName() + " in Version " + this.getDescription().getVersion() + " succesfully!";
-    private final String regCrafting = "[k4llyEnchant] Successfuly registrered Crafting Recipes!";
     private final String regEvent = "[k4llyEnchant] Successfully registered Events!";
 
     @Override
