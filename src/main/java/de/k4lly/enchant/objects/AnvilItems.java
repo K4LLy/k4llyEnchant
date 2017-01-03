@@ -16,7 +16,6 @@ public class AnvilItems {
     private ItemStack itemLeft;
     private ItemStack itemRight;
     private ArrayList<Enchantment> itemResultEnchantment = new ArrayList<>();
-    private ArrayList<Enchantment> uselessEnchantment = new ArrayList<>();
     private ArrayList<String> uselessCustomEnchantment = new ArrayList<>();
     private ArrayList<Integer> itemResultELevel = new ArrayList<>();
     private ArrayList<String> itemResultCustomEnchantment = new ArrayList<>();
@@ -43,10 +42,12 @@ public class AnvilItems {
     private void doCombine(ItemStack itemLeft, ItemStack itemRight) throws Exception {
         ItemMeta itemMeta = itemLeft.getItemMeta();
         EnchantmentStorageMeta itemMetaRight = (EnchantmentStorageMeta) itemRight.getItemMeta();
+        int i = 0;
 
         for (Enchantment enchantment : Enchantment.values()) {
-            if (itemMeta.hasEnchant(enchantment) && itemMetaRight.hasStoredEnchant(enchantment) && !uselessEnchantment.contains(enchantment)) {
+            if (itemMeta.hasEnchant(enchantment) && itemMetaRight.hasStoredEnchant(enchantment)) {
                 itemResultEnchantment.add(enchantment);
+                System.out.print("[write] Position: "+i+" | Enchantment: "+enchantment);
                 if (itemMeta.getEnchantLevel(enchantment) == itemMetaRight.getStoredEnchantLevel(enchantment) && itemMeta.getEnchantLevel(enchantment) < controller.getMain().getConfig().getInt(enchantment.getName())) {
                     itemResultELevel.add(itemMeta.getEnchantLevel(enchantment) + 1);
                 } else if (itemMeta.getEnchantLevel(enchantment) >= itemMetaRight.getStoredEnchantLevel(enchantment)) {
@@ -54,18 +55,23 @@ public class AnvilItems {
                 } else if (itemMeta.getEnchantLevel(enchantment) < itemMetaRight.getStoredEnchantLevel(enchantment)) {
                     itemResultELevel.add(itemMetaRight.getStoredEnchantLevel(enchantment));
                 }
+                i++;
             } else if (itemMeta.hasEnchant(enchantment) && !itemMetaRight.hasStoredEnchant(enchantment)) {
                 itemResultEnchantment.add(enchantment);
+                System.out.print("[write] Position: "+i+" | Enchantment: "+enchantment);
                 itemResultELevel.add(itemMeta.getEnchantLevel(enchantment));
+                i++;
             } else if (!itemMeta.hasEnchant(enchantment) && itemMetaRight.hasStoredEnchant(enchantment)) {
                 itemResultEnchantment.add(enchantment);
+                System.out.print("[write] Position: "+i+" | Enchantment: "+enchantment);
                 itemResultELevel.add(itemMetaRight.getStoredEnchantLevel(enchantment));
+                i++;
             }
         }
-        addCustomEnchantment(itemLeft, itemRight);
-        checkCEConfliction(itemLeft, itemRight);
-        checkConfliction(itemMeta, null, null, itemMetaRight);
+        //addCustomEnchantment(itemLeft, itemRight);
+        //checkCEConfliction(itemLeft, itemRight);
         checkPosibility();
+        checkConfliction(itemMeta, null, null, itemMetaRight);
     }
 
     private void doCombine2(ItemStack itemLeft, ItemStack itemRight) throws Exception {
@@ -73,7 +79,7 @@ public class AnvilItems {
         ItemMeta itemMeta2 = itemRight.getItemMeta();
 
         for (Enchantment enchantment : Enchantment.values()) {
-            if (itemMeta.hasEnchant(enchantment) && itemMeta2.hasEnchant(enchantment) && !uselessEnchantment.contains(enchantment)) {
+            if (itemMeta.hasEnchant(enchantment) && itemMeta2.hasEnchant(enchantment)) {
                 itemResultEnchantment.add(enchantment);
                 if (itemMeta.getEnchantLevel(enchantment) == itemMeta2.getEnchantLevel(enchantment) && itemMeta.getEnchantLevel(enchantment) < controller.getMain().getConfig().getInt(enchantment.getName())) {
                     itemResultELevel.add(itemMeta.getEnchantLevel(enchantment) + 1);
@@ -101,7 +107,7 @@ public class AnvilItems {
         EnchantmentStorageMeta itemMetaRight = (EnchantmentStorageMeta) itemRight.getItemMeta();
 
         for (Enchantment enchantment : Enchantment.values()) {
-            if (itemMetaLeft.hasStoredEnchant(enchantment) && itemMetaRight.hasStoredEnchant(enchantment) && !uselessEnchantment.contains(enchantment)) {
+            if (itemMetaLeft.hasStoredEnchant(enchantment) && itemMetaRight.hasStoredEnchant(enchantment)) {
                 itemResultEnchantment.add(enchantment);
                 if (itemMetaLeft.getStoredEnchantLevel(enchantment) == itemMetaRight.getStoredEnchantLevel(enchantment) && itemMetaLeft.getStoredEnchantLevel(enchantment) < controller.getMain().getConfig().getInt(enchantment.getName())) {
                     itemResultELevel.add(itemMetaLeft.getStoredEnchantLevel(enchantment) + 1);
@@ -127,9 +133,11 @@ public class AnvilItems {
         if (func.isArmor(itemLeft.getType())) {
             for (int i = 0; i < itemResultEnchantment.size(); i++) {
                 Enchantment enchant = itemResultEnchantment.get(i);
+                System.out.print("[check] Position: "+i+" | Enchantment: "+enchant);
                 if (enchant != Enchantment.PROTECTION_ENVIRONMENTAL || enchant != Enchantment.PROTECTION_EXPLOSIONS || enchant != Enchantment.PROTECTION_FIRE ||
-                    enchant != Enchantment.PROTECTION_PROJECTILE || enchant != Enchantment.THORNS || enchant != Enchantment.BINDING_CURSE || enchant != Enchantment.DURABILITY ||
+                    !enchant.equals(Enchantment.PROTECTION_PROJECTILE) || enchant != Enchantment.THORNS || enchant != Enchantment.BINDING_CURSE || enchant != Enchantment.DURABILITY ||
                     enchant != Enchantment.MENDING || enchant != Enchantment.VANISHING_CURSE) {
+                    System.out.print("REMOVED Enchantment: "+enchant);
                     itemResultEnchantment.remove(i);
                     itemResultELevel.remove(i);
                 }
