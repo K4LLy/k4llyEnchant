@@ -120,7 +120,6 @@ public class Functions {
             case DIAMOND_CHESTPLATE:
             case DIAMOND_HELMET:
             case DIAMOND_LEGGINGS:
-            case ELYTRA:
                 return true;
             default:
                 return false;
@@ -153,6 +152,7 @@ public class Functions {
             case FISHING_ROD:
             case FLINT_AND_STEEL:
             case CARROT_STICK:
+            case ELYTRA:
                 return true;
             default:
                 return false;

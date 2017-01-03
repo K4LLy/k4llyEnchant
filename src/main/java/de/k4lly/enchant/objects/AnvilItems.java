@@ -42,7 +42,6 @@ public class AnvilItems {
     private void doCombine(ItemStack itemLeft, ItemStack itemRight) throws Exception {
         ItemMeta itemMeta = itemLeft.getItemMeta();
         EnchantmentStorageMeta itemMetaRight = (EnchantmentStorageMeta) itemRight.getItemMeta();
-        int i = 0;
 
         for (Enchantment enchantment : Enchantment.values()) {
             if (itemMeta.hasEnchant(enchantment) && itemMetaRight.hasStoredEnchant(enchantment)) {
@@ -54,15 +53,12 @@ public class AnvilItems {
                 } else if (itemMeta.getEnchantLevel(enchantment) < itemMetaRight.getStoredEnchantLevel(enchantment)) {
                     itemResultELevel.add(itemMetaRight.getStoredEnchantLevel(enchantment));
                 }
-                i++;
             } else if (itemMeta.hasEnchant(enchantment) && !itemMetaRight.hasStoredEnchant(enchantment)) {
                 itemResultEnchantment.add(enchantment);
                 itemResultELevel.add(itemMeta.getEnchantLevel(enchantment));
-                i++;
             } else if (!itemMeta.hasEnchant(enchantment) && itemMetaRight.hasStoredEnchant(enchantment)) {
                 itemResultEnchantment.add(enchantment);
                 itemResultELevel.add(itemMetaRight.getStoredEnchantLevel(enchantment));
-                i++;
             }
         }
         //addCustomEnchantment(itemLeft, itemRight);
@@ -133,23 +129,17 @@ public class AnvilItems {
                 if (!enchant.equals(Enchantment.PROTECTION_ENVIRONMENTAL) && !enchant.equals(Enchantment.PROTECTION_EXPLOSIONS) && !enchant.equals(Enchantment.PROTECTION_FIRE) &&
                     !enchant.equals(Enchantment.PROTECTION_PROJECTILE) && !enchant.equals(Enchantment.THORNS) && !enchant.equals(Enchantment.BINDING_CURSE) && !enchant.equals(Enchantment.DURABILITY) &&
                     !enchant.equals(Enchantment.MENDING) && !enchant.equals(Enchantment.VANISHING_CURSE)) {
-                    itemResultEnchantment.remove(i);
-                    itemResultELevel.remove(i);
-                }
-            }
-            if (func.isHelmet(itemLeft.getType())) {
-                for (int i = itemResultEnchantment.size()-1; i >= 0; i--) {
-                    Enchantment enchant = itemResultEnchantment.get(i);
-                    if (!enchant.equals(Enchantment.OXYGEN) || !enchant.equals(Enchantment.WATER_WORKER)) {
-                        itemResultEnchantment.remove(i);
-                        itemResultELevel.remove(i);
-                    }
-                }
-            }
-            if (func.isBoots(itemLeft.getType())) {
-                for (int i = itemResultEnchantment.size()-1; i >= 0; i--) {
-                    Enchantment enchant = itemResultEnchantment.get(i);
-                    if (!enchant.equals(Enchantment.DEPTH_STRIDER) || !enchant.equals(Enchantment.FROST_WALKER)) {
+                    if (func.isHelmet(itemLeft.getType())) {
+                        if (!enchant.equals(Enchantment.OXYGEN) && !enchant.equals(Enchantment.WATER_WORKER)) {
+                            itemResultEnchantment.remove(i);
+                            itemResultELevel.remove(i);
+                        }
+                    } else if (func.isBoots(itemLeft.getType())) {
+                        if (!enchant.equals(Enchantment.DEPTH_STRIDER) && !enchant.equals(Enchantment.FROST_WALKER) && enchant.equals(Enchantment.PROTECTION_FALL)) {
+                            itemResultEnchantment.remove(i);
+                            itemResultELevel.remove(i);
+                        }
+                    } else {
                         itemResultEnchantment.remove(i);
                         itemResultELevel.remove(i);
                     }
@@ -158,42 +148,33 @@ public class AnvilItems {
         } else if (func.isTool(itemLeft.getType())) {
             for (int i = itemResultEnchantment.size()-1; i >= 0; i--) {
                 Enchantment enchant = itemResultEnchantment.get(i);
-                if (!enchant.equals(Enchantment.DURABILITY) && !enchant.equals(Enchantment.MENDING) && enchant.equals(Enchantment.VANISHING_CURSE)) {
-                    itemResultEnchantment.remove(i);
-                    itemResultELevel.remove(i);
-                }
-            }
-            if (!func.isShears(itemLeft.getType()) && !func.isFishingRod(itemLeft.getType()) && !func.isFlintSteel(itemLeft.getType()) && !func.isCarrotStick(itemLeft.getType())) {
-                for (int i = itemResultEnchantment.size()-1; i >= 0; i--) {
-                    Enchantment enchant = itemResultEnchantment.get(i);
-                    if (!enchant.equals(Enchantment.SILK_TOUCH) && !enchant.equals(Enchantment.LOOT_BONUS_BLOCKS)) {
-                        itemResultEnchantment.remove(i);
-                        itemResultELevel.remove(i);
-                    }
-                }
-            }
-            if (!func.isFishingRod(itemLeft.getType()) && !func.isFlintSteel(itemLeft.getType()) && !func.isCarrotStick(itemLeft.getType())) {
-                for (int i = itemResultEnchantment.size()-1; i >= 0; i--) {
-                    Enchantment enchant = itemResultEnchantment.get(i);
-                    if (!enchant.equals(Enchantment.DIG_SPEED)) {
-                        itemResultEnchantment.remove(i);
-                        itemResultELevel.remove(i);
-                    }
-                }
-            }
-            if (func.isFishingRod(itemLeft.getType())) {
-                for (int i = itemResultEnchantment.size()-1; i >= 0; i--) {
-                    Enchantment enchant = itemResultEnchantment.get(i);
-                    if (!enchant.equals(Enchantment.LUCK) && !enchant.equals(Enchantment.LURE)) {
-                        itemResultEnchantment.remove(i);
-                        itemResultELevel.remove(i);
-                    }
-                }
-            }
-            if (func.isAxe(itemLeft.getType())) {
-               for (int i = itemResultEnchantment.size()-1; i >= 0; i--) {
-                    Enchantment enchant = itemResultEnchantment.get(i);
-                    if (!enchant.equals(Enchantment.DAMAGE_ALL) && !enchant.equals(Enchantment.DAMAGE_ARTHROPODS) && !enchant.equals(Enchantment.DAMAGE_UNDEAD)) {
+                if (!enchant.equals(Enchantment.DURABILITY) && !enchant.equals(Enchantment.MENDING) && !enchant.equals(Enchantment.VANISHING_CURSE)) {
+                    if (!func.isShears(itemLeft.getType()) && !func.isFishingRod(itemLeft.getType()) && !func.isFlintSteel(itemLeft.getType()) && !func.isCarrotStick(itemLeft.getType()) && !func.isElytra(itemLeft.getType())) {
+                        if (!enchant.equals(Enchantment.SILK_TOUCH) && !enchant.equals(Enchantment.LOOT_BONUS_BLOCKS)) {
+                            itemResultEnchantment.remove(i);
+                            itemResultELevel.remove(i);
+                        }
+                    } else if (!func.isFishingRod(itemLeft.getType()) && !func.isFlintSteel(itemLeft.getType()) && !func.isCarrotStick(itemLeft.getType())) {
+                        if (!enchant.equals(Enchantment.DIG_SPEED)) {
+                            itemResultEnchantment.remove(i);
+                            itemResultELevel.remove(i);
+                        }
+                    } else if (func.isFishingRod(itemLeft.getType())) {
+                        if (!enchant.equals(Enchantment.LUCK) && !enchant.equals(Enchantment.LURE)) {
+                            itemResultEnchantment.remove(i);
+                            itemResultELevel.remove(i);
+                        }
+                    } else if (func.isAxe(itemLeft.getType())) {
+                        if (!enchant.equals(Enchantment.DAMAGE_ALL) && !enchant.equals(Enchantment.DAMAGE_ARTHROPODS) && !enchant.equals(Enchantment.DAMAGE_UNDEAD)) {
+                            itemResultEnchantment.remove(i);
+                            itemResultELevel.remove(i);
+                        }
+                    } else if (func.isElytra(itemLeft.getType())) {
+                        if (!enchant.equals(Enchantment.BINDING_CURSE)) {
+                            itemResultEnchantment.remove(i);
+                            itemResultELevel.remove(i);
+                        }
+                    } else {
                         itemResultEnchantment.remove(i);
                         itemResultELevel.remove(i);
                     }
@@ -203,24 +184,18 @@ public class AnvilItems {
             for (int i = itemResultEnchantment.size()-1; i >= 0; i--) {
                 Enchantment enchant = itemResultEnchantment.get(i);
                 if (!enchant.equals(Enchantment.MENDING) && !enchant.equals(Enchantment.VANISHING_CURSE) && !enchant.equals(Enchantment.DURABILITY)) {
-                    itemResultEnchantment.remove(i);
-                    itemResultELevel.remove(i);
-                }
-            }
-            if (!func.isBow(itemLeft.getType()) && !func.isShield(itemLeft.getType())) {
-                for (int i = itemResultEnchantment.size()-1; i >= 0; i--) {
-                    Enchantment enchant = itemResultEnchantment.get(i);
-                    if (!enchant.equals(Enchantment.DAMAGE_ALL) && !enchant.equals(Enchantment.DAMAGE_ARTHROPODS) && !enchant.equals(Enchantment.DAMAGE_UNDEAD) &&
-                        !enchant.equals(Enchantment.KNOCKBACK) && !enchant.equals(Enchantment.FIRE_ASPECT) && !enchant.equals(Enchantment.LOOT_BONUS_MOBS) && !enchant.equals(Enchantment.SWEEPING_EDGE)) {
-                        itemResultEnchantment.remove(i);
-                        itemResultELevel.remove(i);
-                    }
-                }
-            }
-            if (func.isBow(itemLeft.getType())) {
-                for (int i = itemResultEnchantment.size()-1; i >= 0; i--) {
-                    Enchantment enchant = itemResultEnchantment.get(i);
-                    if (!enchant.equals(Enchantment.ARROW_DAMAGE) && !enchant.equals(Enchantment.ARROW_FIRE) && !enchant.equals(Enchantment.ARROW_INFINITE) && !enchant.equals(Enchantment.ARROW_KNOCKBACK)) {
+                    if (!func.isBow(itemLeft.getType()) && !func.isShield(itemLeft.getType())) {
+                        if (!enchant.equals(Enchantment.DAMAGE_ALL) && !enchant.equals(Enchantment.DAMAGE_ARTHROPODS) && !enchant.equals(Enchantment.DAMAGE_UNDEAD) &&
+                                !enchant.equals(Enchantment.KNOCKBACK) && !enchant.equals(Enchantment.FIRE_ASPECT) && !enchant.equals(Enchantment.LOOT_BONUS_MOBS) && !enchant.equals(Enchantment.SWEEPING_EDGE)) {
+                            itemResultEnchantment.remove(i);
+                            itemResultELevel.remove(i);
+                        }
+                    }else if (func.isBow(itemLeft.getType())) {
+                        if (!enchant.equals(Enchantment.ARROW_DAMAGE) && !enchant.equals(Enchantment.ARROW_FIRE) && !enchant.equals(Enchantment.ARROW_INFINITE) && !enchant.equals(Enchantment.ARROW_KNOCKBACK)) {
+                            itemResultEnchantment.remove(i);
+                            itemResultELevel.remove(i);
+                        }
+                    } else {
                         itemResultEnchantment.remove(i);
                         itemResultELevel.remove(i);
                     }
