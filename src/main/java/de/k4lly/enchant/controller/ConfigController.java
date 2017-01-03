@@ -47,6 +47,12 @@ public class ConfigController {
         controller.getMain().getConfig().addDefault(Enchantment.LURE.getName(), 20);
 
         controller.getMain().getConfig().addDefault("enableTakeEnchantment", true);
+        controller.getMain().getConfig().addDefault("enableCustomEnchantment", true);
+
+        controller.getMain().getConfig().addDefault("XP-Boost", 20);
+        controller.getMain().getConfig().addDefault("Poison Touch", 20);
+        //controller.getMain().getConfig().addDefault("Wither", 20);
+        //controller.getMain().getConfig().addDefault("Fire Touch", 20);
 
         controller.getMain().getConfig().options().copyDefaults(true);
         controller.getMain().saveDefaultConfig();

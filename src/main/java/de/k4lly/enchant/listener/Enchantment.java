@@ -1,9 +1,21 @@
 package de.k4lly.enchant.listener;
 
+import de.k4lly.enchant.Main;
 import de.k4lly.enchant.controller.PluginController;
 import de.k4lly.enchant.objects.Functions;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.enchantment.EnchantItemEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class Enchantment implements Listener {
 
@@ -26,34 +38,33 @@ public class Enchantment implements Listener {
     public static String FIRE_TOUCH = "Fire Touch";
     public static String WITHER = "Wither";
     public static String POISON_TOUCH = "Poison Touch";
-    //public static String INFINITY = "Infinity";
     public static String NIGHT_VISION = "Night Vision";
 
     //XP Boost (1-5) #finished
     //Fire Touch #finished
     //Wither #finished
     //Poison Touch (1-2) #finished
-    //Absorbing (1-3) #finished
     //Nightvision #WIP TODO: Check if Item breaks or is rightclicked put on
 
     public Enchantment(PluginController controller) {
         this.controller = controller;
     }
 
-    /*@EventHandler
+    @EventHandler
     public void onEnchant(EnchantItemEvent enchantEvent) {
+        if (!controller.getMain().getConfig().getBoolean("enableCustomEnchantment")) return;
         if (func.isWeapon(enchantEvent.getItem().getType()) || func.isBook(enchantEvent.getItem().getType())) {
             int randWither = (int) (Math.random() * 1000);
             int randPoison = (int) (Math.random() * 1000);
             int randXPBoost = (int) (Math.random() * 1000);
-            if (randWither <= 79) { //8%
+            /*if (randWither <= 79) { //8%
                 func.enchantItem("Wither", 1, enchantEvent.getItem());
             }
             if (randPoison <= 59) { //6%
                 func.enchantItem("Poison Touch", 2, enchantEvent.getItem());
             } else if (randPoison >= 60 && randPoison <= 169) { //11%
                 func.enchantItem("Poison Touch", 1, enchantEvent.getItem());
-            }
+            }*/
             if (randXPBoost <= 49) { //5%
                 func.enchantItem("XP-Boost", 5, enchantEvent.getItem());
             } else if (randXPBoost >= 50 && randXPBoost <= 149) { //10%
@@ -66,9 +77,10 @@ public class Enchantment implements Listener {
                 func.enchantItem("XP-Boost", 1, enchantEvent.getItem());
             }
         }
-        if (func.isTool(enchantEvent.getItem().getType()) || func.isBook(enchantEvent.getItem().getType())) {
+        /*if ((func.isTool(enchantEvent.getItem().getType()) && !func.isShears(enchantEvent.getItem().getType()) && !func.isFishingRod(enchantEvent.getItem().getType())
+            && !func.isFlintSteel(enchantEvent.getItem().getType()) && !func.isElytra(enchantEvent.getItem().getType())  && !func.isCarrotStick(enchantEvent.getItem().getType())) || func.isBook(enchantEvent.getItem().getType())) {
             int randFireT = (int) (Math.random() * 1000);
-            if (randFireT <= 279) {
+            if (randFireT <= 279) { //28%
                 int randFortune = (int) (Math.random() * 1000);
                 if (enchantEvent.getEnchantsToAdd().containsKey(org.bukkit.enchantments.Enchantment.LOOT_BONUS_BLOCKS)) {
                     if (randFortune <= 499) {
@@ -90,17 +102,7 @@ public class Enchantment implements Listener {
             if (randNVision <= 129) { //13%
                 func.enchantItem("Night Vision", 1, enchantEvent.getItem());
             }
-        }
-        /*if (func.isArmor(enchantEvent.getItem().getType()) || func.isBook(enchantEvent.getItem().getType())) {
-            int randAbsobtion = (int) (Math.random() * 1000);
-            if (randAbsobtion <= 29) { //3%
-                func.enchantItem("Absorbing", 3, enchantEvent.getItem());
-            } else if (randAbsobtion >= 30 && randAbsobtion <= 79) { //5%
-                func.enchantItem("Absorbing", 2, enchantEvent.getItem());
-            } else if (randAbsobtion >= 80 && randAbsobtion <= 159) { //8%
-                func.enchantItem("Absorbing", 1, enchantEvent.getItem());
-            }
-        }
+        }*/
     }
 
     @EventHandler
@@ -117,7 +119,7 @@ public class Enchantment implements Listener {
             String[] words = str.trim().split("\\s+");
             int level = words.length == 3 ? func.parseRomanNumber(words[2]) : func.parseRomanNumber(words[1]);
             if (str.startsWith(ChatColor.GRAY + "Wither ")) damaged.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 80 + (level * 80), level, false, true));
-            if (str.startsWith(ChatColor.GRAY + "Poison Touch ")) damaged.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 80 + (level * 80), level, false, true));
+            if (str.startsWith(ChatColor.GRAY + "Poison Touch ")) damaged.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 80 + (level * 80), level>3?3:level, false, true));
         }
     }
 
@@ -153,7 +155,7 @@ public class Enchantment implements Listener {
             if (!func.isCustomEnchant(str)) continue;
             String[] words = str.trim().split("\\s+");
             int level = words.length == 3 ? func.parseRomanNumber(words[2]) : func.parseRomanNumber(words[1]);
-            if (str.startsWith(ChatColor.GRAY + "XP-Boost ")) deathEvent.setDroppedExp(deathEvent.getDroppedExp()*level);
+            if (str.startsWith(ChatColor.GRAY + "XP-Boost ")) deathEvent.setDroppedExp(deathEvent.getDroppedExp()*(level+1));
         }
     }
 
@@ -177,8 +179,10 @@ public class Enchantment implements Listener {
                 return new ItemStack(Material.NETHER_BRICK_ITEM, 1);
             case CACTUS:
                 return new ItemStack(Material.INK_SACK, 1, (short) 2);
+            case GRASS:
+                return new ItemStack(Material.DIRT, 1);
             default:
                 return new ItemStack(material);
         }
-    }*/
+    }
 }
