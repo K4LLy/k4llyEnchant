@@ -217,6 +217,7 @@ public class Functions {
     public boolean isHelmet (Material material) {
         switch (material) {
             case LEATHER_HELMET:
+            case CHAINMAIL_HELMET:
             case IRON_HELMET:
             case GOLD_HELMET:
             case DIAMOND_HELMET:
@@ -229,6 +230,7 @@ public class Functions {
     public boolean isBoots (Material material) {
         switch (material) {
             case LEATHER_BOOTS:
+            case CHAINMAIL_BOOTS:
             case IRON_BOOTS:
             case GOLD_BOOTS:
             case DIAMOND_BOOTS:
