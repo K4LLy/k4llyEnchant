@@ -57,47 +57,44 @@ public class Enchantment implements Listener {
             int randWither = (int) (Math.random() * 1000);
             int randPoison = (int) (Math.random() * 1000);
             int randXPBoost = (int) (Math.random() * 1000);
-            /*if (randWither <= 79) { //8%
-                func.enchantItem("Wither", 1, enchantEvent.getItem());
+            if (controller.getMain().getConfig().getBoolean("enableWither")) {
+                if (randWither <= 79) { //8%
+                    func.enchantItem("Wither", 1, enchantEvent.getItem());
+                }
             }
-            if (randPoison <= 59) { //6%
-                func.enchantItem("Poison Touch", 2, enchantEvent.getItem());
-            } else if (randPoison >= 60 && randPoison <= 169) { //11%
-                func.enchantItem("Poison Touch", 1, enchantEvent.getItem());
-            }*/
-            if (randXPBoost <= 49) { //5%
-                func.enchantItem("XP-Boost", 5, enchantEvent.getItem());
-            } else if (randXPBoost >= 50 && randXPBoost <= 149) { //10%
-                func.enchantItem("XP-Boost", 4, enchantEvent.getItem());
-            } else if (randXPBoost >= 150 && randXPBoost <= 299) { //15%
-                func.enchantItem("XP-Boost", 3, enchantEvent.getItem());
-            } else if (randXPBoost >= 300 && randXPBoost <= 599) { //20%
-                func.enchantItem("XP-Boost", 2, enchantEvent.getItem());
-            } else if (randXPBoost >= 600 && randXPBoost <= 849) { //25%
-                func.enchantItem("XP-Boost", 1, enchantEvent.getItem());
+            if (controller.getMain().getConfig().getBoolean("enablePoisonTouch")) {
+                if (randPoison <= 59) { //6%
+                    func.enchantItem("Poison Touch", 2, enchantEvent.getItem());
+                } else if (randPoison >= 60 && randPoison <= 169) { //11%
+                    func.enchantItem("Poison Touch", 1, enchantEvent.getItem());
+                }
             }
-        }
-        /*if ((func.isTool(enchantEvent.getItem().getType()) && !func.isShears(enchantEvent.getItem().getType()) && !func.isFishingRod(enchantEvent.getItem().getType())
-            && !func.isFlintSteel(enchantEvent.getItem().getType()) && !func.isElytra(enchantEvent.getItem().getType())  && !func.isCarrotStick(enchantEvent.getItem().getType())) || func.isBook(enchantEvent.getItem().getType())) {
-            int randFireT = (int) (Math.random() * 1000);
-            if (randFireT <= 279) { //28%
-                int randFortune = (int) (Math.random() * 1000);
-                if (enchantEvent.getEnchantsToAdd().containsKey(org.bukkit.enchantments.Enchantment.LOOT_BONUS_BLOCKS)) {
-                    if (randFortune <= 499) {
-                        enchantEvent.getEnchantsToAdd().remove(org.bukkit.enchantments.Enchantment.LOOT_BONUS_BLOCKS);
-                        func.enchantItem("Fire Touch", 1, enchantEvent.getItem());
-                    }
-                } else if (enchantEvent.getEnchantsToAdd().containsKey(org.bukkit.enchantments.Enchantment.SILK_TOUCH)) {
-                    if (randFortune <= 499) {
-                        enchantEvent.getEnchantsToAdd().remove(org.bukkit.enchantments.Enchantment.SILK_TOUCH);
-                        func.enchantItem("Fire Touch", 1, enchantEvent.getItem());
-                    }
-                } else {
-                    func.enchantItem("Fire Touch", 1, enchantEvent.getItem());
+            if (controller.getMain().getConfig().getBoolean("enableXPBoost")) {
+                if (randXPBoost <= 49) { //5%
+                    func.enchantItem("XP-Boost", 5, enchantEvent.getItem());
+                } else if (randXPBoost >= 50 && randXPBoost <= 149) { //10%
+                    func.enchantItem("XP-Boost", 4, enchantEvent.getItem());
+                } else if (randXPBoost >= 150 && randXPBoost <= 299) { //15%
+                    func.enchantItem("XP-Boost", 3, enchantEvent.getItem());
+                } else if (randXPBoost >= 300 && randXPBoost <= 599) { //20%
+                    func.enchantItem("XP-Boost", 2, enchantEvent.getItem());
+                } else if (randXPBoost >= 600 && randXPBoost <= 849) { //25%
+                    func.enchantItem("XP-Boost", 1, enchantEvent.getItem());
                 }
             }
         }
-        if (enchantEvent.getItem().getType().name().endsWith("HELMET") || func.isBook(enchantEvent.getItem().getType())) {
+        if ((func.isTool(enchantEvent.getItem().getType()) && !func.isShears(enchantEvent.getItem().getType()) && !func.isFishingRod(enchantEvent.getItem().getType())
+            && !func.isFlintSteel(enchantEvent.getItem().getType()) && !func.isElytra(enchantEvent.getItem().getType())  && !func.isCarrotStick(enchantEvent.getItem().getType())) || func.isBook(enchantEvent.getItem().getType())) {
+            int randFireT = (int) (Math.random() * 1000);
+            if (controller.getMain().getConfig().getBoolean("enableFireTouch")) {
+                if (randFireT <= 279) { //28%
+                    if (!enchantEvent.getEnchantsToAdd().containsKey(org.bukkit.enchantments.Enchantment.LOOT_BONUS_BLOCKS) && !enchantEvent.getEnchantsToAdd().containsKey(org.bukkit.enchantments.Enchantment.SILK_TOUCH)) {
+                        func.enchantItem("Fire Touch", 1, enchantEvent.getItem());
+                    }
+                }
+            }
+        }
+        /*if (enchantEvent.getItem().getType().name().endsWith("HELMET") || func.isBook(enchantEvent.getItem().getType())) {
             int randNVision = (int) (Math.random() * 1000);
             if (randNVision <= 129) { //13%
                 func.enchantItem("Night Vision", 1, enchantEvent.getItem());
@@ -130,7 +127,7 @@ public class Enchantment implements Listener {
         Player player = blockBreakEvent.getPlayer();
         if (player.getEquipment().getItemInMainHand() == null || !func.isTool(player.getEquipment().getItemInMainHand().getType()) || !player.getEquipment().getItemInMainHand().hasItemMeta())
             return;
-        if (!player.getEquipment().getItemInMainHand().getItemMeta().hasLore()) return;
+        if (!player.getEquipment().getItemInMainHand().getItemMeta().hasLore() || player.getEquipment().getItemInMainHand().containsEnchantment(org.bukkit.enchantments.Enchantment.SILK_TOUCH) || player.getEquipment().getItemInMainHand().containsEnchantment(org.bukkit.enchantments.Enchantment.LOOT_BONUS_BLOCKS)) return;
         if (!func.hasCustomEnchant(player.getEquipment().getItemInMainHand().getItemMeta().getLore())) return;
         boolean b = false;
         for (String str : player.getEquipment().getItemInMainHand().getItemMeta().getLore()) {
@@ -140,7 +137,7 @@ public class Enchantment implements Listener {
         if (!b) return;
         Material mat = blockBreakEvent.getBlock().getType();
         blockBreakEvent.getBlock().setType(Material.AIR);
-        blockBreakEvent.getBlock().getWorld().dropItemNaturally(blockBreakEvent.getBlock().getLocation().add(0, 1, 0), smeltedItem(mat));
+        blockBreakEvent.getBlock().getWorld().dropItemNaturally(blockBreakEvent.getBlock().getLocation().add(0, 0, 0), smeltedItem(mat));
     }
 
     @EventHandler
@@ -181,6 +178,8 @@ public class Enchantment implements Listener {
                 return new ItemStack(Material.INK_SACK, 1, (short) 2);
             case GRASS:
                 return new ItemStack(Material.DIRT, 1);
+            case REDSTONE_WIRE:
+                return new ItemStack(Material.REDSTONE, 1);
             default:
                 return new ItemStack(material);
         }

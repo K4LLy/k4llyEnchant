@@ -25,5 +25,10 @@ LUCK: 20
 LURE: 20
 enableTakeEnchantment: true
 enableCustomEnchantment: true
+enableXPBoost: true
+enablePoisonTouch: true
+enableWither: true
+enableFireTouch: false
+enableNightVision: false
 XP-Boost: 20
 Poison Touch: 20

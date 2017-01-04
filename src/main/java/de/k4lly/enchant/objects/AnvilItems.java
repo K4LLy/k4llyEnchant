@@ -61,8 +61,8 @@ public class AnvilItems {
                 itemResultELevel.add(itemMetaRight.getStoredEnchantLevel(enchantment));
             }
         }
-        //addCustomEnchantment(itemLeft, itemRight);
-        //checkCEConfliction(itemLeft, itemRight);
+        addCustomEnchantment(itemLeft, itemRight);
+        checkCEConfliction(itemLeft, itemRight);
         checkConfliction(itemMeta, null, null, itemMetaRight);
         checkPosibility();
     }
@@ -150,12 +150,7 @@ public class AnvilItems {
                 Enchantment enchant = itemResultEnchantment.get(i);
                 if (!enchant.equals(Enchantment.DURABILITY) && !enchant.equals(Enchantment.MENDING) && !enchant.equals(Enchantment.VANISHING_CURSE)) {
                     if (!func.isShears(itemLeft.getType()) && !func.isFishingRod(itemLeft.getType()) && !func.isFlintSteel(itemLeft.getType()) && !func.isCarrotStick(itemLeft.getType()) && !func.isElytra(itemLeft.getType())) {
-                        if (!enchant.equals(Enchantment.SILK_TOUCH) && !enchant.equals(Enchantment.LOOT_BONUS_BLOCKS)) {
-                            itemResultEnchantment.remove(i);
-                            itemResultELevel.remove(i);
-                        }
-                    } else if (!func.isFishingRod(itemLeft.getType()) && !func.isFlintSteel(itemLeft.getType()) && !func.isCarrotStick(itemLeft.getType())) {
-                        if (!enchant.equals(Enchantment.DIG_SPEED)) {
+                        if (!enchant.equals(Enchantment.SILK_TOUCH) && !enchant.equals(Enchantment.LOOT_BONUS_BLOCKS) && !enchant.equals(Enchantment.DIG_SPEED)) {
                             itemResultEnchantment.remove(i);
                             itemResultELevel.remove(i);
                         }
@@ -222,11 +217,11 @@ public class AnvilItems {
         if (metaLeft != null && metaRight != null) {
             if (itemResultEnchantment.contains(Enchantment.FROST_WALKER) && itemResultEnchantment.contains(Enchantment.DEPTH_STRIDER)) {
                 if (metaLeft.hasEnchant(Enchantment.FROST_WALKER)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.DEPTH_STRIDER));
                     itemResultEnchantment.remove(Enchantment.DEPTH_STRIDER);
-                    itemResultELevel.remove(metaRight.getEnchantLevel(Enchantment.DEPTH_STRIDER));
                 } else {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.FROST_WALKER));
                     itemResultEnchantment.remove(Enchantment.FROST_WALKER);
-                    itemResultELevel.remove(metaRight.getEnchantLevel(Enchantment.FROST_WALKER));
                 }
             }
 
@@ -237,61 +232,61 @@ public class AnvilItems {
                     (itemResultEnchantment.contains(Enchantment.PROTECTION_FIRE) && itemResultEnchantment.contains(Enchantment.PROTECTION_PROJECTILE)) ||
                     (itemResultEnchantment.contains(Enchantment.PROTECTION_EXPLOSIONS) && itemResultEnchantment.contains(Enchantment.PROTECTION_PROJECTILE))) {
                 if (metaLeft.hasEnchant(Enchantment.PROTECTION_ENVIRONMENTAL) && metaRight.hasEnchant(Enchantment.PROTECTION_EXPLOSIONS)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_EXPLOSIONS));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_EXPLOSIONS);
-                    itemResultELevel.remove(metaRight.getEnchantLevel(Enchantment.PROTECTION_EXPLOSIONS));
                 } else if (metaLeft.hasEnchant(Enchantment.PROTECTION_EXPLOSIONS) && metaRight.hasEnchant(Enchantment.PROTECTION_ENVIRONMENTAL)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_ENVIRONMENTAL));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_ENVIRONMENTAL);
-                    itemResultELevel.remove(metaRight.getEnchantLevel(Enchantment.PROTECTION_ENVIRONMENTAL));
                 }
 
                 if (metaLeft.hasEnchant(Enchantment.PROTECTION_ENVIRONMENTAL) && metaRight.hasEnchant(Enchantment.PROTECTION_FIRE)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_FIRE));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_FIRE);
-                    itemResultELevel.remove(metaRight.getEnchantLevel(Enchantment.PROTECTION_FIRE));
                 } else if (metaLeft.hasEnchant(Enchantment.PROTECTION_FIRE) && metaRight.hasEnchant(Enchantment.PROTECTION_ENVIRONMENTAL)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_ENVIRONMENTAL));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_ENVIRONMENTAL);
-                    itemResultELevel.remove(metaRight.getEnchantLevel(Enchantment.PROTECTION_ENVIRONMENTAL));
                 }
 
                 if (metaLeft.hasEnchant(Enchantment.PROTECTION_ENVIRONMENTAL) && metaRight.hasEnchant(Enchantment.PROTECTION_PROJECTILE)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_PROJECTILE));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_PROJECTILE);
-                    itemResultELevel.remove(metaRight.getEnchantLevel(Enchantment.PROTECTION_PROJECTILE));
                 } else if (metaLeft.hasEnchant(Enchantment.PROTECTION_PROJECTILE) && metaRight.hasEnchant(Enchantment.PROTECTION_ENVIRONMENTAL)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_ENVIRONMENTAL));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_ENVIRONMENTAL);
-                    itemResultELevel.remove(metaRight.getEnchantLevel(Enchantment.PROTECTION_ENVIRONMENTAL));
                 }
 
                 if (metaLeft.hasEnchant(Enchantment.PROTECTION_FIRE) && metaRight.hasEnchant(Enchantment.PROTECTION_EXPLOSIONS)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_EXPLOSIONS));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_EXPLOSIONS);
-                    itemResultELevel.remove(metaRight.getEnchantLevel(Enchantment.PROTECTION_EXPLOSIONS));
                 } else if (metaLeft.hasEnchant(Enchantment.PROTECTION_EXPLOSIONS) && metaRight.hasEnchant(Enchantment.PROTECTION_FIRE)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_FIRE));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_FIRE);
-                    itemResultELevel.remove(metaRight.getEnchantLevel(Enchantment.PROTECTION_FIRE));
                 }
 
                 if (metaLeft.hasEnchant(Enchantment.PROTECTION_FIRE) && metaRight.hasEnchant(Enchantment.PROTECTION_PROJECTILE)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_PROJECTILE));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_PROJECTILE);
-                    itemResultELevel.remove(metaRight.getEnchantLevel(Enchantment.PROTECTION_PROJECTILE));
                 } else if (metaLeft.hasEnchant(Enchantment.PROTECTION_PROJECTILE) && metaRight.hasEnchant(Enchantment.PROTECTION_FIRE)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_FIRE));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_FIRE);
-                    itemResultELevel.remove(metaRight.getEnchantLevel(Enchantment.PROTECTION_FIRE));
                 }
 
                 if (metaLeft.hasEnchant(Enchantment.PROTECTION_EXPLOSIONS) && metaRight.hasEnchant(Enchantment.PROTECTION_PROJECTILE)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_PROJECTILE));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_PROJECTILE);
-                    itemResultELevel.remove(metaRight.getEnchantLevel(Enchantment.PROTECTION_PROJECTILE));
                 } else if (metaLeft.hasEnchant(Enchantment.PROTECTION_PROJECTILE) && metaRight.hasEnchant(Enchantment.PROTECTION_EXPLOSIONS)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_EXPLOSIONS));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_EXPLOSIONS);
-                    itemResultELevel.remove(metaRight.getEnchantLevel(Enchantment.PROTECTION_EXPLOSIONS));
                 }
             }
         } else if (metaLeft != null && eMetaRight != null) {
             if (itemResultEnchantment.contains(Enchantment.FROST_WALKER) && itemResultEnchantment.contains(Enchantment.DEPTH_STRIDER)) {
                 if (metaLeft.hasEnchant(Enchantment.FROST_WALKER)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.DEPTH_STRIDER));
                     itemResultEnchantment.remove(Enchantment.DEPTH_STRIDER);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.DEPTH_STRIDER));
                 } else {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.FROST_WALKER));
                     itemResultEnchantment.remove(Enchantment.FROST_WALKER);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.FROST_WALKER));
                 }
             }
 
@@ -302,61 +297,61 @@ public class AnvilItems {
                     (itemResultEnchantment.contains(Enchantment.PROTECTION_FIRE) && itemResultEnchantment.contains(Enchantment.PROTECTION_PROJECTILE)) ||
                     (itemResultEnchantment.contains(Enchantment.PROTECTION_EXPLOSIONS) && itemResultEnchantment.contains(Enchantment.PROTECTION_PROJECTILE))) {
                 if (metaLeft.hasEnchant(Enchantment.PROTECTION_ENVIRONMENTAL) && eMetaRight.hasStoredEnchant(Enchantment.PROTECTION_EXPLOSIONS)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_EXPLOSIONS));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_EXPLOSIONS);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.PROTECTION_EXPLOSIONS));
                 } else if (metaLeft.hasEnchant(Enchantment.PROTECTION_EXPLOSIONS) && eMetaRight.hasStoredEnchant(Enchantment.PROTECTION_ENVIRONMENTAL)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_ENVIRONMENTAL));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_ENVIRONMENTAL);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.PROTECTION_ENVIRONMENTAL));
                 }
 
                 if (metaLeft.hasEnchant(Enchantment.PROTECTION_ENVIRONMENTAL) && eMetaRight.hasStoredEnchant(Enchantment.PROTECTION_FIRE)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_FIRE));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_FIRE);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.PROTECTION_FIRE));
                 } else if (metaLeft.hasEnchant(Enchantment.PROTECTION_FIRE) && eMetaRight.hasStoredEnchant(Enchantment.PROTECTION_ENVIRONMENTAL)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_ENVIRONMENTAL));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_ENVIRONMENTAL);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.PROTECTION_ENVIRONMENTAL));
                 }
 
                 if (metaLeft.hasEnchant(Enchantment.PROTECTION_ENVIRONMENTAL) && eMetaRight.hasStoredEnchant(Enchantment.PROTECTION_PROJECTILE)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_PROJECTILE));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_PROJECTILE);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.PROTECTION_PROJECTILE));
                 } else if (metaLeft.hasEnchant(Enchantment.PROTECTION_PROJECTILE) && eMetaRight.hasStoredEnchant(Enchantment.PROTECTION_ENVIRONMENTAL)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_ENVIRONMENTAL));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_ENVIRONMENTAL);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.PROTECTION_ENVIRONMENTAL));
                 }
 
                 if (metaLeft.hasEnchant(Enchantment.PROTECTION_FIRE) && eMetaRight.hasStoredEnchant(Enchantment.PROTECTION_EXPLOSIONS)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_EXPLOSIONS));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_EXPLOSIONS);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.PROTECTION_EXPLOSIONS));
                 } else if (metaLeft.hasEnchant(Enchantment.PROTECTION_EXPLOSIONS) && eMetaRight.hasStoredEnchant(Enchantment.PROTECTION_FIRE)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_FIRE));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_FIRE);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.PROTECTION_FIRE));
                 }
 
                 if (metaLeft.hasEnchant(Enchantment.PROTECTION_FIRE) && eMetaRight.hasStoredEnchant(Enchantment.PROTECTION_PROJECTILE)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_PROJECTILE));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_PROJECTILE);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.PROTECTION_PROJECTILE));
                 } else if (metaLeft.hasEnchant(Enchantment.PROTECTION_PROJECTILE) && eMetaRight.hasStoredEnchant(Enchantment.PROTECTION_FIRE)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_FIRE));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_FIRE);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.PROTECTION_FIRE));
                 }
 
                 if (metaLeft.hasEnchant(Enchantment.PROTECTION_EXPLOSIONS) && eMetaRight.hasStoredEnchant(Enchantment.PROTECTION_PROJECTILE)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_PROJECTILE));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_PROJECTILE);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.PROTECTION_PROJECTILE));
                 } else if (metaLeft.hasEnchant(Enchantment.PROTECTION_PROJECTILE) && eMetaRight.hasStoredEnchant(Enchantment.PROTECTION_EXPLOSIONS)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_EXPLOSIONS));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_EXPLOSIONS);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.PROTECTION_EXPLOSIONS));
                 }
             }
         } else if (eMetaLeft != null && eMetaRight != null) {
             if (itemResultEnchantment.contains(Enchantment.FROST_WALKER) && itemResultEnchantment.contains(Enchantment.DEPTH_STRIDER)) {
                 if (eMetaLeft.hasStoredEnchant(Enchantment.FROST_WALKER)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.DEPTH_STRIDER));
                     itemResultEnchantment.remove(Enchantment.DEPTH_STRIDER);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.DEPTH_STRIDER));
                 } else {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.FROST_WALKER));
                     itemResultEnchantment.remove(Enchantment.FROST_WALKER);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.FROST_WALKER));
                 }
             }
 
@@ -367,51 +362,51 @@ public class AnvilItems {
                     (itemResultEnchantment.contains(Enchantment.PROTECTION_FIRE) && itemResultEnchantment.contains(Enchantment.PROTECTION_PROJECTILE)) ||
                     (itemResultEnchantment.contains(Enchantment.PROTECTION_EXPLOSIONS) && itemResultEnchantment.contains(Enchantment.PROTECTION_PROJECTILE))) {
                 if (eMetaLeft.hasStoredEnchant(Enchantment.PROTECTION_ENVIRONMENTAL) && eMetaRight.hasStoredEnchant(Enchantment.PROTECTION_EXPLOSIONS)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_EXPLOSIONS));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_EXPLOSIONS);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.PROTECTION_EXPLOSIONS));
                 } else if (eMetaLeft.hasStoredEnchant(Enchantment.PROTECTION_EXPLOSIONS) && eMetaRight.hasStoredEnchant(Enchantment.PROTECTION_ENVIRONMENTAL)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_ENVIRONMENTAL));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_ENVIRONMENTAL);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.PROTECTION_ENVIRONMENTAL));
                 }
 
                 if (eMetaLeft.hasStoredEnchant(Enchantment.PROTECTION_ENVIRONMENTAL) && eMetaRight.hasStoredEnchant(Enchantment.PROTECTION_FIRE)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_FIRE));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_FIRE);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.PROTECTION_FIRE));
                 } else if (eMetaLeft.hasStoredEnchant(Enchantment.PROTECTION_FIRE) && eMetaRight.hasStoredEnchant(Enchantment.PROTECTION_ENVIRONMENTAL)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_ENVIRONMENTAL));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_ENVIRONMENTAL);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.PROTECTION_ENVIRONMENTAL));
                 }
 
                 if (eMetaLeft.hasStoredEnchant(Enchantment.PROTECTION_ENVIRONMENTAL) && eMetaRight.hasStoredEnchant(Enchantment.PROTECTION_PROJECTILE)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_PROJECTILE));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_PROJECTILE);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.PROTECTION_PROJECTILE));
                 } else if (eMetaLeft.hasStoredEnchant(Enchantment.PROTECTION_PROJECTILE) && eMetaRight.hasStoredEnchant(Enchantment.PROTECTION_ENVIRONMENTAL)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_ENVIRONMENTAL));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_ENVIRONMENTAL);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.PROTECTION_ENVIRONMENTAL));
                 }
 
                 if (eMetaLeft.hasStoredEnchant(Enchantment.PROTECTION_FIRE) && eMetaRight.hasStoredEnchant(Enchantment.PROTECTION_EXPLOSIONS)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_EXPLOSIONS));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_EXPLOSIONS);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.PROTECTION_EXPLOSIONS));
                 } else if (eMetaLeft.hasStoredEnchant(Enchantment.PROTECTION_EXPLOSIONS) && eMetaRight.hasStoredEnchant(Enchantment.PROTECTION_FIRE)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_FIRE));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_FIRE);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.PROTECTION_FIRE));
                 }
 
                 if (eMetaLeft.hasStoredEnchant(Enchantment.PROTECTION_FIRE) && eMetaRight.hasStoredEnchant(Enchantment.PROTECTION_PROJECTILE)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_PROJECTILE));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_PROJECTILE);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.PROTECTION_PROJECTILE));
                 } else if (eMetaLeft.hasStoredEnchant(Enchantment.PROTECTION_PROJECTILE) && eMetaRight.hasStoredEnchant(Enchantment.PROTECTION_FIRE)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_FIRE));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_FIRE);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.PROTECTION_FIRE));
                 }
 
                 if (eMetaLeft.hasStoredEnchant(Enchantment.PROTECTION_EXPLOSIONS) && eMetaRight.hasStoredEnchant(Enchantment.PROTECTION_PROJECTILE)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_PROJECTILE));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_PROJECTILE);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.PROTECTION_PROJECTILE));
                 } else if (eMetaLeft.hasStoredEnchant(Enchantment.PROTECTION_PROJECTILE) && eMetaRight.hasStoredEnchant(Enchantment.PROTECTION_EXPLOSIONS)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.PROTECTION_EXPLOSIONS));
                     itemResultEnchantment.remove(Enchantment.PROTECTION_EXPLOSIONS);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.PROTECTION_EXPLOSIONS));
                 }
             }
         }
@@ -424,36 +419,36 @@ public class AnvilItems {
                     (itemResultEnchantment.contains(Enchantment.DAMAGE_ARTHROPODS) && itemResultEnchantment.contains(Enchantment.DAMAGE_UNDEAD))) {
 
                 if (metaLeft.hasEnchant(Enchantment.DAMAGE_ALL) && metaRight.hasEnchant(Enchantment.DAMAGE_ARTHROPODS)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.DAMAGE_ARTHROPODS));
                     itemResultEnchantment.remove(Enchantment.DAMAGE_ARTHROPODS);
-                    itemResultELevel.remove(metaRight.getEnchantLevel(Enchantment.DAMAGE_ARTHROPODS));
                 } else if (metaLeft.hasEnchant(Enchantment.DAMAGE_ARTHROPODS) && metaRight.hasEnchant(Enchantment.DAMAGE_ALL)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.DAMAGE_ALL));
                     itemResultEnchantment.remove(Enchantment.DAMAGE_ALL);
-                    itemResultELevel.remove(metaRight.getEnchantLevel(Enchantment.DAMAGE_ALL));
                 }
 
                 if (metaLeft.hasEnchant(Enchantment.DAMAGE_ALL) && metaRight.hasEnchant(Enchantment.DAMAGE_UNDEAD)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.DAMAGE_UNDEAD));
                     itemResultEnchantment.remove(Enchantment.DAMAGE_UNDEAD);
-                    itemResultELevel.remove(metaRight.getEnchantLevel(Enchantment.DAMAGE_UNDEAD));
                 } else if (metaLeft.hasEnchant(Enchantment.DAMAGE_UNDEAD) && metaRight.hasEnchant(Enchantment.DAMAGE_ALL)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.DAMAGE_ALL));
                     itemResultEnchantment.remove(Enchantment.DAMAGE_ALL);
-                    itemResultELevel.remove(metaRight.getEnchantLevel(Enchantment.DAMAGE_ALL));
                 }
 
                 if (metaLeft.hasEnchant(Enchantment.DAMAGE_ARTHROPODS) && metaRight.hasEnchant(Enchantment.DAMAGE_UNDEAD)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.DAMAGE_UNDEAD));
                     itemResultEnchantment.remove(Enchantment.DAMAGE_UNDEAD);
-                    itemResultELevel.remove(metaRight.getEnchantLevel(Enchantment.DAMAGE_UNDEAD));
                 } else if (metaLeft.hasEnchant(Enchantment.DAMAGE_UNDEAD) && metaRight.hasEnchant(Enchantment.DAMAGE_ARTHROPODS)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.DAMAGE_ARTHROPODS));
                     itemResultEnchantment.remove(Enchantment.DAMAGE_ARTHROPODS);
-                    itemResultELevel.remove(metaRight.getEnchantLevel(Enchantment.DAMAGE_ARTHROPODS));
                 }
             }
 
             if (metaLeft.hasEnchant(Enchantment.ARROW_INFINITE) && metaRight.hasEnchant(Enchantment.MENDING)) {
+                itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.MENDING));
                 itemResultEnchantment.remove(Enchantment.MENDING);
-                itemResultELevel.remove(metaRight.getEnchantLevel(Enchantment.MENDING));
             } else if (metaLeft.hasEnchant(Enchantment.MENDING) && metaRight.hasEnchant(Enchantment.ARROW_INFINITE)) {
+                itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.ARROW_INFINITE));
                 itemResultEnchantment.remove(Enchantment.ARROW_INFINITE);
-                itemResultELevel.remove(metaRight.getEnchantLevel(Enchantment.ARROW_INFINITE));
             }
         } else if (metaLeft != null && eMetaRight != null) {
             if ((itemResultEnchantment.contains(Enchantment.DAMAGE_ALL) && itemResultEnchantment.contains(Enchantment.DAMAGE_ARTHROPODS)) ||
@@ -461,36 +456,36 @@ public class AnvilItems {
                     (itemResultEnchantment.contains(Enchantment.DAMAGE_ARTHROPODS) && itemResultEnchantment.contains(Enchantment.DAMAGE_UNDEAD))) {
 
                 if (metaLeft.hasEnchant(Enchantment.DAMAGE_ALL) && eMetaRight.hasStoredEnchant(Enchantment.DAMAGE_ARTHROPODS)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.DAMAGE_ARTHROPODS));
                     itemResultEnchantment.remove(Enchantment.DAMAGE_ARTHROPODS);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.DAMAGE_ARTHROPODS));
                 } else if (metaLeft.hasEnchant(Enchantment.DAMAGE_ARTHROPODS) && eMetaRight.hasStoredEnchant(Enchantment.DAMAGE_ALL)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.DAMAGE_ALL));
                     itemResultEnchantment.remove(Enchantment.DAMAGE_ALL);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.DAMAGE_ALL));
                 }
 
                 if (metaLeft.hasEnchant(Enchantment.DAMAGE_ALL) && eMetaRight.hasStoredEnchant(Enchantment.DAMAGE_UNDEAD)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.DAMAGE_UNDEAD));
                     itemResultEnchantment.remove(Enchantment.DAMAGE_UNDEAD);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.DAMAGE_UNDEAD));
                 } else if (metaLeft.hasEnchant(Enchantment.DAMAGE_UNDEAD) && eMetaRight.hasStoredEnchant(Enchantment.DAMAGE_ALL)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.DAMAGE_ALL));
                     itemResultEnchantment.remove(Enchantment.DAMAGE_ALL);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.DAMAGE_ALL));
                 }
 
                 if (metaLeft.hasEnchant(Enchantment.DAMAGE_ARTHROPODS) && eMetaRight.hasStoredEnchant(Enchantment.DAMAGE_UNDEAD)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.DAMAGE_UNDEAD));
                     itemResultEnchantment.remove(Enchantment.DAMAGE_UNDEAD);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.DAMAGE_UNDEAD));
                 } else if (metaLeft.hasEnchant(Enchantment.DAMAGE_UNDEAD) && eMetaRight.hasStoredEnchant(Enchantment.DAMAGE_ARTHROPODS)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.DAMAGE_ARTHROPODS));
                     itemResultEnchantment.remove(Enchantment.DAMAGE_ARTHROPODS);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.DAMAGE_ARTHROPODS));
                 }
             }
 
             if (metaLeft.hasEnchant(Enchantment.ARROW_INFINITE) && eMetaRight.hasEnchant(Enchantment.MENDING)) {
+                itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.MENDING));
                 itemResultEnchantment.remove(Enchantment.MENDING);
-                itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.MENDING));
             } else if (metaLeft.hasEnchant(Enchantment.MENDING) && eMetaRight.hasEnchant(Enchantment.ARROW_INFINITE)) {
+                itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.ARROW_INFINITE));
                 itemResultEnchantment.remove(Enchantment.ARROW_INFINITE);
-                itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.ARROW_INFINITE));
             }
         } else if (eMetaLeft != null && eMetaRight != null) {
             if ((itemResultEnchantment.contains(Enchantment.DAMAGE_ALL) && itemResultEnchantment.contains(Enchantment.DAMAGE_ARTHROPODS)) ||
@@ -498,36 +493,36 @@ public class AnvilItems {
                     (itemResultEnchantment.contains(Enchantment.DAMAGE_ARTHROPODS) && itemResultEnchantment.contains(Enchantment.DAMAGE_UNDEAD))) {
 
                 if (eMetaLeft.hasStoredEnchant(Enchantment.DAMAGE_ALL) && eMetaRight.hasStoredEnchant(Enchantment.DAMAGE_ARTHROPODS)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.DAMAGE_ARTHROPODS));
                     itemResultEnchantment.remove(Enchantment.DAMAGE_ARTHROPODS);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.DAMAGE_ARTHROPODS));
                 } else if (eMetaLeft.hasStoredEnchant(Enchantment.DAMAGE_ARTHROPODS) && eMetaRight.hasStoredEnchant(Enchantment.DAMAGE_ALL)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.DAMAGE_ALL));
                     itemResultEnchantment.remove(Enchantment.DAMAGE_ALL);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.DAMAGE_ALL));
                 }
 
                 if (eMetaLeft.hasStoredEnchant(Enchantment.DAMAGE_ALL) && eMetaRight.hasStoredEnchant(Enchantment.DAMAGE_UNDEAD)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.DAMAGE_UNDEAD));
                     itemResultEnchantment.remove(Enchantment.DAMAGE_UNDEAD);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.DAMAGE_UNDEAD));
                 } else if (eMetaLeft.hasStoredEnchant(Enchantment.DAMAGE_UNDEAD) && eMetaRight.hasStoredEnchant(Enchantment.DAMAGE_ALL)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.DAMAGE_ALL));
                     itemResultEnchantment.remove(Enchantment.DAMAGE_ALL);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.DAMAGE_ALL));
                 }
 
                 if (eMetaLeft.hasStoredEnchant(Enchantment.DAMAGE_ARTHROPODS) && eMetaRight.hasStoredEnchant(Enchantment.DAMAGE_UNDEAD)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.DAMAGE_UNDEAD));
                     itemResultEnchantment.remove(Enchantment.DAMAGE_UNDEAD);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.DAMAGE_UNDEAD));
                 } else if (eMetaLeft.hasStoredEnchant(Enchantment.DAMAGE_UNDEAD) && eMetaRight.hasStoredEnchant(Enchantment.DAMAGE_ARTHROPODS)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.DAMAGE_ARTHROPODS));
                     itemResultEnchantment.remove(Enchantment.DAMAGE_ARTHROPODS);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.DAMAGE_ARTHROPODS));
                 }
             }
 
             if (eMetaLeft.hasEnchant(Enchantment.ARROW_INFINITE) && eMetaRight.hasEnchant(Enchantment.MENDING)) {
+                itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.MENDING));
                 itemResultEnchantment.remove(Enchantment.MENDING);
-                itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.MENDING));
             } else if (eMetaLeft.hasEnchant(Enchantment.MENDING) && eMetaRight.hasEnchant(Enchantment.ARROW_INFINITE)) {
+                itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.ARROW_INFINITE));
                 itemResultEnchantment.remove(Enchantment.ARROW_INFINITE);
-                itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.ARROW_INFINITE));
             }
         }
     }
@@ -536,31 +531,31 @@ public class AnvilItems {
         if (metaLeft != null && metaRight != null) {
             if (itemResultEnchantment.contains(Enchantment.SILK_TOUCH) && itemResultEnchantment.contains(Enchantment.LOOT_BONUS_BLOCKS)) {
                 if (metaLeft.hasEnchant(Enchantment.SILK_TOUCH)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.LOOT_BONUS_BLOCKS));
                     itemResultEnchantment.remove(Enchantment.LOOT_BONUS_BLOCKS);
-                    itemResultELevel.remove(metaRight.getEnchantLevel(Enchantment.LOOT_BONUS_BLOCKS));
                 } else {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.SILK_TOUCH));
                     itemResultEnchantment.remove(Enchantment.SILK_TOUCH);
-                    itemResultELevel.remove(metaRight.getEnchantLevel(Enchantment.SILK_TOUCH));
                 }
             }
         } else if (metaLeft != null && eMetaRight != null) {
             if (itemResultEnchantment.contains(Enchantment.SILK_TOUCH) && itemResultEnchantment.contains(Enchantment.LOOT_BONUS_BLOCKS)) {
                 if (metaLeft.hasEnchant(Enchantment.SILK_TOUCH)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.LOOT_BONUS_BLOCKS));
                     itemResultEnchantment.remove(Enchantment.LOOT_BONUS_BLOCKS);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.LOOT_BONUS_BLOCKS));
                 } else {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.SILK_TOUCH));
                     itemResultEnchantment.remove(Enchantment.SILK_TOUCH);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.SILK_TOUCH));
                 }
             }
         } else if (eMetaLeft != null && eMetaRight != null) {
             if (itemResultEnchantment.contains(Enchantment.SILK_TOUCH) && itemResultEnchantment.contains(Enchantment.LOOT_BONUS_BLOCKS)) {
                 if (eMetaLeft.hasStoredEnchant(Enchantment.SILK_TOUCH)) {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.LOOT_BONUS_BLOCKS));
                     itemResultEnchantment.remove(Enchantment.LOOT_BONUS_BLOCKS);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.LOOT_BONUS_BLOCKS));
                 } else {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.SILK_TOUCH));
                     itemResultEnchantment.remove(Enchantment.SILK_TOUCH);
-                    itemResultELevel.remove(eMetaRight.getEnchantLevel(Enchantment.SILK_TOUCH));
                 }
             }
         }
@@ -568,17 +563,34 @@ public class AnvilItems {
 
     private void checkCEConfliction(ItemStack itemLeft, ItemStack itemRight) {
         if ((itemLeft.getItemMeta().getLore() == null || itemLeft.getItemMeta().getLore().isEmpty()) && (itemRight.getItemMeta().getLore() == null || itemRight.getItemMeta().getLore().isEmpty())) return;
-        if (!func.hasCustomEnchant(itemLeft.getItemMeta().getLore()) && !func.hasCustomEnchant(itemRight.getItemMeta().getLore())) return;
-        if (func.isArmor(itemLeft.getType())) {
-            checkCEArmor(itemLeft, itemRight);
-        } else if (func.isWeapon(itemLeft.getType())) {
-            checkCEWeapon(itemLeft, itemRight);
-        } else if (func.isTool(itemLeft.getType())) {
-            checkCETool(itemLeft, itemRight);
-        } else if (func.isEnchantedBook(itemLeft.getType())) {
-            checkCEArmor(itemLeft, itemRight);
-            checkCEWeapon(itemLeft, itemRight);
-            checkCETool(itemLeft, itemRight);
+        if ((itemLeft.getItemMeta().getLore() == null || itemLeft.getItemMeta().getLore().isEmpty()) && (itemRight.getItemMeta().getLore() != null || !itemRight.getItemMeta().getLore().isEmpty())) {
+            if (func.hasCustomEnchant(itemRight.getItemMeta().getLore())) {
+                if (func.isArmor(itemLeft.getType())) {
+                    checkCEArmor(itemLeft, itemRight);
+                } else if (func.isWeapon(itemLeft.getType())) {
+                    checkCEWeapon(itemLeft, itemRight);
+                } else if (func.isTool(itemLeft.getType())) {
+                    checkCETool(itemLeft, itemRight);
+                } else if (func.isEnchantedBook(itemLeft.getType())) {
+                    checkCEArmor(itemLeft, itemRight);
+                    checkCEWeapon(itemLeft, itemRight);
+                    checkCETool(itemLeft, itemRight);
+                }
+            }
+        } else if ((itemLeft.getItemMeta().getLore() != null || !itemLeft.getItemMeta().getLore().isEmpty()) && (itemRight.getItemMeta().getLore() == null || itemRight.getItemMeta().getLore().isEmpty())) {
+            if (func.hasCustomEnchant(itemLeft.getItemMeta().getLore())) {
+                if (func.isArmor(itemLeft.getType())) {
+                    checkCEArmor(itemLeft, itemRight);
+                } else if (func.isWeapon(itemLeft.getType())) {
+                    checkCEWeapon(itemLeft, itemRight);
+                } else if (func.isTool(itemLeft.getType())) {
+                    checkCETool(itemLeft, itemRight);
+                } else if (func.isEnchantedBook(itemLeft.getType())) {
+                    checkCEArmor(itemLeft, itemRight);
+                    checkCEWeapon(itemLeft, itemRight);
+                    checkCETool(itemLeft, itemRight);
+                }
+            }
         }
     }
 
@@ -593,63 +605,63 @@ public class AnvilItems {
     private void checkCETool(ItemStack itemLeft, ItemStack itemRight) {
         if (func.isTool(itemLeft.getType())) {
             if (itemResultEnchantment.contains(Enchantment.SILK_TOUCH) && itemResultCustomEnchantment.contains(ChatColor.GRAY + "Fire Touch")) {
-                if (itemLeft.getItemMeta().hasEnchant(Enchantment.SILK_TOUCH)) {
+                if (!itemLeft.getItemMeta().hasEnchant(Enchantment.SILK_TOUCH)) {
                     for (String str : itemRight.getItemMeta().getLore()) {
-                        if (!func.isCustomEnchant(str)) continue;
+                        if (func.isCustomEnchant(str)) continue;
                         if (str.startsWith(ChatColor.GRAY + "Fire Touch ")) {
+                            itemResultCELevel.remove(itemResultCustomEnchantment.indexOf(str));
                             itemResultCustomEnchantment.remove(str);
-                            itemResultCELevel.remove(str);
                         }
                     }
                 } else {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.SILK_TOUCH));
                     itemResultEnchantment.remove(Enchantment.SILK_TOUCH);
-                    itemResultELevel.remove(itemRight.getItemMeta().getEnchantLevel(Enchantment.SILK_TOUCH));
                 }
             }
 
             if (itemResultEnchantment.contains(Enchantment.LOOT_BONUS_BLOCKS) && itemResultCustomEnchantment.contains(ChatColor.GRAY + "Fire Touch")) {
-                if (itemLeft.getItemMeta().hasEnchant(Enchantment.LOOT_BONUS_BLOCKS)) {
+                if (!itemLeft.getItemMeta().hasEnchant(Enchantment.LOOT_BONUS_BLOCKS)) {
                     for (String str : itemRight.getItemMeta().getLore()) {
-                        if (!func.isCustomEnchant(str)) continue;
+                        if (func.isCustomEnchant(str)) continue;
                         if (str.startsWith(ChatColor.GRAY + "Fire Touch ")) {
+                            itemResultCELevel.remove(itemResultCustomEnchantment.indexOf(str));
                             itemResultCustomEnchantment.remove(str);
-                            itemResultCELevel.remove(str);
                         }
                     }
                 } else {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.LOOT_BONUS_BLOCKS));
                     itemResultEnchantment.remove(Enchantment.LOOT_BONUS_BLOCKS);
-                    itemResultELevel.remove(itemRight.getItemMeta().getEnchantLevel(Enchantment.LOOT_BONUS_BLOCKS));
                 }
             }
         } else if (func.isEnchantedBook(itemLeft.getType())) {
             EnchantmentStorageMeta meta = (EnchantmentStorageMeta) itemLeft.getItemMeta();
             if (itemResultEnchantment.contains(Enchantment.SILK_TOUCH) && itemResultCustomEnchantment.contains(ChatColor.GRAY + "Fire Touch")) {
-                if (meta.hasStoredEnchant(Enchantment.SILK_TOUCH)) {
+                if (!meta.hasStoredEnchant(Enchantment.SILK_TOUCH)) {
                     for (String str : itemRight.getItemMeta().getLore()) {
-                        if (!func.isCustomEnchant(str)) continue;
+                        if (func.isCustomEnchant(str)) continue;
                         if (str.startsWith(ChatColor.GRAY + "Fire Touch ")) {
+                            itemResultCELevel.remove(itemResultCustomEnchantment.indexOf(str));
                             itemResultCustomEnchantment.remove(str);
-                            itemResultCELevel.remove(str);
                         }
                     }
                 } else {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.SILK_TOUCH));
                     itemResultEnchantment.remove(Enchantment.SILK_TOUCH);
-                    itemResultELevel.remove(itemRight.getItemMeta().getEnchantLevel(Enchantment.SILK_TOUCH));
                 }
             }
 
             if (itemResultEnchantment.contains(Enchantment.LOOT_BONUS_BLOCKS) && itemResultCustomEnchantment.contains(ChatColor.GRAY + "Fire Touch")) {
-                if (meta.hasStoredEnchant(Enchantment.LOOT_BONUS_BLOCKS)) {
+                if (!meta.hasStoredEnchant(Enchantment.LOOT_BONUS_BLOCKS)) {
                     for (String str : itemRight.getItemMeta().getLore()) {
-                        if (!func.isCustomEnchant(str)) continue;
+                        if (func.isCustomEnchant(str)) continue;
                         if (str.startsWith(ChatColor.GRAY + "Fire Touch ")) {
+                            itemResultCELevel.remove(itemResultCustomEnchantment.indexOf(str));
                             itemResultCustomEnchantment.remove(str);
-                            itemResultCELevel.remove(str);
                         }
                     }
                 } else {
+                    itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.LOOT_BONUS_BLOCKS));
                     itemResultEnchantment.remove(Enchantment.LOOT_BONUS_BLOCKS);
-                    itemResultELevel.remove(itemRight.getItemMeta().getEnchantLevel(Enchantment.LOOT_BONUS_BLOCKS));
                 }
             }
         }
@@ -665,24 +677,43 @@ public class AnvilItems {
     private void addCustomEnchantment(ItemStack itemLeft, ItemStack itemRight) throws Exception {
         if (itemLeft.getItemMeta().hasLore() && itemRight.getItemMeta().hasLore()) {
             if (func.hasCustomEnchant(itemLeft.getItemMeta().getLore()) && func.hasCustomEnchant(itemRight.getItemMeta().getLore())) {
+                ArrayList<String> leftMeta = new ArrayList<>();
+                ArrayList<String> rightMeta = new ArrayList<>();
                 for (String str : itemLeft.getItemMeta().getLore()) {
+                    leftMeta.add(str);
                     for (String str2 : itemRight.getItemMeta().getLore()) {
+                        rightMeta.add(str2);
                         if (func.isCustomEnchant(str) && func.isCustomEnchant(str2)) {
-                            if (func.getCEName(str).equalsIgnoreCase(func.getCEName(str2)) && !uselessCustomEnchantment.contains(func.getCEName(str))) {
+                            if (func.getCEName(str).equalsIgnoreCase(func.getCEName(str2))) {
                                 itemResultCustomEnchantment.add(func.getCEName(str));
                                 int levelLeft = func.getCELevel(str);
                                 int levelRight = func.getCELevel(str2);
-                                if (levelLeft == levelRight && levelLeft <= controller.getMain().getConfig().getInt(func.getInternName(str))) {
+                                if (levelLeft == levelRight && levelLeft < controller.getMain().getConfig().getInt(func.getInternName(str))) {
                                     itemResultCELevel.add(levelLeft + 1);
-                                } else if (levelLeft > levelRight && levelLeft <= controller.getMain().getConfig().getInt(func.getInternName(str))) {
+                                } else if (levelLeft >= levelRight) {
                                     itemResultCELevel.add(levelLeft);
-                                } else if (levelLeft < levelRight && levelRight <= controller.getMain().getConfig().getInt(func.getInternName(str))) {
+                                } else if (levelLeft < levelRight) {
                                     itemResultCELevel.add(levelRight);
                                 }
+                                leftMeta.remove(str);
+                                rightMeta.remove(str2);
                             }
                         }
                     }
                 }
+                for (String str : leftMeta) {
+                    if (!itemResultCustomEnchantment.contains(func.getCEName(str))) {
+                        itemResultCustomEnchantment.add(func.getCEName(str));
+                        itemResultCELevel.add(func.getCELevel(str));
+                    }
+                }
+                for (String str : rightMeta) {
+                    if (!itemResultCustomEnchantment.contains(func.getCEName(str))) {
+                        itemResultCustomEnchantment.add(func.getCEName(str));
+                        itemResultCELevel.add(func.getCELevel(str));
+                    }
+                }
+
             } else if (func.hasCustomEnchant(itemLeft.getItemMeta().getLore()) && !func.hasCustomEnchant(itemRight.getItemMeta().getLore())) {
                 for (String str : itemLeft.getItemMeta().getLore()) {
                     itemResultCustomEnchantment.add(func.getCEName(str));

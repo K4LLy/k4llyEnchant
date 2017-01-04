@@ -48,6 +48,11 @@ public class ConfigController {
 
         controller.getMain().getConfig().addDefault("enableTakeEnchantment", true);
         controller.getMain().getConfig().addDefault("enableCustomEnchantment", true);
+        controller.getMain().getConfig().addDefault("enableXPBoost", true);
+        controller.getMain().getConfig().addDefault("enablePoisonTouch", true);
+        controller.getMain().getConfig().addDefault("enableWither", true);
+        controller.getMain().getConfig().addDefault("enableFireTouch", true);
+        controller.getMain().getConfig().addDefault("enableNightVision", true);
 
         controller.getMain().getConfig().addDefault("XP-Boost", 20);
         controller.getMain().getConfig().addDefault("Poison Touch", 20);
