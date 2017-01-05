@@ -13,7 +13,10 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -182,6 +185,35 @@ public class Enchantment implements Listener {
                 return new ItemStack(Material.REDSTONE, 1);
             default:
                 return new ItemStack(material);
+        }
+    }
+
+    //player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 999999999, 1, false, true)
+    @EventHandler
+    public void onInventoryClick (InventoryClickEvent clickEvent) {
+        if (clickEvent.isCancelled()) return;
+        if (clickEvent.getClickedInventory() != null && !(clickEvent.getClickedInventory() instanceof PlayerInventory)) return;
+        Inventory inventory = clickEvent.getClickedInventory();
+        Player player = (Player) clickEvent.getWhoClicked();
+        if (inventory.getItem(103) != null && func.isHelmet(inventory.getItem(103).getType())) {
+            if (inventory.getItem(103).getItemMeta().hasLore()) {
+                if (func.hasCustomEnchant(inventory.getItem(103).getItemMeta().getLore())) {
+                    for (String str : inventory.getItem(103).getItemMeta().getLore()) {
+                        if (!func.isCustomEnchant(str)) continue;
+                        if (str.startsWith(ChatColor.GRAY + "Night Vision ")) {
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 999999999, 1, false, true));
+                        } else {
+
+                        }
+                    }
+                } else {
+
+                }
+            } else {
+
+            }
+        } else {
+
         }
     }
 }
