@@ -2,6 +2,7 @@ package de.k4lly.enchant.listener;
 
 import de.k4lly.enchant.controller.PluginController;
 import de.k4lly.enchant.objects.Functions;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
@@ -203,25 +204,22 @@ public class Enchantment implements Listener {
     }
 
     private void check(Player player) {
-        if (player.getEquipment().getHelmet() != null) {
-            if (player.getEquipment().getHelmet().getItemMeta().hasLore()) {
-                if (func.hasCustomEnchant(player.getEquipment().getHelmet().getItemMeta().getLore())) {
-                    for (String str : player.getEquipment().getHelmet().getItemMeta().getLore()) {
-                        if (!func.isCustomEnchant(str)) continue;
-                        if (str.startsWith(ChatColor.GRAY + "Night Vision ")) {
-                            player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 999999999, 1, false, true));
-                        } else {
-                            player.removePotionEffect(PotionEffectType.NIGHT_VISION);
+        synchronized (Bukkit.class) {
+            if (player.getEquipment().getHelmet() != null) {
+                if (player.getEquipment().getHelmet().getItemMeta().hasLore()) {
+                    if (func.hasCustomEnchant(player.getEquipment().getHelmet().getItemMeta().getLore())) {
+                        for (String str : player.getEquipment().getHelmet().getItemMeta().getLore()) {
+                            if (!func.isCustomEnchant(str)) continue;
+                            if (str.startsWith(ChatColor.GRAY + "Night Vision ")) {
+                                player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 999999999, 1, false, false));
+                                return;
+                            }
                         }
                     }
-                } else {
-                    player.removePotionEffect(PotionEffectType.NIGHT_VISION);
                 }
-            } else {
-                player.removePotionEffect(PotionEffectType.NIGHT_VISION);
             }
-        } else {
-            player.removePotionEffect(PotionEffectType.NIGHT_VISION);
+            if (player.getPotionEffect(PotionEffectType.NIGHT_VISION).getDuration() == 999999999)
+                player.removePotionEffect(PotionEffectType.NIGHT_VISION);
         }
     }
 }
