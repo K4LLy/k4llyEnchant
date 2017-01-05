@@ -1,6 +1,5 @@
 package de.k4lly.enchant.listener;
 
-import de.k4lly.enchant.Main;
 import de.k4lly.enchant.controller.PluginController;
 import de.k4lly.enchant.objects.Functions;
 import org.bukkit.ChatColor;
@@ -9,33 +8,27 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class Enchantment implements Listener {
 
     private PluginController controller;
     private Functions func = new Functions();
-    private boolean hasHelmet = false;
-    private boolean hasChestplate = false;
-    private boolean hasLeggins = false;
-    private boolean hasBoots = false;
-    private ItemStack helmet;
-    private ItemStack chestplate;
-    private ItemStack leggins;
-    private ItemStack boots;
-    private ItemStack oldHelmet;
-    private ItemStack oldChestplate;
-    private ItemStack oldLeggins;
-    private ItemStack oldBoots;
+
+    private Timer timer;
 
     public static String XP_BOOST = "XP-Boost";
     public static String FIRE_TOUCH = "Fire Touch";
@@ -51,6 +44,7 @@ public class Enchantment implements Listener {
 
     public Enchantment(PluginController controller) {
         this.controller = controller;
+        this.timer = new Timer();
     }
 
     @EventHandler
@@ -97,12 +91,12 @@ public class Enchantment implements Listener {
                 }
             }
         }
-        /*if (enchantEvent.getItem().getType().name().endsWith("HELMET") || func.isBook(enchantEvent.getItem().getType())) {
+        if (func.isHelmet(enchantEvent.getItem().getType()) || func.isBook(enchantEvent.getItem().getType())) {
             int randNVision = (int) (Math.random() * 1000);
             if (randNVision <= 129) { //13%
                 func.enchantItem("Night Vision", 1, enchantEvent.getItem());
             }
-        }*/
+        }
     }
 
     @EventHandler
@@ -188,32 +182,46 @@ public class Enchantment implements Listener {
         }
     }
 
-    //player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 999999999, 1, false, true)
     @EventHandler
     public void onInventoryClick (InventoryClickEvent clickEvent) {
         if (clickEvent.isCancelled()) return;
         if (clickEvent.getClickedInventory() != null && !(clickEvent.getClickedInventory() instanceof PlayerInventory)) return;
-        Inventory inventory = clickEvent.getClickedInventory();
         Player player = (Player) clickEvent.getWhoClicked();
-        if (inventory.getItem(103) != null && func.isHelmet(inventory.getItem(103).getType())) {
-            if (inventory.getItem(103).getItemMeta().hasLore()) {
-                if (func.hasCustomEnchant(inventory.getItem(103).getItemMeta().getLore())) {
-                    for (String str : inventory.getItem(103).getItemMeta().getLore()) {
+
+    }
+
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent playerInteractEvent) {
+        Player player = playerInteractEvent.getPlayer();
+        if (!(playerInteractEvent.getAction().equals(Action.RIGHT_CLICK_AIR) || playerInteractEvent.getAction().equals(Action.RIGHT_CLICK_BLOCK))) return;
+        if (!func.isHelmet(player.getItemInHand().getType())) return;
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() { check(player); }
+        };
+        timer.schedule(timerTask, 500L);
+    }
+
+    private void check(Player player) {
+        if (player.getEquipment().getHelmet() != null) {
+            if (player.getEquipment().getHelmet().getItemMeta().hasLore()) {
+                if (func.hasCustomEnchant(player.getEquipment().getHelmet().getItemMeta().getLore())) {
+                    for (String str : player.getEquipment().getHelmet().getItemMeta().getLore()) {
                         if (!func.isCustomEnchant(str)) continue;
                         if (str.startsWith(ChatColor.GRAY + "Night Vision ")) {
                             player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 999999999, 1, false, true));
                         } else {
-
+                            player.removePotionEffect(PotionEffectType.NIGHT_VISION);
                         }
                     }
                 } else {
-
+                    player.removePotionEffect(PotionEffectType.NIGHT_VISION);
                 }
             } else {
-
+                player.removePotionEffect(PotionEffectType.NIGHT_VISION);
             }
         } else {
-
+            player.removePotionEffect(PotionEffectType.NIGHT_VISION);
         }
     }
 }
