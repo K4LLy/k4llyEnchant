@@ -20,16 +20,18 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitTask;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class Enchantment implements Listener {
 
     private PluginController controller;
     private Functions func = new Functions();
 
-    private Timer timer;
+    private Queue<BukkitTask> tasks;
 
     public static String XP_BOOST = "XP-Boost";
     public static String FIRE_TOUCH = "Fire Touch";
@@ -45,7 +47,7 @@ public class Enchantment implements Listener {
 
     public Enchantment(PluginController controller) {
         this.controller = controller;
-        this.timer = new Timer();
+        this.tasks = new LinkedBlockingQueue<BukkitTask>();
     }
 
     @EventHandler
@@ -195,31 +197,37 @@ public class Enchantment implements Listener {
     public void onPlayerInteract(PlayerInteractEvent playerInteractEvent) {
         Player player = playerInteractEvent.getPlayer();
         if (!(playerInteractEvent.getAction().equals(Action.RIGHT_CLICK_AIR) || playerInteractEvent.getAction().equals(Action.RIGHT_CLICK_BLOCK))) return;
-        if (!func.isHelmet(player.getItemInHand().getType()) || player.getEquipment().getHelmet() != null) return;
-        TimerTask timerTask = new TimerTask() {
+        if (!func.isHelmet(player.getItemInHand().getType())) return;
+
+        Runnable r = new Runnable() {
             @Override
-            public void run() { check(player); }
+            public void run() {
+                tasks.poll().cancel();
+                check(player);
+            }
         };
-        timer.schedule(timerTask, 500L);
+
+        BukkitTask t = Bukkit.getScheduler().runTaskTimer(controller.getMain(), r, 10L, 10L);
+
+        tasks.add(t);
+
     }
 
     private void check(Player player) {
-        synchronized (Bukkit.class) {
-            if (player.getEquipment().getHelmet() != null) {
-                if (player.getEquipment().getHelmet().getItemMeta().hasLore()) {
-                    if (func.hasCustomEnchant(player.getEquipment().getHelmet().getItemMeta().getLore())) {
-                        for (String str : player.getEquipment().getHelmet().getItemMeta().getLore()) {
-                            if (!func.isCustomEnchant(str)) continue;
-                            if (str.startsWith(ChatColor.GRAY + "Night Vision ")) {
-                                player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 999999999, 1, false, false));
-                                return;
-                            }
+        if (player.getEquipment().getHelmet() != null) {
+            if (player.getEquipment().getHelmet().getItemMeta().hasLore()) {
+                if (func.hasCustomEnchant(player.getEquipment().getHelmet().getItemMeta().getLore())) {
+                    for (String str : player.getEquipment().getHelmet().getItemMeta().getLore()) {
+                        if (!func.isCustomEnchant(str)) continue;
+                        if (str.startsWith(ChatColor.GRAY + "Night Vision ")) {
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 999999999, 1, false, false));
+                            return;
                         }
                     }
                 }
             }
-            if (player.hasPotionEffect(PotionEffectType.NIGHT_VISION) && player.getPotionEffect(PotionEffectType.NIGHT_VISION).getDuration() == 999999999)
-                player.removePotionEffect(PotionEffectType.NIGHT_VISION);
         }
+        if (player.hasPotionEffect(PotionEffectType.NIGHT_VISION) && player.getPotionEffect(PotionEffectType.NIGHT_VISION).getDuration() == 999999999)
+            player.removePotionEffect(PotionEffectType.NIGHT_VISION);
     }
 }
