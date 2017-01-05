@@ -30,18 +30,22 @@ public class Anvil implements Listener {
         ItemStack item1 = prepareAnvilEvent.getInventory().getItem(SLOT_1);
         if (item0 != null && item1 != null && !func.isRepairMaterial(item1.getType())) {
             if ((func.isEnchantable(item0.getType()) && func.isEnchantedBook(item1.getType())) || item0.getType().equals(item1.getType())) {
-                prepareAnvilEvent.setResult(item2(item0, item1));
+                prepareAnvilEvent.setResult(item2(item0, item1, prepareAnvilEvent));
             }
         }
     }
 
-    public ItemStack item2(ItemStack item0, ItemStack item1) throws Exception {
+    public ItemStack item2(ItemStack item0, ItemStack item1, PrepareAnvilEvent prepareAnvilEvent) throws Exception {
         AnvilItems anvilItems = new AnvilItems(controller, item0, item1);
         ItemStack item2;
         if (item0.getType().equals(Material.ENCHANTED_BOOK)) {
             item2 = new ItemStack(item0.getType());
             EnchantmentStorageMeta meta2 = (EnchantmentStorageMeta) item2.getItemMeta();
-            meta2.setDisplayName(item0.getItemMeta().getDisplayName());
+            if (item0.getItemMeta().getDisplayName().equals(prepareAnvilEvent.getInventory().getRenameText())) {
+                meta2.setDisplayName(item0.getItemMeta().getDisplayName());
+            } else {
+                meta2.setDisplayName(prepareAnvilEvent.getInventory().getRenameText());
+            }
             for (int i = 0; i < anvilItems.getItemResultEnchantmentSize(); i++) {
                 meta2.addStoredEnchant(anvilItems.getItemResultEnchantment(i), anvilItems.getItemResultELevel(i), true);
                 item2.setItemMeta(meta2);
@@ -52,7 +56,11 @@ public class Anvil implements Listener {
         } else {
             item2 = new ItemStack(item0.getType());
             ItemMeta meta2 = item2.getItemMeta();
-            meta2.setDisplayName(item0.getItemMeta().getDisplayName());
+            if (prepareAnvilEvent.getInventory().getRenameText() == null && item0.getItemMeta().getDisplayName().equals(prepareAnvilEvent.getInventory().getRenameText())) {
+                meta2.setDisplayName(item0.getItemMeta().getDisplayName());
+            } else {
+                meta2.setDisplayName(prepareAnvilEvent.getInventory().getRenameText());
+            }
             for (int i = 0; i < anvilItems.getItemResultEnchantmentSize(); i++) {
                 meta2.addEnchant(anvilItems.getItemResultEnchantment(i), anvilItems.getItemResultELevel(i), true);
                 item2.setItemMeta(meta2);

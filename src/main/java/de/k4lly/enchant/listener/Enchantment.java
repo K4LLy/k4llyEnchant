@@ -41,10 +41,10 @@ public class Enchantment implements Listener {
     public static String NIGHT_VISION = "Night Vision";
 
     //XP Boost (1-5) #finished
-    //Fire Touch #finished
+    //Fire Touch #WIP TODO: Add Exp drops for smelted items
     //Wither #finished
     //Poison Touch (1-2) #finished
-    //Nightvision #WIP TODO: Check if Item breaks or is rightclicked put on
+    //Nightvision #WIP TODO: Check if Item breaks or is right clicked put on
 
     public Enchantment(PluginController controller) {
         this.controller = controller;
