@@ -195,7 +195,7 @@ public class Enchantment implements Listener {
     public void onPlayerInteract(PlayerInteractEvent playerInteractEvent) {
         Player player = playerInteractEvent.getPlayer();
         if (!(playerInteractEvent.getAction().equals(Action.RIGHT_CLICK_AIR) || playerInteractEvent.getAction().equals(Action.RIGHT_CLICK_BLOCK))) return;
-        if (!func.isHelmet(player.getItemInHand().getType())) return;
+        if (!func.isHelmet(player.getItemInHand().getType()) || player.getEquipment().getHelmet() != null) return;
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() { check(player); }
@@ -218,7 +218,7 @@ public class Enchantment implements Listener {
                     }
                 }
             }
-            if (player.getPotionEffect(PotionEffectType.NIGHT_VISION).getDuration() == 999999999)
+            if (player.hasPotionEffect(PotionEffectType.NIGHT_VISION) && player.getPotionEffect(PotionEffectType.NIGHT_VISION).getDuration() == 999999999)
                 player.removePotionEffect(PotionEffectType.NIGHT_VISION);
         }
     }
