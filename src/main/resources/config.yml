@@ -29,6 +29,6 @@ enableXPBoost: true
 enablePoisonTouch: true
 enableWither: true
 enableFireTouch: false
-enableNightVision: false
+enableNightVision: true
 XP-Boost: 20
 Poison Touch: 20
