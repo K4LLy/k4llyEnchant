@@ -49,7 +49,7 @@ public class Enchanting implements Listener {
     @EventHandler
     public void onEnchant(EnchantItemEvent enchantEvent) {
         if (!controller.getMain().getConfig().getBoolean("enableCustomEnchantment")) return;
-        if ((func.isWeapon(enchantEvent.getItem().getType()) && !func.isShield(enchantEvent.getItem().getType())) || func.isBook(enchantEvent.getItem().getType())) {
+        if ((func.isWeapon(enchantEvent.getItem().getType()) && !func.isBow(enchantEvent.getItem().getType()) && !func.isShield(enchantEvent.getItem().getType())) || func.isBook(enchantEvent.getItem().getType())) {
             int randWither = (int) (Math.random() * 1000);
             int randPoison = (int) (Math.random() * 1000);
             int randXPBoost = (int) (Math.random() * 1000);
