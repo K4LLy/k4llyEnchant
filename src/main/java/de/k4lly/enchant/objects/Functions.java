@@ -388,7 +388,7 @@ public class Functions {
     }
 
     public boolean isCustomEnchant(String str) {
-        return str.startsWith(ChatColor.GRAY + "Wither ") || str.startsWith(ChatColor.GRAY + "Fire Touch ") || str.startsWith(ChatColor.GRAY + "Poison Touch ") || str.startsWith(ChatColor.GRAY + "XP-Boost ") || str.startsWith(ChatColor.GRAY + "Night Vision ") || str.startsWith(ChatColor.GRAY + "Infinity ");
+        return str.startsWith(ChatColor.GRAY + "Wither ") || str.startsWith(ChatColor.GRAY + "Fire Touch ") || str.startsWith(ChatColor.GRAY + "Poison Touch ") || str.startsWith(ChatColor.GRAY + "XP-Boost ") || str.startsWith(ChatColor.GRAY + "Night Vision ") || str.startsWith(ChatColor.GRAY + "Rapid Fire ");
     }
 
     public boolean containsEnchant(String name, ItemStack item) {
@@ -451,9 +451,9 @@ public class Functions {
             return Enchanting.POISON_TOUCH;
         } else if (str.startsWith(ChatColor.GRAY + "Night Vision")) {
             return Enchanting.NIGHT_VISION;
-        }/* else if (str.startsWith(ChatColor.GRAY + "Infinity")) {
-            return Enchantment.INFINITY;
-        } */else {
+        } else if (str.startsWith(ChatColor.GRAY + "Rapid Fire")) {
+            return Enchanting.RAPID_FIRE;
+        } else {
             return null;
         }
     }

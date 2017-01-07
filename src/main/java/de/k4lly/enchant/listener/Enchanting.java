@@ -34,12 +34,13 @@ public class Enchanting implements Listener {
     public static String WITHER = "Wither";
     public static String POISON_TOUCH = "Poison Touch";
     public static String NIGHT_VISION = "Night Vision";
+    public static String RAPID_FIRE = "Rapid Fire";
 
     //XP Boost (1-5) #finished
-    //Fire Touch #WIP TODO: Add Exp drops for smelted items
+    //Fire Touch #finished
     //Wither #finished
     //Poison Touch (1-2) #finished
-    //Nightvision #WIP TODO: Check if Item breaks or is right clicked put on
+    //Nightvision #finished
 
     public Enchanting(PluginController controller) {
         this.controller = controller;
@@ -48,33 +49,33 @@ public class Enchanting implements Listener {
     @EventHandler
     public void onEnchant(EnchantItemEvent enchantEvent) {
         if (!controller.getMain().getConfig().getBoolean("enableCustomEnchantment")) return;
-        if (func.isWeapon(enchantEvent.getItem().getType()) || func.isBook(enchantEvent.getItem().getType())) {
+        if ((func.isWeapon(enchantEvent.getItem().getType()) && !func.isShield(enchantEvent.getItem().getType())) || func.isBook(enchantEvent.getItem().getType())) {
             int randWither = (int) (Math.random() * 1000);
             int randPoison = (int) (Math.random() * 1000);
             int randXPBoost = (int) (Math.random() * 1000);
             if (controller.getMain().getConfig().getBoolean("enableWither")) {
-                if (randWither <= 79) { //8%
-                    func.enchantItem("Wither", 1, enchantEvent.getItem());
+                if (randWither <= 80) { //8%
+                    func.enchantItem(this.WITHER, 1, enchantEvent.getItem());
                 }
             }
             if (controller.getMain().getConfig().getBoolean("enablePoisonTouch")) {
-                if (randPoison <= 59) { //6%
-                    func.enchantItem("Poison Touch", 2, enchantEvent.getItem());
-                } else if (randPoison >= 60 && randPoison <= 169) { //11%
-                    func.enchantItem("Poison Touch", 1, enchantEvent.getItem());
+                if (randPoison <= 60) { //6%
+                    func.enchantItem(this.POISON_TOUCH, 2, enchantEvent.getItem());
+                } else if (randPoison > 60 && randPoison <= 170) { //11%
+                    func.enchantItem(this.POISON_TOUCH, 1, enchantEvent.getItem());
                 }
             }
             if (controller.getMain().getConfig().getBoolean("enableXPBoost")) {
-                if (randXPBoost <= 49) { //5%
-                    func.enchantItem("XP-Boost", 5, enchantEvent.getItem());
-                } else if (randXPBoost >= 50 && randXPBoost <= 149) { //10%
-                    func.enchantItem("XP-Boost", 4, enchantEvent.getItem());
-                } else if (randXPBoost >= 150 && randXPBoost <= 299) { //15%
-                    func.enchantItem("XP-Boost", 3, enchantEvent.getItem());
-                } else if (randXPBoost >= 300 && randXPBoost <= 599) { //20%
-                    func.enchantItem("XP-Boost", 2, enchantEvent.getItem());
-                } else if (randXPBoost >= 600 && randXPBoost <= 849) { //25%
-                    func.enchantItem("XP-Boost", 1, enchantEvent.getItem());
+                if (randXPBoost <= 50) { //5%
+                    func.enchantItem(this.XP_BOOST, 5, enchantEvent.getItem());
+                } else if (randXPBoost > 50 && randXPBoost <= 150) { //10%
+                    func.enchantItem(this.XP_BOOST, 4, enchantEvent.getItem());
+                } else if (randXPBoost > 150 && randXPBoost <= 300) { //15%
+                    func.enchantItem(this.XP_BOOST, 3, enchantEvent.getItem());
+                } else if (randXPBoost > 300 && randXPBoost <= 600) { //20%
+                    func.enchantItem(this.XP_BOOST, 2, enchantEvent.getItem());
+                } else if (randXPBoost > 600 && randXPBoost <= 850) { //25%
+                    func.enchantItem(this.XP_BOOST, 1, enchantEvent.getItem());
                 }
             }
         }
@@ -82,17 +83,31 @@ public class Enchanting implements Listener {
             && !func.isFlintSteel(enchantEvent.getItem().getType()) && !func.isElytra(enchantEvent.getItem().getType())  && !func.isCarrotStick(enchantEvent.getItem().getType())) || func.isBook(enchantEvent.getItem().getType())) {
             int randFireT = (int) (Math.random() * 1000);
             if (controller.getMain().getConfig().getBoolean("enableFireTouch")) {
-                if (randFireT <= 279) { //28%
+                if (randFireT <= 280) { //28%
                     if (!enchantEvent.getEnchantsToAdd().containsKey(org.bukkit.enchantments.Enchantment.LOOT_BONUS_BLOCKS) && !enchantEvent.getEnchantsToAdd().containsKey(org.bukkit.enchantments.Enchantment.SILK_TOUCH)) {
-                        func.enchantItem("Fire Touch", 1, enchantEvent.getItem());
+                        func.enchantItem(this.FIRE_TOUCH, 1, enchantEvent.getItem());
                     }
                 }
             }
         }
         if (func.isHelmet(enchantEvent.getItem().getType()) || func.isBook(enchantEvent.getItem().getType())) {
             int randNVision = (int) (Math.random() * 1000);
-            if (randNVision <= 129) { //13%
-                func.enchantItem("Night Vision", 1, enchantEvent.getItem());
+            if (controller.getMain().getConfig().getBoolean("enableNightVision")) {
+                if (randNVision <= 130) { //13%
+                    func.enchantItem(this.NIGHT_VISION, 1, enchantEvent.getItem());
+                }
+            }
+        }
+        if (func.isBow(enchantEvent.getItem().getType()) || func.isBook(enchantEvent.getItem().getType())) {
+            int randRFire = (int) (Math.random() * 1000);
+            if (controller.getMain().getConfig().getBoolean("enableRapidFire")) {
+                if (randRFire <= 5) { //0,5%
+                    func.enchantItem(this.RAPID_FIRE, 3, enchantEvent.getItem());
+                } else if (randRFire > 5 && randRFire <= 15) { //1%
+                    func.enchantItem(this.RAPID_FIRE, 2, enchantEvent.getItem());
+                } else if (randRFire > 15 && randRFire <= 35) { //2%
+                    func.enchantItem(this.RAPID_FIRE, 1, enchantEvent.getItem());
+                }
             }
         }
     }

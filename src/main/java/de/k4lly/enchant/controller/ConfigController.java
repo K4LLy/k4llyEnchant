@@ -53,9 +53,11 @@ public class ConfigController {
         controller.getMain().getConfig().addDefault("enableWither", true);
         controller.getMain().getConfig().addDefault("enableFireTouch", false);
         controller.getMain().getConfig().addDefault("enableNightVision", true);
+        controller.getMain().getConfig().addDefault("enableRapidFire", true);
 
         controller.getMain().getConfig().addDefault("XP-Boost", 20);
         controller.getMain().getConfig().addDefault("Poison Touch", 20);
+        controller.getMain().getConfig().addDefault("Rapid Fire", 20);
         //controller.getMain().getConfig().addDefault("Wither", 20);
         //controller.getMain().getConfig().addDefault("Fire Touch", 20);
 

@@ -3,12 +3,14 @@ package de.k4lly.enchant.listener;
 import de.k4lly.enchant.controller.PluginController;
 import de.k4lly.enchant.objects.Functions;
 import org.bukkit.ChatColor;
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.Dye;
 
 public class EnchantmentFireTouch implements Listener {
     private PluginController controller;
@@ -36,6 +38,7 @@ public class EnchantmentFireTouch implements Listener {
         Material mat = blockBreakEvent.getBlock().getType();
         blockBreakEvent.getBlock().setType(Material.AIR);
         blockBreakEvent.getBlock().getWorld().dropItemNaturally(blockBreakEvent.getBlock().getLocation().add(0, 0, 0), smeltedItem(mat));
+        blockBreakEvent.setExpToDrop(xpToDrop(mat));
     }
 
     private ItemStack smeltedItem(Material material) {
@@ -62,8 +65,28 @@ public class EnchantmentFireTouch implements Listener {
                 return new ItemStack(Material.DIRT, 1);
             case REDSTONE_WIRE:
                 return new ItemStack(Material.REDSTONE, 1);
+            case SPONGE:
+                return new ItemStack(Material.SPONGE, 1, (short) 1);
             default:
                 return new ItemStack(material);
+        }
+    }
+
+    private int xpToDrop(Material material) {
+        switch (material) {
+            case SAND:
+            case COBBLESTONE:
+            case NETHERRACK:
+            case CLAY:
+            case LOG:
+            case LOG_2:
+            case CACTUS:
+            case SPONGE:
+            case IRON_ORE:
+            case GOLD_ORE:
+                return 1;
+            default:
+                return 0;
         }
     }
 }

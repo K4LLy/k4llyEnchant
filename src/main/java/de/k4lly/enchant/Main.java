@@ -15,6 +15,7 @@ public class Main extends JavaPlugin {
     private PluginController controller = new PluginController();
     private Functions func = new Functions();
     private final String enable = "[k4llyEnchant] Loaded " + this.getDescription().getName() + " in Version " + this.getDescription().getVersion() + " succesfully!";
+    private final String regEnchant = "[k4llyEnchant] Successfully registered all Enchantments";
     private final String regEvent = "[k4llyEnchant] Successfully registered Events!";
 
     @Override
@@ -35,13 +36,7 @@ public class Main extends JavaPlugin {
         this.getCommand("kEVersion").setExecutor(commandVersion);
         pluginManager.registerEvents(new Anvil(controller), this);
         pluginManager.registerEvents(new Crafting(controller), this);
-        pluginManager.registerEvents(new Enchanting(controller), this);
-        pluginManager.registerEvents(new EnchantmentNightVision(controller), this);
-        pluginManager.registerEvents(new EnchantmentXPBoost(controller), this);
-        pluginManager.registerEvents(new EnchantmentWither(controller), this);
-        pluginManager.registerEvents(new EnchantmentPoisonTouch(controller), this);
-        pluginManager.registerEvents(new EnchantmentFireTouch(controller), this);
-        pluginManager.registerEvents(new InfiniteArrow(controller), this);
+        registerEnchantment(pluginManager);
         System.out.print(regEvent);
     }
 
@@ -55,6 +50,18 @@ public class Main extends JavaPlugin {
                 this.getServer().addRecipe(sr);
             }
         }
+    }
+
+    public void registerEnchantment(PluginManager pluginManager) {
+        pluginManager.registerEvents(new Enchanting(controller), this);
+        pluginManager.registerEvents(new EnchantmentNightVision(controller), this);
+        pluginManager.registerEvents(new EnchantmentXPBoost(controller), this);
+        pluginManager.registerEvents(new EnchantmentWither(controller), this);
+        pluginManager.registerEvents(new EnchantmentPoisonTouch(controller), this);
+        pluginManager.registerEvents(new EnchantmentFireTouch(controller), this);
+        pluginManager.registerEvents(new EnchantmentRapidFire(controller), this);
+        pluginManager.registerEvents(new InfiniteArrow(controller), this);
+        System.out.print(regEnchant);
     }
 
     @Override
