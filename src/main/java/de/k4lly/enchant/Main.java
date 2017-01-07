@@ -35,7 +35,12 @@ public class Main extends JavaPlugin {
         this.getCommand("kEVersion").setExecutor(commandVersion);
         pluginManager.registerEvents(new Anvil(controller), this);
         pluginManager.registerEvents(new Crafting(controller), this);
-        pluginManager.registerEvents(new Enchantment(controller), this);
+        pluginManager.registerEvents(new Enchanting(controller), this);
+        pluginManager.registerEvents(new EnchantmentNightVision(controller), this);
+        pluginManager.registerEvents(new EnchantmentXPBoost(controller), this);
+        pluginManager.registerEvents(new EnchantmentWither(controller), this);
+        pluginManager.registerEvents(new EnchantmentPoisonTouch(controller), this);
+        pluginManager.registerEvents(new EnchantmentFireTouch(controller), this);
         pluginManager.registerEvents(new InfiniteArrow(controller), this);
         System.out.print(regEvent);
     }

@@ -1,6 +1,8 @@
 package de.k4lly.enchant.objects;
 
 import de.k4lly.enchant.controller.PluginController;
+import de.k4lly.enchant.listener.Enchanting;
+import de.k4lly.enchant.listener.EnchantmentNightVision;
 import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -26,9 +28,9 @@ public class AnvilItems {
         this.controller = controller;
         this.itemLeft = itemLeft;
         this.itemRight = itemRight;
-        uselessCustomEnchantment.add(de.k4lly.enchant.listener.Enchantment.FIRE_TOUCH);
-        uselessCustomEnchantment.add(de.k4lly.enchant.listener.Enchantment.NIGHT_VISION);
-        uselessCustomEnchantment.add(de.k4lly.enchant.listener.Enchantment.WITHER);
+        uselessCustomEnchantment.add(Enchanting.FIRE_TOUCH);
+        uselessCustomEnchantment.add(Enchanting.NIGHT_VISION);
+        uselessCustomEnchantment.add(Enchanting.WITHER);
 
         if (func.isEnchantedBook(itemLeft.getType())) {
             doCombineBooks(itemLeft, itemRight);

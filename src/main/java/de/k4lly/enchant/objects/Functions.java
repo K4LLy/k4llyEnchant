@@ -1,6 +1,6 @@
 package de.k4lly.enchant.objects;
 
-import de.k4lly.enchant.listener.Enchantment;
+import de.k4lly.enchant.listener.Enchanting;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -442,15 +442,15 @@ public class Functions {
 
     public String getInternName(String str) {
         if (str.startsWith(ChatColor.GRAY + "XP-Boost")) {
-            return Enchantment.XP_BOOST;
+            return Enchanting.XP_BOOST;
         } else if (str.startsWith(ChatColor.GRAY + "Fire Touch")) {
-            return Enchantment.FIRE_TOUCH;
+            return Enchanting.FIRE_TOUCH;
         } else if (str.startsWith(ChatColor.GRAY + "Wither ")) {
-            return Enchantment.WITHER;
+            return Enchanting.WITHER;
         } else if (str.startsWith(ChatColor.GRAY + "Poison Touch")) {
-            return Enchantment.POISON_TOUCH;
+            return Enchanting.POISON_TOUCH;
         } else if (str.startsWith(ChatColor.GRAY + "Night Vision")) {
-            return Enchantment.NIGHT_VISION;
+            return Enchanting.NIGHT_VISION;
         }/* else if (str.startsWith(ChatColor.GRAY + "Infinity")) {
             return Enchantment.INFINITY;
         } */else {
