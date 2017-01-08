@@ -23,7 +23,7 @@ public class InfiniteArrow implements Listener {
 
     private PluginController controller;
     private Functions func = new Functions();
-    HashMap<Player, ItemStack> storedItem = new HashMap<Player, ItemStack>();
+    HashMap<Player, ItemStack> storedItem = new HashMap<>();
 
     public InfiniteArrow(PluginController controller) { this.controller = controller; }
 
@@ -35,6 +35,7 @@ public class InfiniteArrow implements Listener {
 
     @EventHandler
     public void onPlayerItemHeld (PlayerItemHeldEvent playerItemHeldEvent) {
+        if (!controller.getMain().getConfig().getBoolean("enableInfiniteArrows")) return;
         Player p = playerItemHeldEvent.getPlayer();
         ItemStack prevItem = p.getInventory().getItem(playerItemHeldEvent.getPreviousSlot());
         if(!storedItem.containsKey(p) || prevItem.isSimilar(null)) return;
@@ -45,6 +46,7 @@ public class InfiniteArrow implements Listener {
 
     @EventHandler
     public void onInventoryOpen (InventoryOpenEvent event) {
+        if (!controller.getMain().getConfig().getBoolean("enableInfiniteArrows")) return;
         Player p = (Player) event.getPlayer();
         if (!storedItem.containsKey(p)) return;
         returnItem(p);
@@ -53,6 +55,7 @@ public class InfiniteArrow implements Listener {
     @EventHandler
     public void onInventoryClick (InventoryClickEvent event) {
         if (!(event.getClickedInventory() instanceof PlayerInventory)) return;
+        if (!controller.getMain().getConfig().getBoolean("enableInfiniteArrows")) return;
         Player p = (Player) event.getWhoClicked();
         ItemStack item9 = event.getClickedInventory().getItem(9);
         if (item9 == null || !item9.isSimilar(new ItemStack(Material.ARROW))) return;
@@ -62,6 +65,7 @@ public class InfiniteArrow implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent playerInteractEvent) {
+        if (!controller.getMain().getConfig().getBoolean("enableInfiniteArrows")) return;
         Player p = playerInteractEvent.getPlayer();
         if (!(playerInteractEvent.getAction().equals(Action.RIGHT_CLICK_AIR) || playerInteractEvent.getAction().equals(Action.RIGHT_CLICK_BLOCK))) return;
         if(storedItem.containsKey(p)) return;

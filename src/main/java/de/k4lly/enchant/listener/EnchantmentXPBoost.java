@@ -20,6 +20,7 @@ public class EnchantmentXPBoost implements Listener {
     public void onEntityDeath(EntityDeathEvent deathEvent) throws Exception {
         if (!(deathEvent.getEntity().getKiller() instanceof Player)) return;
         if (deathEvent.getEntity() instanceof Player) return;
+        if (!controller.getMain().getConfig().getBoolean("enableXPBoost")) return;
         Player killer = deathEvent.getEntity().getKiller();
         if (killer.getEquipment().getItemInMainHand() == null || !func.isWeapon(killer.getEquipment().getItemInMainHand().getType()) || !killer.getEquipment().getItemInMainHand().hasItemMeta()) return;
         if (!killer.getEquipment().getItemInMainHand().getItemMeta().hasLore()) return;

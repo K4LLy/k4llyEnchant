@@ -23,6 +23,7 @@ public class EnchantmentFireTouch implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent blockBreakEvent) {
         if (blockBreakEvent.isCancelled()) return;
+        if (!controller.getMain().getConfig().getBoolean("enableFireTouch")) return;
         if (smeltedItem(blockBreakEvent.getBlock().getType()) == null) return;
         Player player = blockBreakEvent.getPlayer();
         if (player.getEquipment().getItemInMainHand() == null || !func.isTool(player.getEquipment().getItemInMainHand().getType()) || !player.getEquipment().getItemInMainHand().hasItemMeta())

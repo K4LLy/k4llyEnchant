@@ -22,6 +22,7 @@ public class EnchantmentPoisonTouch implements Listener {
     public void onEntityDamage(EntityDamageByEntityEvent damageEvent) throws Exception {
         if (!(damageEvent.getDamager() instanceof LivingEntity)) return;
         if (!(damageEvent.getEntity() instanceof LivingEntity)) return;
+        if (!controller.getMain().getConfig().getBoolean("enablePoisonTouch")) return;
         LivingEntity damager = (LivingEntity) damageEvent.getDamager();
         LivingEntity damaged = (LivingEntity) damageEvent.getEntity();
         if (damager.getEquipment().getItemInMainHand() == null || !func.isWeapon(damager.getEquipment().getItemInMainHand().getType()) || !damager.getEquipment().getItemInMainHand().hasItemMeta()) return;

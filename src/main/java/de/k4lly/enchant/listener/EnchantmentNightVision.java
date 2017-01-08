@@ -30,6 +30,7 @@ public class EnchantmentNightVision implements Listener {
 
     @EventHandler
     public void onInventoryClick (InventoryClickEvent clickEvent) {
+        if (!controller.getMain().getConfig().getBoolean("enableNightVision")) return;
         if (clickEvent.isCancelled()) return;
         if (clickEvent.getClickedInventory() != null && !(clickEvent.getClickedInventory() instanceof PlayerInventory)) return;
         Player player = (Player) clickEvent.getWhoClicked();
@@ -44,6 +45,7 @@ public class EnchantmentNightVision implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent playerInteractEvent) {
+        if (!controller.getMain().getConfig().getBoolean("enableNightVision")) return;
         Player player = playerInteractEvent.getPlayer();
         if (!(playerInteractEvent.getAction().equals(Action.RIGHT_CLICK_AIR) || playerInteractEvent.getAction().equals(Action.RIGHT_CLICK_BLOCK))) return;
         if (!func.isHelmet(player.getItemInHand().getType())) return;
@@ -58,6 +60,7 @@ public class EnchantmentNightVision implements Listener {
 
     @EventHandler
     public void onPlayerItemBreak (PlayerItemBreakEvent breakEvent) {
+        if (!controller.getMain().getConfig().getBoolean("enableNightVision")) return;
         Player player = breakEvent.getPlayer();
         if (!func.isHelmet(breakEvent.getBrokenItem().getType())) return;
         if (!this.hasNightVision.containsKey(player)) return;

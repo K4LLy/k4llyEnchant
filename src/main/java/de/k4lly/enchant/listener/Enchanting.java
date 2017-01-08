@@ -54,27 +54,27 @@ public class Enchanting implements Listener {
             int randPoison = (int) (Math.random() * 1000);
             int randXPBoost = (int) (Math.random() * 1000);
             if (controller.getMain().getConfig().getBoolean("enableWither")) {
-                if (randWither <= 80) { //8%
+                if (randWither <= 40) { //4%
                     func.enchantItem(this.WITHER, 1, enchantEvent.getItem());
                 }
             }
             if (controller.getMain().getConfig().getBoolean("enablePoisonTouch")) {
-                if (randPoison <= 60) { //6%
+                if (randPoison <= 30) { //3%
                     func.enchantItem(this.POISON_TOUCH, 2, enchantEvent.getItem());
-                } else if (randPoison > 60 && randPoison <= 170) { //11%
+                } else if (randPoison > 30 && randPoison <= 90) { //6%
                     func.enchantItem(this.POISON_TOUCH, 1, enchantEvent.getItem());
                 }
             }
             if (controller.getMain().getConfig().getBoolean("enableXPBoost")) {
-                if (randXPBoost <= 50) { //5%
+                if (randXPBoost <= 20) { //2%
                     func.enchantItem(this.XP_BOOST, 5, enchantEvent.getItem());
-                } else if (randXPBoost > 50 && randXPBoost <= 150) { //10%
+                } else if (randXPBoost > 20 && randXPBoost <= 60) { //4%
                     func.enchantItem(this.XP_BOOST, 4, enchantEvent.getItem());
-                } else if (randXPBoost > 150 && randXPBoost <= 300) { //15%
+                } else if (randXPBoost > 60 && randXPBoost <= 120) { //6
                     func.enchantItem(this.XP_BOOST, 3, enchantEvent.getItem());
-                } else if (randXPBoost > 300 && randXPBoost <= 600) { //20%
+                } else if (randXPBoost > 120 && randXPBoost <= 220) { //10%
                     func.enchantItem(this.XP_BOOST, 2, enchantEvent.getItem());
-                } else if (randXPBoost > 600 && randXPBoost <= 850) { //25%
+                } else if (randXPBoost > 220 && randXPBoost <= 340) { //12%
                     func.enchantItem(this.XP_BOOST, 1, enchantEvent.getItem());
                 }
             }
@@ -83,7 +83,7 @@ public class Enchanting implements Listener {
             && !func.isFlintSteel(enchantEvent.getItem().getType()) && !func.isElytra(enchantEvent.getItem().getType())  && !func.isCarrotStick(enchantEvent.getItem().getType())) || func.isBook(enchantEvent.getItem().getType())) {
             int randFireT = (int) (Math.random() * 1000);
             if (controller.getMain().getConfig().getBoolean("enableFireTouch")) {
-                if (randFireT <= 280) { //28%
+                if (randFireT <= 50) { //5%
                     if (!enchantEvent.getEnchantsToAdd().containsKey(org.bukkit.enchantments.Enchantment.LOOT_BONUS_BLOCKS) && !enchantEvent.getEnchantsToAdd().containsKey(org.bukkit.enchantments.Enchantment.SILK_TOUCH)) {
                         func.enchantItem(this.FIRE_TOUCH, 1, enchantEvent.getItem());
                     }

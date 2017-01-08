@@ -31,6 +31,7 @@ enableWither: true
 enableFireTouch: false
 enableNightVision: true
 enableRapidFire: true
+enableInfinteArrows: true
 XP-Boost: 20
 Poison Touch: 20
 Rapid Fire: 20
