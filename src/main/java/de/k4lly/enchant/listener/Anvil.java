@@ -72,7 +72,8 @@ public class Anvil implements Listener {
                 item2.setDurability(item0.getDurability());
             } else {
                 short max = item0.getType().getMaxDurability();
-                item2.setDurability((short) (max - ((max - item0.getDurability()) + (max - item1.getDurability()) + max/20)));
+                int durability = (max - ((max - item0.getDurability()) + (max - item1.getDurability()) + max/20));
+                item2.setDurability(durability<0?0:(short)durability);
             }
         }
         anvilItems.clearAllArray();
