@@ -28,9 +28,9 @@ enableCustomEnchantment: true
 enableXPBoost: true
 enablePoisonTouch: true
 enableWither: true
-enableFireTouch: false
+enableFireTouch: true
 enableNightVision: true
-enableRapidFire: true
+enableRapidFire: false
 enableInfinteArrows: true
 XP-Boost: 20
 Poison Touch: 20

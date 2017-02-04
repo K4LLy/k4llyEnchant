@@ -51,9 +51,9 @@ public class ConfigController {
         controller.getMain().getConfig().addDefault("enableXPBoost", true);
         controller.getMain().getConfig().addDefault("enablePoisonTouch", true);
         controller.getMain().getConfig().addDefault("enableWither", true);
-        controller.getMain().getConfig().addDefault("enableFireTouch", false);
+        controller.getMain().getConfig().addDefault("enableFireTouch", true);
         controller.getMain().getConfig().addDefault("enableNightVision", true);
-        controller.getMain().getConfig().addDefault("enableRapidFire", true);
+        controller.getMain().getConfig().addDefault("enableRapidFire", false);
         controller.getMain().getConfig().addDefault("enableInfiniteArrows", true);
 
         controller.getMain().getConfig().addDefault("XP-Boost", 20);
