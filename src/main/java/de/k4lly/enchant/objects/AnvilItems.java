@@ -482,13 +482,13 @@ public class AnvilItems {
                 }
             }
 
-            if (metaLeft.hasEnchant(Enchantment.ARROW_INFINITE) && eMetaRight.hasEnchant(Enchantment.MENDING)) {
+            /*if (metaLeft.hasEnchant(Enchantment.ARROW_INFINITE) && eMetaRight.hasEnchant(Enchantment.MENDING)) {
                 itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.MENDING));
                 itemResultEnchantment.remove(Enchantment.MENDING);
             } else if (metaLeft.hasEnchant(Enchantment.MENDING) && eMetaRight.hasEnchant(Enchantment.ARROW_INFINITE)) {
                 itemResultELevel.remove(itemResultEnchantment.indexOf(Enchantment.ARROW_INFINITE));
                 itemResultEnchantment.remove(Enchantment.ARROW_INFINITE);
-            }
+            }*/
         } else if (eMetaLeft != null && eMetaRight != null) {
             if ((itemResultEnchantment.contains(Enchantment.DAMAGE_ALL) && itemResultEnchantment.contains(Enchantment.DAMAGE_ARTHROPODS)) ||
                     (itemResultEnchantment.contains(Enchantment.DAMAGE_ALL) && itemResultEnchantment.contains(Enchantment.DAMAGE_UNDEAD)) ||

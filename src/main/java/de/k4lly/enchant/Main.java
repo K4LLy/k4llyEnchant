@@ -31,9 +31,11 @@ public class Main extends JavaPlugin {
     private void registerEvent(PluginManager pluginManager) {
         Command command = new Command(controller);
         CommandVersion commandVersion = new CommandVersion(controller);
+        CommandSafeMining commandSafeMining = new CommandSafeMining(controller);
         this.getCommand("k4llyEnchant").setExecutor(command);
         this.getCommand("kE").setExecutor(command);
         this.getCommand("kEVersion").setExecutor(commandVersion);
+        this.getCommand("kEsafemining").setExecutor(commandSafeMining);
         pluginManager.registerEvents(new Anvil(controller), this);
         pluginManager.registerEvents(new Crafting(controller), this);
         registerEnchantment(pluginManager);
